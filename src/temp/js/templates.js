@@ -497,8 +497,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <span class="icon-bar"></span>\n' +
     '                <span class="icon-bar"></span>\n' +
     '            </button>\n' +
-    '            <a class="navbar-brand" ng-href="{{NavbarSvc.homeUrl}}"\n' +
-    '               ng-if="!NavbarSvc.brand.hidden" ng-bind-html="NavbarSvc.brand.title | unsafe"></a>\n' +
+    '            <a class="navbar-brand" ng-href="{{AppConst.home.url}}"\n' +
+    '               ng-if="!NavbarSvc.brand.hidden" ng-bind-html="AppConst.home.title | unsafe"></a>\n' +
     '        </div>\n' +
     '        <div id="navbar" class="collapse navbar-collapse">\n' +
     '            <ul class="nav navbar-nav" ng-if="NavbarSvc.items.left.length>0">\n' +

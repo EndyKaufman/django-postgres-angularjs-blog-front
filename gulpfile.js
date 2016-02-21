@@ -25,12 +25,14 @@ var options = minimist(process.argv.slice(2));
 
 if (options.isvagrant==undefined)
 	options.isvagrant=(process.env.USER=='vagrant')?true:false;
+else
+	options.isvagrant=(options.isvagrant=='true')
 if (options.env==undefined)
 	options.env=process.env.ENV || 'development';
 if (options.host==undefined)
 	options.host=process.env.HOST || 'http://127.0.0.1:5000';
 if (options.static_dir==undefined)
-	options.static_dir=process.env.STATIC_DIR || '../project/static/';
+	options.static_dir=process.env.STATIC_DIR || 'dist/';
 
 //source
 var scss_source=['src/scss/**/*.scss'];

@@ -5,14 +5,8 @@ app.config(['$resourceProvider','$httpProvider', function($resourceProvider,$htt
 }])
 .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/home/content.html',
-      })
-      .when('/:navId', {
-        templateUrl: 'views/home/content.html'
-      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/home'
       });
 
     $locationProvider.html5Mode({

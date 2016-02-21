@@ -8,8 +8,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-href="{{NavbarSvc.homeUrl}}"
-               ng-if="!NavbarSvc.brand.hidden" ng-bind-html="NavbarSvc.brand.title | unsafe"></a>
+            <a class="navbar-brand" ng-href="{{AppConst.home.url}}"
+               ng-if="!NavbarSvc.brand.hidden" ng-bind-html="AppConst.home.title | unsafe"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav" ng-if="NavbarSvc.items.left.length>0">
