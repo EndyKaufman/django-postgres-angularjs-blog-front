@@ -1,4 +1,4 @@
-app.config(function ($selectProvider, showErrorsConfigProvider, $carouselProvider) {
+app.config(function ($selectProvider, showErrorsConfigProvider, $carouselProvider, $modalProvider) {
     showErrorsConfigProvider.showSuccess(true);
 
     var mydefaults = {
@@ -6,5 +6,10 @@ app.config(function ($selectProvider, showErrorsConfigProvider, $carouselProvide
         //innerHeight:'350px',
         interval:15000,
     }
-    angular.extend($carouselProvider.defaults, mydefaults)
+    angular.extend($carouselProvider.defaults, mydefaults);
+
+    var mydefaults = {
+        backdrop: false
+    }
+    angular.extend($modalProvider.defaults, mydefaults);
 });

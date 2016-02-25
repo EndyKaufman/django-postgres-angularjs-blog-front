@@ -1,2 +1,2 @@
-app.constant('MessageConst', {
+app.constant('FileConst', {
 });

@@ -46,6 +46,8 @@ var css_source=[
     'bower_components/ng-tags-input/ng-tags-input.bootstrap.css',
     'bower_components/quantumui/dist/css/addon/effect-light.min.css',
     'bower_components/quantumui/dist/css/quantumui.css',
+    'bower_components/ag-grid/dist/styles/ag-grid.css',
+    'bower_components/ag-grid/dist/styles/theme-fresh.css',
     'src/temp/css/**/*.css',
     'src/**/css/*.css',
     'src/**/*.css',];
@@ -61,8 +63,8 @@ var js_source=[
     'bower_components/angular-animate/angular-animate.js',
     'bower_components/angular-resource/angular-resource.js',
     'bower_components/angular-sanitize/angular-sanitize.js',
-    'bower_components/angular-ui-tree/dist/angular-ui-tree.js',
     'bower_components/quantumui/dist/js/quantumui.js',
+    'bower_components/angular-ui-tree/dist/angular-ui-tree.js',
     'bower_components/angular-strap/dist/angular-strap.js',
     'bower_components/angular-strap/dist/angular-strap.tpl.js',
     'bower_components/ng-tags-input/ng-tags-input.js',
@@ -74,6 +76,8 @@ var js_source=[
     'bower_components/showdown/src/extensions/table.js',
     'bower_components/showdown/src/extensions/twitter.js',
     'bower_components/angular-markdown/angular.markdown.js',
+    'bower_components/angular-ui-uploader/dist/uploader.js',
+    'bower_components/ag-grid/dist/ag-grid.js',
     'src/js/app.init.js',
     'src/js/app.skin.js',
 

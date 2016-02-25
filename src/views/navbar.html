@@ -15,7 +15,8 @@
             <ul class="nav navbar-nav" ng-if="NavbarSvc.items.left.length>0">
                 <li ng-repeat="item in NavbarSvc.items.left" ng-if="!item.hidden"
                     ng-class="item.active==true ? 'active' : ''">
-                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe"></a>
+                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url"></a>
+                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url"></a>
                 </li>
             </ul>
             <form class="navbar-form navbar-right" role="search" name="searchForm" ng-if="!NavbarSvc.items.search.hidden"
@@ -36,7 +37,8 @@
             <ul class="nav navbar-nav navbar-right" ng-if="NavbarSvc.items.right.length>0">
                 <li ng-repeat="item in NavbarSvc.items.right" ng-if="!item.hidden"
                     ng-class="item.active==true ? 'active' : ''">
-                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe"></a>
+                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url"></a>
+                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url"></a>
                 </li>
             </ul>
         </div><!--/.nav-collapse -->

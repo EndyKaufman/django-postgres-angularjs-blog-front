@@ -20,6 +20,10 @@ app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, 
         NavbarSvc.goHome();
     });
 
+    $rootScope.$on('account.doLogout',function(event, data){
+        service.doLogout();
+    });
+
     $rootScope.$on('account.logout',function(event, data){
         MessageSvc.info('account/logout/success');
         AppConfig.user=service.item;
@@ -39,14 +43,6 @@ app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, 
         MessageSvc.info('account/recovery/checkemail', {values:[data.email]});
     });
 
-    $rootScope.$on('navbar.change',function(event, eventRoute, current, previous){
-        if (current.params!=undefined && current.params.navId=='logout'){
-            if (eventRoute!=false)
-                eventRoute.preventDefault();
-            service.doLogout();
-        }
-    });
-
     service.goResetpassword=function(){
         $location.path('/resetpassword');
     }
@@ -58,10 +54,6 @@ app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, 
         }
         if ($routeParams.navId=='profile' && !service.isLogged()){
             NavbarSvc.goHome();
-            return;
-        }
-        if ($routeParams.navId=='logout'){
-            service.doLogout();
             return;
         }
         if ($routeParams.navId=='resetpassword'){
@@ -179,10 +171,6 @@ app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, 
                         MessageSvc.error(response.data.code, response.data);
                 }
             );
-        },
-        function(){
-            if ($routeParams.navId=='logout')
-                NavbarSvc.goHome();
         });
     }
 	service.doDelete=function(){

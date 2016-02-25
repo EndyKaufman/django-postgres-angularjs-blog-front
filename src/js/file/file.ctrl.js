@@ -1,8 +1,5 @@
-app.controller('ProjectCtrl', function ($scope, $timeout, ProjectSvc, AccountSvc, TagSvc, FileSvc) {
-    $scope.AccountSvc=AccountSvc;
-	$scope.ProjectSvc=ProjectSvc;
-	$scope.TagSvc=TagSvc;
+app.controller('FileCtrl', function ($scope, FileSvc) {
 	$scope.FileSvc=FileSvc;
 
-	ProjectSvc.init();
+	FileSvc.init();
 });

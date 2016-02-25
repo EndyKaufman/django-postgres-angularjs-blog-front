@@ -1,4 +1,4 @@
-app.factory('AppConst', function(AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, SearchConst, NavbarConst){
+app.factory('AppConst', function($rootScope, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, SearchConst, NavbarConst){
     var navbar={
         left:[
             {
@@ -29,6 +29,9 @@ app.factory('AppConst', function(AccountConst, TagConst, NoteConst, BookmarkCons
             {
                 name:'logout',
                 parent:'account',
+                click:function(){
+                    $rootScope.$broadcast('account.doLogout', true);
+                },
                 hiddenHandler: function(){
                     return (AppConfig.user.id==undefined)
                 }

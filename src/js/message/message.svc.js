@@ -1,4 +1,4 @@
-app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert) {
+app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $modal) {
     var service={};
 
     service.list=false;
@@ -73,7 +73,6 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert) {
             afterOk: callbackOk,
             html: true
         }
-
         $modalBox(boxOptions);
         $rootScope.$broadcast('message.alert', message, data, callbackOk);
     }
@@ -123,18 +122,18 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert) {
         if (data.alertType===undefined)
             data.alertType='info';
         if (data.placement===undefined)
-            data.placement='top-right';
+            data.placement='bottom-right';
 
         if (service.list[message]!==undefined)
             message=service.list[message];
+
         $alert({
             content: extVSprintF(message, data.values),
             title: data.title,
-            type: data.alertType,
-            placement: data.placement,
-            show: false,
-            container: '.layout-content>.container'
-        });*/
+            alertType: data.alertType,
+            placement: data.placement
+        });
+*/
     }
 
     service.init=function(){

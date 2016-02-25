@@ -25,11 +25,6 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'AccountCtrl',
         navId: 'login'
       })
-      .when('/logout', {
-        templateUrl: 'views/empty.html',
-        controller: 'AccountCtrl',
-        navId: 'logout'
-      })
       .when('/profile', {
         templateUrl: 'views/account/profile.html',
         controller: 'AccountCtrl',

@@ -1,0 +1,108 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+            <div class="modal-body">
+                <div class="modal-body-inner">
+                    <div ng-controller="FileCtrl">
+                        <form name="searchFileForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button ng-click="FileSvc.showAddFile()" class="btn btn-success btn-block" type="button">
+                                        Add file
+                                    </button>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control search-query"
+                                               ng-model="FileSvc.searchText"
+                                               ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>
+                                        <span class="input-group-btn">
+                                            <button ng-click="FileSvc.doSearch(FileSvc.searchText)"
+                                                    class="btn btn-primary"
+                                                    type="button"
+                                                    ng-disabled="!searchFileForm.$valid">
+                                                Search
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div ag-grid="FileSvc.gridOptions" class="ag-bootstrap" style="height: 300px;width:100%"></div>
+
+                        <!--form name="searchFileForm" novalidate>
+                            <div class="form-search search-only">
+                                <div class="input-group">
+                                    <input type="text" class="form-control search-query" ng-model="FileSvc.searchText"
+                                           ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>
+            <span class="input-group-btn">
+                <button ng-click="FileSvc.doSearch(FileSvc.searchText)" class="btn btn-primary" type="button"
+                        ng-disabled="!searchFileForm.$valid">
+                    Search
+                </button>
+            </span>
+                                </div>
+                            </div>
+                        </form>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Url</th>
+                                <th>Comment</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>#</td>
+                                <td>Url</td>
+                                <td>Comment</td>
+                                <td>Actions</td>
+                            </tr>
+                            <tr>
+                                <td>#</td>
+                                <td>Url</td>
+                                <td>Comment</td>
+                                <td>Actions</td>
+                            </tr>
+                            <tr>
+                                <td>#</td>
+                                <td>Url</td>
+                                <td>Comment</td>
+                                <td>Actions</td>
+                            </tr>
+                            <tr>
+                                <td>#</td>
+                                <td>Url</td>
+                                <td>Comment</td>
+                                <td>Actions</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="well">
+                            <div class="form-group">
+                                <label for="FileUpload">File</label>
+                                <input class="form-control" type="file" id="FileUpload"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="FileComment">Comment</label>
+                                <textarea type="text" class="form-control" id="FileComment"
+                                          ng-model="FileComment"></textarea>
+                            </div>
+                            <button ng-click="FileSvc.doUpload(FileComment)" class="btn btn-success" type="button">
+                                Upload
+                            </button>
+                        </div-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="$cancel()">{{cancelText}}</button>
+                <button type="button" class="btn btn-success" ng-click="$confirm()">{{confirmText}}</button>
+            </div>
+            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>
+        </div>
+    </div>
+</div>

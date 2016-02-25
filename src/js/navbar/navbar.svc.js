@@ -11,23 +11,29 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
 
         if (item.parent!=undefined && AppConst[item.parent]!=undefined && AppConst[item.parent][item.name]!=undefined)
             navItem=AppConst[item.parent][item.name];
+
         if (AppConst[item.name]!=undefined)
             navItem=AppConst[item.name];
 
         if (navItem.title!=undefined)
             item.title=navItem.title;
 
-        if (navItem.url!=undefined)
-            item.url=navItem.url;
-
         if (navItem.strings!=undefined && navItem.strings.title!=undefined)
             item.title=navItem.strings.title;
+
+        if (navItem.url!=undefined){
+            item.url=navItem.url;
+        }
 
         if (navItem.urls!=undefined && navItem.urls.url!=undefined)
             item.url=navItem.urls.url;
 
         if (item.url===undefined)
             item.url='#/'+item.name;
+
+        if (item.click!=undefined){
+            item.url=false;
+        }
 
         item.active=(item.name==$routeParams.navId);
         if (item.hiddenHandler!=undefined)
@@ -38,7 +44,6 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
     }
 
     service.goBack=function(){
-        console.log($window.history.length);
         if ($window.history.length>2)
             $window.history.back();
         else

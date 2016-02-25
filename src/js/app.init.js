@@ -1,3 +1,5 @@
+agGrid.initialiseAgGridWithAngular1(angular);
+
 var app = angular.module('app', [
 	'ngAnimate',
 	'ngRoute',
@@ -10,4 +12,6 @@ var app = angular.module('app', [
     'mgcrea.ngStrap',
     'ngTagsInput',
     'ui.bootstrap.showErrors',
-    'angular-markdown']);
+    'angular-markdown',
+    'ui.uploader',
+    'agGrid']);
