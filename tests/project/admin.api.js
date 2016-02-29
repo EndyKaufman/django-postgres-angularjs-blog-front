@@ -51,7 +51,7 @@ describe('Work with projects as admin', function() {
                 var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                 for (var i=0; i<fields.length; i++)
                     expect(userData[fields[i]]).toBeDefined();
-                if (userData.roles.length>0)
+                if (userData.roles!==undefined && userData.roles.length>0)
                     expect(userData.roles[0]).toEqual('admin');
             }
         });
@@ -179,7 +179,12 @@ describe('Work with projects as admin', function() {
                             var record = updateResponse.data[0];
                             var fields = ['id', 'title', 'description', 'name', 'images', 'url', 'type', 'html', 'markdown', 'text', 'tags', 'images'];
                             for (var i=0; i<fields.length; i++)
-                                expect(record[fields[i]]).toEqual(createdRecord[fields[i]]);
+                                if (fields[i]!='tags' && fields[i]!='images')
+                                    expect(record[fields[i]]).toEqual(createdRecord[fields[i]]);
+                                else
+                                    if (record[fields[i]].length>0 && createdRecord[fields[i]].length>0)
+                                        expect(record[fields[i]][0]).toEqual(createdRecord[fields[i]][0]);
+
                         }
                     });
 

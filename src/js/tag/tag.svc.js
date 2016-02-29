@@ -1,4 +1,4 @@
-app.factory('TagSvc', function ($routeParams, $http, $q, $rootScope, AppConst, TagRes, ProjectRes, NavbarSvc) {
+app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, NavbarSvc) {
     var service={};
 
     service.list=false;

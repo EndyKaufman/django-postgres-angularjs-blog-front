@@ -9,8 +9,8 @@
                             </span></p>
         <p class="text-right">
             <a ng-href="{{'#/project/update/'+item.name}}"
-               class="btn btn-primary" ng-if="AccountSvc.isAdmin()">Edit</a>
-            <a ng-href="{{'#/project/'+item.name}}" class="btn btn-link">Detail...</a>
+               class="btn btn-info" ng-if="AccountSvc.isAdmin()" id="{{'project'+$index+'Update'}}">Edit</a>
+            <a ng-href="{{'#/project/'+item.name}}" class="btn btn-link" id="{{'project'+$index+'Detail'}}">Detail...</a>
         </p>
     </div>
 </div>

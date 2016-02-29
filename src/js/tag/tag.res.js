@@ -1,11 +1,8 @@
-app.factory('TagRes', function ($http, AppConst) {
+app.factory('TagRes', function (AppRes, AppConst) {
     var service={};
 
     service.getList=function(){
-        return $http({
-                  method: 'GET',
-                  url: '/tag/list'
-               });
+        return AppRes.get('/tag/list');
     };
 
     return service;

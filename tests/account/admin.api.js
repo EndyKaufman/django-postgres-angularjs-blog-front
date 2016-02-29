@@ -50,7 +50,7 @@ describe('Update user profile with admin role', function() {
             var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
             for (var i=0; i<fields.length; i++)
                 expect(userData[fields[i]]).toBeDefined();
-            if (userData.roles.length>0)
+            if (userData.roles!==undefined && userData.roles.length>0)
                 expect(userData.roles[0]).toEqual('admin');
         }
       });
@@ -80,7 +80,7 @@ describe('Update user profile with admin role', function() {
                 var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                 for (var i=0; i<fields.length; i++)
                     expect(userData[fields[i]]).toBeDefined();
-                if (userData.roles.length>0)
+                if (userData.roles!==undefined && userData.roles.length>0)
                     expect(userData.roles[0]).toEqual('admin');
                 expect(userData.firstname).toEqual('New Name');
             }

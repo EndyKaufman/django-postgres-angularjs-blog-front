@@ -1,4 +1,4 @@
-app.factory('ProjectSvc', function ($routeParams, $rootScope, $http, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc) {
+app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc) {
     var service={};
 
     $rootScope.$on('project.delete',function(event, item){
@@ -45,7 +45,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $http, $q, $timeou
     service.updateItemOnList=function(item){
         for (var i=0;i<service.list.length;i++){
             if (item.id===service.list[i].id){
-                service.list[i]=angular.copy(item);
+                angular.extend(service.list[i],angular.copy(item));
             }
         }
     }

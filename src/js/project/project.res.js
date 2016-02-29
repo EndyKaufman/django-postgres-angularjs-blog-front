@@ -1,44 +1,28 @@
-app.factory('ProjectRes', function ($http, AppConst) {
+app.factory('ProjectRes', function (AppConst, AppRes) {
     var service={};
 
     service.getItem=function(name){
-        return $http({
-                  method: 'GET',
-                  url: '/project/item/'+name
-               });
+        return AppRes.get('/project/item/'+name);
     };
     service.getList=function(){
-        return $http({
-                  method: 'GET',
-                  url: '/project/list'
-               });
+        return AppRes.get('/project/list');
     };
     service.getSearch=function(searchText){
-        return $http({
-                  method: 'GET',
-                  url: '/project/search/'+searchText
-               });
+        if (searchText==undefined)
+            searchText='all';
+        return AppRes.get('/project/search/'+searchText);
     };
     service.getListByTag=function(tagText){
-        return $http({
-                  method: 'GET',
-                  url: '/project/listbytag/'+tagText
-               });
+        return AppRes.get('/project/listbytag/'+tagText);
     };
     service.actionUpdate=function(item){
-        var item=angular.copy(item);
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/project/update/'+item.id, item);
+        return AppRes.post('/project/update/'+item.id, item);
     }
     service.actionCreate=function(item){
-        var item=angular.copy(item);
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/project/create', item);
+        return AppRes.post('/project/create', item);
     }
     service.actionDelete=function(item){
-        var item=angular.copy(item);
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/project/delete/'+item.id, item);
+        return AppRes.post('/project/delete/'+item.id, item);
     }
 
     return service;

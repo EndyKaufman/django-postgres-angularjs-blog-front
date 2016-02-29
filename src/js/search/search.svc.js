@@ -1,4 +1,4 @@
-app.factory('SearchSvc', function ($rootScope, $routeParams, $http, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes) {
+app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes) {
     var service={};
 
     service.allList=false;

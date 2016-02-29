@@ -48,9 +48,9 @@
                           aria-hidden="true"></span>
                 </div>
                 <button ng-click="AccountSvc.doUpdate(AccountSvc.item)" class="btn btn-success"
-                        ng-disabled="!accountForm.$valid">Update
+                        ng-disabled="!accountForm.$valid" id="accountSave">Save
                 </button>
-                <button ng-click="AccountSvc.doDelete()" class="btn btn-danger">Delete account
+                <button ng-click="AccountSvc.doDelete()" class="btn btn-danger" id="accountDelete">Delete account
                 </button>
             </div>
             <div class="col-md-3">

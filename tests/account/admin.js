@@ -1,5 +1,5 @@
-describe('Update user profile with user role', function() {
-    var helpers = require('./../helpers.js');
+describe('[Angular] Update user profile with admin role with', function() {
+    var app = require('./../app.helpers.js');
 
     var appConfigResponse = undefined, profileResponse = undefined, logoutResponse = undefined, updateResponse = undefined, restoreProfileResponse = undefined;
 
@@ -10,14 +10,15 @@ describe('Update user profile with user role', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
-                'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
-                function(response){
-                    appConfigResponse = response;
-                    done();
+            app.AppConfig.get().then(function(response){
+                appConfigResponse=response;
+                app.MessageSvc.infoEnable(false).then(function(response){
+                    app.MessageSvc.confirmEnable(false).then(function(response){
+                        done();
+                    });
                 });
-            }
-        );
+            });
+        });
     });
 
     it('response structure must be correct', function() {
@@ -32,11 +33,8 @@ describe('Update user profile with user role', function() {
             done();
             return;
         }
-        //helpers.debug=true;
-        helpers.postJson('/account/login', {
-            email:'user@email.com',
-            password:'user@email.com'
-        }, function(response){
+        element(by.id('loginNav')).click();
+        app.AccountSvc.doLogin('admin@email.com','admin@email.com').then(function(response){
             profileResponse = response;
             done();
         });
@@ -44,14 +42,13 @@ describe('Update user profile with user role', function() {
 
       it('response structure must be correct', function() {
         expect(typeof profileResponse).toEqual('object');
-        expect(profileResponse.data).toBeDefined();
-        if (profileResponse.data){
-            var userData = profileResponse.data[0];
+        if (profileResponse){
+            var userData = profileResponse;
             var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
             for (var i=0; i<fields.length; i++)
                 expect(userData[fields[i]]).toBeDefined();
             if (userData.roles!==undefined && userData.roles.length>0)
-                expect(userData.roles[0]).toEqual('user');
+                expect(userData.roles[0]).toEqual('admin');
         }
       });
 
@@ -62,11 +59,11 @@ describe('Update user profile with user role', function() {
                 done();
                 return;
             }
-            //helpers.debug=true;
-            helpers.postJson('/account/update', {
+            element(by.id('profileNav')).click();
+            app.AccountSvc.doUpdate({
                 firstname:'New Name',
-                email:'user@email.com'
-            }, function(response){
+                email:'admin@email.com'
+            }).then(function(response){
                 updateResponse = response;
                 done();
             });
@@ -74,14 +71,13 @@ describe('Update user profile with user role', function() {
 
         it('response structure must be correct', function() {
             expect(typeof updateResponse).toEqual('object');
-            expect(updateResponse.data).toBeDefined();
-            if (updateResponse.data){
-                var userData = updateResponse.data[0];
+            if (updateResponse){
+                var userData = updateResponse;
                 var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                 for (var i=0; i<fields.length; i++)
                     expect(userData[fields[i]]).toBeDefined();
-                if (userData.roles!==undefined && userData.roles.length>0)
-                    expect(userData.roles[0]).toEqual('user');
+                if (userData.roles.length>0)
+                    expect(userData.roles[0]).toEqual('admin');
                 expect(userData.firstname).toEqual('New Name');
             }
         });
@@ -93,22 +89,20 @@ describe('Update user profile with user role', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.postJson('/account/update', {
-                    firstname:profileResponse.data[0].firstname,
-                    email:'user@email.com'
-                }, function(response){
-                    restoreProfileResponse=response;
+                app.AccountSvc.doUpdate({
+                    firstname: profileResponse.firstname,
+                    email:'admin@email.com'
+                }).then(function(response){
+                    restoreProfileResponse = response;
                     done();
                 });
             });
 
             it('response structure must be correct', function() {
                 expect(typeof restoreProfileResponse).toEqual('object');
-                expect(restoreProfileResponse.data).toBeDefined();
-                if (restoreProfileResponse.data){
-                    var oldData = profileResponse.data[0];
-                    var userData = restoreProfileResponse.data[0];
+                if (restoreProfileResponse){
+                    var oldData = profileResponse;
+                    var userData = restoreProfileResponse;
 
                     var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                     for (var i=0; i<fields.length; i++)
@@ -123,18 +117,16 @@ describe('Update user profile with user role', function() {
                         done();
                         return;
                     }
-                    //helpers.debug=true;
-                    helpers.postJson('/account/logout', {
-                    }, function(response){
-                        logoutResponse = response;
-                        done()
 
+                    app.AccountSvc.doLogout().then(function(response){
+                        logoutResponse = response;
+                        done();
                     });
                 });
 
                 it('response structure must be correct', function() {
                     expect(typeof logoutResponse).toEqual('object');
-                    expect(logoutResponse.code).toEqual('ok');
+                    expect(logoutResponse.id).not.toBeDefined();
                 });
             });
         });

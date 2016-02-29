@@ -1,94 +1,201 @@
-app.factory('FileSvc', function (AppConst, $rootScope, $modalBox, $modal, $timeout, uiUploader) {
+app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $modal, MessageSvc) {
     var service={};
 
-    var columnDefs = [
-        {headerName: "ID", field: "id", width:50},
-        {headerName: "Url", field: "url", width:300},
-        {headerName: "Comment", field: "comment", width:200}
-    ];
-
-    var rowData=[
-        {id: 1, url: "/media/file1", comment: 'test comment 1'},
-        {id: 2, url: "/media/file2", comment: 'test comment 2'},
-        {id: 3, url: "/media/file3", comment: 'test comment 3'}
-    ];
-
-    service.gridOptions={
-        columnDefs: columnDefs,
-        rowData: rowData
-    };
-
-    service.doRemove = function(file) {
-        console.log('deleting=' + file);
-        uiUploader.removeFile(file);
-    };
-
-    service.doRemoveAll = function() {
-        uiUploader.removeAll();
-    };
-
-    service.doUpload = function(FileComment) {
-        console.log(FileComment, service.files);
-        console.log('uploading...');
-        uiUploader.startUpload({
-            url: 'http://realtica.org/ng-uploader/demo.html',
-            concurrency: 2,
-            onProgress: function(file) {
-                console.log(file.name + '=' + file.humanSize);
-            },
-            onCompleted: function(file, response) {
-                console.log(file + 'response' + response);
-            }
+    $rootScope.$on('fileCreate.show',function(event, item){
+        var element = document.getElementById('FileUpload');
+        element.addEventListener('change', function(e) {
+            var files = e.target.files;
+            FileRes.addFiles(files);
         });
-    };
+    });
 
-    service.files = [];
+    service.item={};
+    service.list=false;
 
-    service.showManager=function(model, callbackOk, callbackCancel){
-        var data=undefined;
-        if (data===undefined)
-            data={values:[]};
-
-        if (data.title===undefined)
-            data.title='Select file2';
-
-        if (callbackOk===undefined)
-            callbackOk=function(){
+    service.showList=function(item){
+        service.initEmptyItem();
+        service.load().then(function(){
+            for (var i=0;i<service.list.length;i++){
+                if (item.src==service.list[i].src)
+                    service.item=service.list[i];
             }
-        if (callbackCancel===undefined)
-            callbackCancel=function(){
-            }
+            var boxOptions = {
+                title: 'Select file',
+                confirmTemplate: 'views/file/list.modal.html',
+                size: 'lg',
+                boxType: 'confirm',
+                theme: 'alert',
+                effect: false,
+                confirmText: 'Select',
+                cancelText: 'Cancel',
+                afterConfirm: function(){
+                    if (item.src!==service.item.src){
+                        delete item.id;
+                        item.src=service.item.src;
+                        item.srcStatic=service.item.srcStatic;
+                    }
+                },
+                afterCancel: function(){
 
+                },
+                prefixEvent: 'fileList'
+            }
+            $modalBox(boxOptions);
+        });
+    }
+
+    service.initEmptyItem=function(){
+        service.item = {};
+        service.item.comment = '';
+        service.item.src='';
+    }
+
+    service.showCreate=function(){
+        service.mode='create';
+        service.initEmptyItem();
         var boxOptions = {
-            title: data.title,
-            confirmTemplate: 'views/file/list.modal.html',
+            title: 'Add new file',
+            confirmTemplate: 'views/file/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Select',
+            confirmText: 'Create',
             cancelText: 'Cancel',
-            afterConfirm: callbackOk,
-            afterCancel: callbackCancel
+            afterConfirm: function(){
+                service.doCreate(service.item);
+            },
+            afterCancel: function(){
+
+            },
+            prefixEvent: 'fileCreate'
         }
-
         $modalBox(boxOptions);
-
-        $timeout(function(){
-            console.log($('#FileUpload'));
-            $('#FileUpload').on('change', function(e) {
-
-            console.log(arguments);
-                var files = e.target.files;
-                uiUploader.addFiles(files);
-                service.files = uiUploader.getFiles();
-            });
-        });
-        
-        //$rootScope.$broadcast('message.confirm', message, data, callbackOk);
     }
 
-    service.init=function(){
+    service.selectItem=function(item){
+        service.item=item;
+    }
+
+    service.showUpdate=function(item){
+        service.mode='update';
+        service.item=item;
+        var boxOptions = {
+            title: 'Edit properties',
+            confirmTemplate: 'views/file/update.modal.html',
+            size: 'lg',
+            boxType: 'confirm',
+            theme: 'alert',
+            effect: false,
+            confirmText: 'Save',
+            cancelText: 'Cancel',
+            afterConfirm: function(){
+                service.doUpdate(service.item);
+            },
+            afterCancel: function(){
+
+            },
+            prefixEvent: 'fileUpdate'
+        }
+        $modalBox(boxOptions);
+    }
+
+    service.updateItemOnList=function(item){
+        for (var i=0;i<service.list.length;i++){
+            if (item.id===service.list[i].id){
+                angular.extend(service.list[i],angular.copy(item));
+            }
+        }
+    }
+
+	service.doCreate=function(item){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		FileRes.actionCreate(item).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                    service.list.push(service.item);
+                    $rootScope.$broadcast('file.create', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+	service.doUpdate=function(item){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		FileRes.actionUpdate(item).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                    service.updateItemOnList(service.item);
+
+                    $rootScope.$broadcast('file.update', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+	service.doDelete=function(item){
+         MessageSvc.confirm('file/remove/confirm', {values:[item.src]},
+         function(){
+             FileRes.actionDelete(item).then(
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                        for (var i=0;i<service.list.length;i++){
+                            if (service.list[i].id==item.id){
+                                service.list.splice(i, 1);
+                                break;
+                            }
+                        }
+                        service.item={};
+                        $rootScope.$broadcast('file.delete', item);
+                    }
+                },
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                        MessageSvc.error(response.data.code, response.data);
+                }
+            );
+         });
+    }
+    
+    service.load=function(){
+        var deferred = $q.defer();
+        if (service.list===false){
+            FileRes.getList().then(function (response) {
+                service.list=angular.copy(response.data.data);
+                deferred.resolve(service.list);
+                $rootScope.$broadcast('file.load', service.list);
+            }, function (response) {
+                service.list=[];
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+                deferred.resolve(service.list);
+            });
+        }else
+            deferred.resolve(service.list);
+        return deferred.promise;
+    }
+
+    service.doSearch=function(text){
+        var deferred = $q.defer();
+        FileRes.getSearch(text).then(function (response) {
+            service.list=angular.copy(response.data.data);
+            deferred.resolve(service.list);
+            $rootScope.$broadcast('file.load', service.list);
+        }, function (response) {
+            service.list=[];
+            if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                MessageSvc.error(response.data.code, response.data);
+            deferred.resolve(service.list);
+        });
+        return deferred.promise;
     }
 
     return service;

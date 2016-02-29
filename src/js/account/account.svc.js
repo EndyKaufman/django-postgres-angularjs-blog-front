@@ -1,4 +1,4 @@
-app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, MessageSvc, $rootScope, $routeParams, NavbarSvc) {
+app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, $routeParams, NavbarSvc) {
     var service={};
 
     $rootScope.$on('account.update',function(event, data){
@@ -42,6 +42,8 @@ app.factory('AccountSvc', function ($q, $http, $location, AppConst, AccountRes, 
         service.goResetpassword();
         MessageSvc.info('account/recovery/checkemail', {values:[data.email]});
     });
+
+    service.item={};
 
     service.goResetpassword=function(){
         $location.path('/resetpassword');

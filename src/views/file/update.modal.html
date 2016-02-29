@@ -1,0 +1,19 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" ng-controller="FileCtrl">
+            <form name="fileForm">
+                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+                <div class="modal-body">
+                    <div class="modal-body-inner">
+                        <div ng-include="'views/file/inputs.html'"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileUpdateCancel">{{cancelText}}</button>
+                    <button type="button" class="btn btn-success" ng-click="$confirm()" ng-disabled="!fileForm.$valid" id="fileUpdateConfirm">{{confirmText}}</button>
+                </div>
+                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>
+            </form>
+        </div>
+    </div>
+</div>

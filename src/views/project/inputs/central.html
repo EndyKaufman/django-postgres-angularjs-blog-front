@@ -39,12 +39,12 @@
         <input type="text" class="form-control" id="{{'ItemImage'+($index+1)}}"
                ng-model="image.src">
                         <span class="input-group-btn">
-                            <button ng-click="FileSvc.showManager(image)" class="btn btn-default"
-                                    type="button">
+                            <button ng-click="FileSvc.showList(image)" class="btn btn-info"
+                                    type="button" id="{{'projectSelect'+$index+'Image'}}">
                                 Select
                             </button>
                             <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-danger"
-                                    type="button">
+                                    type="button" id="{{'projectDelete'+$index+'Image'}}">
                                 Delete image
                             </button>
                         </span>

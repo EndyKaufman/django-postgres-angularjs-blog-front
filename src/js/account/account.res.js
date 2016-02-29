@@ -1,50 +1,38 @@
-app.factory('AccountRes', function ($http, AppConst) {
+app.factory('AccountRes', function (AppConst, AppRes) {
     var service={};
 
     service.actionLogin=function(email, password){
-        return $http.post('/account/login', {
+        return AppRes.post('/account/login', {
             email: email,
-            password: password,
-            csrfmiddlewaretoken: AppConfig.csrf_token
+            password: password
         });
     };
 
     service.actionLogout=function(){
-        return $http.post('/account/logout',{
-            csrfmiddlewaretoken: AppConfig.csrf_token
-        });
+        return AppRes.post('/account/logout');
     };
 
     service.actionReg=function(item){
-        var item=angular.copy(item);
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/account/reg', item);
+        return AppRes.post('/account/reg', item);
     }
 
     service.actionRecovery=function(email){
-        var item={email:email};
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/account/recovery', item);
+        return AppRes.post('/account/recovery', item);
     }
 
     service.actionResetpassword=function(code, password){
-        return $http.post('/account/resetpassword', {
+        return AppRes.post('/account/resetpassword', {
             code: code,
-            password: password,
-            csrfmiddlewaretoken: AppConfig.csrf_token
+            password: password
         });
     };
 
     service.actionDelete=function(){
-        return $http.post('/account/delete',{
-            csrfmiddlewaretoken: AppConfig.csrf_token
-        });
+        return AppRes.post('/account/delete');
     }
 
     service.actionUpdate=function(item){
-        var item=angular.copy(item);
-        item['csrfmiddlewaretoken']=AppConfig.csrf_token;
-        return $http.post('/account/update', item);
+        return AppRes.post('/account/update', item);
     }
 
     return service;

@@ -2,6 +2,8 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $mo
     var service={};
 
     service.list=false;
+    service.infoEnable=true;
+    service.confirmEnable=true;
 
     var extVSprintF=function(message, data){
         var new_data=[]
@@ -93,6 +95,11 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $mo
         if (service.list[message]!==undefined)
             message=service.list[message];
 
+        if (service.confirmEnable===false){
+            callbackOk();
+            return;
+        }
+
         var boxOptions = {
             title: data.title,
             content: extVSprintF(message, data.values),
@@ -112,6 +119,10 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $mo
 
 
     service.info=function(message, data, type){
+
+        if (service.infoEnable===false)
+            return;
+
         service.alert(message, data);
 /*
         if (data===undefined)

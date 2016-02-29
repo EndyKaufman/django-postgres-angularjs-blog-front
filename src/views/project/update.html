@@ -11,10 +11,10 @@
             <div class="col-md-9">
                 <div ng-include="'views/project/inputs/central.html'"></div>
                 <div>
-                    <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid">Update</button>
-                    <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-danger">Delete project
+                    <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid" id="projectSave">Save</button>
+                    <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-danger" id="projectDelete">Delete project
                     </button>
-                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right">Add image
+                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right" id="projectAddImage">Add image
                     </button>
                 </div>
             </div>

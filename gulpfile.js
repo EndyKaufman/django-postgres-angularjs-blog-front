@@ -116,7 +116,9 @@ var js_source=[
 var tests_source=[
     'tests/**/*.js',
     '!tests/**/helpers.js',
-    '!tests/helpers.js'
+    '!tests/helpers.js',
+    '!tests/**/*.helpers.js',
+    '!tests/*.helpers.js'
 ];
 if (options['_']=='test' && options.file!==undefined)
     tests_source=[

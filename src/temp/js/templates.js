@@ -66,12 +66,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
     '               ng-model="image.src">\n' +
     '                        <span class="input-group-btn">\n' +
-    '                            <button ng-click="FileSvc.showManager(image)" class="btn btn-default"\n' +
-    '                                    type="button">\n' +
+    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-info"\n' +
+    '                                    type="button" id="{{\'projectSelect\'+$index+\'Image\'}}">\n' +
     '                                Select\n' +
     '                            </button>\n' +
     '                            <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-danger"\n' +
-    '                                    type="button">\n' +
+    '                                    type="button" id="{{\'projectDelete\'+$index+\'Image\'}}">\n' +
     '                                Delete image\n' +
     '                            </button>\n' +
     '                        </span>\n' +
@@ -146,10 +146,10 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <div class="col-md-9">\n' +
     '                <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
     '                <div>\n' +
-    '                    <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid">Update</button>\n' +
-    '                    <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-danger">Delete project\n' +
+    '                    <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid" id="projectSave">Save</button>\n' +
+    '                    <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-danger" id="projectDelete">Delete project\n' +
     '                    </button>\n' +
-    '                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right">Add image\n' +
+    '                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right" id="projectAddImage">Add image\n' +
     '                    </button>\n' +
     '                </div>\n' +
     '            </div>\n' +
@@ -164,7 +164,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <h1>\n' +
     '            <span>My projects</span>\n' +
     '            <a ng-href="#/project/create"\n' +
-    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()">Create</a>\n' +
+    '               class="btn btn-info" ng-if="AccountSvc.isAdmin()" id="projectCreate">Create</a>\n' +
     '        </h1>\n' +
     '    </div>\n' +
     '    <div class="row">\n' +
@@ -198,22 +198,17 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                            </span></p>\n' +
     '        <p class="text-right">\n' +
     '            <a ng-href="{{\'#/project/update/\'+item.name}}"\n' +
-    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()">Edit</a>\n' +
-    '            <a ng-href="{{\'#/project/\'+item.name}}" class="btn btn-link">Detail...</a>\n' +
+    '               class="btn btn-info" ng-if="AccountSvc.isAdmin()" id="{{\'project\'+$index+\'Update\'}}">Edit</a>\n' +
+    '            <a ng-href="{{\'#/project/\'+item.name}}" class="btn btn-link" id="{{\'project\'+$index+\'Detail\'}}">Detail...</a>\n' +
     '        </p>\n' +
     '    </div>\n' +
     '</div>');
 	a.put('views/project/item.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
-    '        <h1 class="hidden-sm hidden-md hidden-lg">\n' +
+    '        <h1>\n' +
     '            <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
     '            <a ng-href="{{\'#/project/update/\'+ProjectSvc.item.name}}"\n' +
-    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()">Edit</a>\n' +
-    '        </h1>\n' +
-    '        <h1 class="hidden-xs">\n' +
-    '            <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
-    '            <a ng-href="{{\'#/project/update/\'+ProjectSvc.item.name}}"\n' +
-    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()">Edit</a>\n' +
+    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()" id="projectUpdate">Edit</a>\n' +
     '        </h1>\n' +
     '    </div>\n' +
     '    <div class="row">\n' +
@@ -293,8 +288,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <div class="col-md-9">\n' +
     '                <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
     '                <div>\n' +
-    '                    <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid">Create</button>\n' +
-    '                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right">Add image\n' +
+    '                    <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid" id="projectCreate">Create</button>\n' +
+    '                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right" id="projectAddImage">Add image\n' +
     '                    </button>\n' +
     '                </div>\n' +
     '            </div>\n' +
@@ -311,6 +306,25 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <p class="lead">Description of page <code>source code</code> and others text.</p>\n' +
     '    <p>Text for link <a href="http://google.com">i am link</a> others text.</p>\n' +
     '</div>');
+	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
+    '            <form name="fileForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileUpdateCancel">{{cancelText}}</button>\n' +
+    '                    <button type="button" class="btn btn-success" ng-click="$confirm()" ng-disabled="!fileForm.$valid" id="fileUpdateConfirm">{{confirmText}}</button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
 	a.put('views/file/list.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
@@ -318,104 +332,93 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <div class="modal-body">\n' +
     '                <div class="modal-body-inner">\n' +
     '                    <div ng-controller="FileCtrl">\n' +
-    '                        <form name="searchFileForm" novalidate>\n' +
-    '                            <div class="row">\n' +
-    '                                <div class="col-md-3">\n' +
-    '                                    <button ng-click="FileSvc.showAddFile()" class="btn btn-success" type="button">\n' +
-    '                                        Add file\n' +
-    '                                    </button>\n' +
-    '                                </div>\n' +
-    '                                <div class="col-md-9">\n' +
-    '                                    <div class="input-group">\n' +
-    '                                        <input type="text" class="form-control search-query"\n' +
-    '                                               ng-model="FileSvc.searchText"\n' +
-    '                                               ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>\n' +
-    '                                        <span class="input-group-btn">\n' +
-    '                                            <button ng-click="FileSvc.doSearch(FileSvc.searchText)"\n' +
-    '                                                    class="btn btn-primary"\n' +
-    '                                                    type="button"\n' +
-    '                                                    ng-disabled="!searchFileForm.$valid">\n' +
-    '                                                Search\n' +
-    '                                            </button>\n' +
-    '                                        </span>\n' +
-    '                                    </div>\n' +
-    '                                </div>\n' +
-    '                            </div>\n' +
-    '                        </form>\n' +
-    '                        <div ag-grid="FileSvc.gridOptions" class="ag-bootstrap" style="height: 300px;width:100%"></div>\n' +
-    '\n' +
-    '                        <!--form name="searchFileForm" novalidate>\n' +
-    '                            <div class="form-search search-only">\n' +
-    '                                <div class="input-group">\n' +
-    '                                    <input type="text" class="form-control search-query" ng-model="FileSvc.searchText"\n' +
-    '                                           ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>\n' +
-    '            <span class="input-group-btn">\n' +
-    '                <button ng-click="FileSvc.doSearch(FileSvc.searchText)" class="btn btn-primary" type="button"\n' +
-    '                        ng-disabled="!searchFileForm.$valid">\n' +
-    '                    Search\n' +
-    '                </button>\n' +
-    '            </span>\n' +
-    '                                </div>\n' +
-    '                            </div>\n' +
-    '                        </form>\n' +
-    '                        <table class="table table-hover">\n' +
-    '                            <thead>\n' +
-    '                            <tr>\n' +
-    '                                <th>#</th>\n' +
-    '                                <th>Url</th>\n' +
-    '                                <th>Comment</th>\n' +
-    '                                <th>Actions</th>\n' +
-    '                            </tr>\n' +
-    '                            </thead>\n' +
-    '                            <tbody>\n' +
-    '                            <tr>\n' +
-    '                                <td>#</td>\n' +
-    '                                <td>Url</td>\n' +
-    '                                <td>Comment</td>\n' +
-    '                                <td>Actions</td>\n' +
-    '                            </tr>\n' +
-    '                            <tr>\n' +
-    '                                <td>#</td>\n' +
-    '                                <td>Url</td>\n' +
-    '                                <td>Comment</td>\n' +
-    '                                <td>Actions</td>\n' +
-    '                            </tr>\n' +
-    '                            <tr>\n' +
-    '                                <td>#</td>\n' +
-    '                                <td>Url</td>\n' +
-    '                                <td>Comment</td>\n' +
-    '                                <td>Actions</td>\n' +
-    '                            </tr>\n' +
-    '                            <tr>\n' +
-    '                                <td>#</td>\n' +
-    '                                <td>Url</td>\n' +
-    '                                <td>Comment</td>\n' +
-    '                                <td>Actions</td>\n' +
-    '                            </tr>\n' +
-    '                            </tbody>\n' +
-    '                        </table>\n' +
-    '                        <div class="well">\n' +
-    '                            <div class="form-group">\n' +
-    '                                <label for="FileUpload">File</label>\n' +
-    '                                <input class="form-control" type="file" id="FileUpload"/>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group">\n' +
-    '                                <label for="FileComment">Comment</label>\n' +
-    '                                <textarea type="text" class="form-control" id="FileComment"\n' +
-    '                                          ng-model="FileComment"></textarea>\n' +
-    '                            </div>\n' +
-    '                            <button ng-click="FileSvc.doUpload(FileComment)" class="btn btn-success" type="button">\n' +
-    '                                Upload\n' +
-    '                            </button>\n' +
-    '                        </div-->\n' +
+    '                        <div ng-include="\'views/file/list.html\'"></div>\n' +
     '                    </div>\n' +
     '                </div>\n' +
     '            </div>\n' +
     '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-primary" ng-click="$cancel()">{{cancelText}}</button>\n' +
-    '                <button type="button" class="btn btn-success" ng-click="$confirm()">{{confirmText}}</button>\n' +
+    '                <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileListCancel">{{cancelText}}</button>\n' +
+    '                <button type="button" class="btn btn-success" ng-click="$confirm()" id="fileListConfirm">{{confirmText}}</button>\n' +
     '            </div>\n' +
     '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/file/list.html', '<div class="row">\n' +
+    '    <div class="col-md-3">\n' +
+    '        <button ng-click="FileSvc.showCreate()" class="btn btn-info" type="button" id="fileCreate">\n' +
+    '            Add file\n' +
+    '        </button>\n' +
+    '    </div>\n' +
+    '    <div class="col-md-9">\n' +
+    '        <div class="input-group">\n' +
+    '            <input type="text" class="form-control search-query"\n' +
+    '                   ng-model="FileSvc.searchText"\n' +
+    '                   ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>\n' +
+    '                                        <span class="input-group-btn">\n' +
+    '                                            <button ng-click="FileSvc.doSearch(FileSvc.searchText)"\n' +
+    '                                                    class="btn btn-primary"\n' +
+    '                                                    type="button" id="fileSearch">\n' +
+    '                                                Search\n' +
+    '                                            </button>\n' +
+    '                                        </span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>\n' +
+    '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <th>#</th>\n' +
+    '        <th>Url</th>\n' +
+    '        <th>Comment</th>\n' +
+    '        <th class="text-right">Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in FileSvc.list" ng-click="FileSvc.selectItem(item)"\n' +
+    '        ng-class="(FileSvc.item.id==item.id)?\'info\':\'\'">\n' +
+    '        <td ng-bind-html="item.id"></td>\n' +
+    '        <td ng-bind-html="item.src | unsafe"></td>\n' +
+    '        <td ng-bind-html="item.comment | unsafe"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-info" type="button" id="{{\'file\'+item.id+\'Update\'}}">Edit</button>\n' +
+    '            <button ng-click="FileSvc.doDelete(item)" class="btn btn-danger" type="button" id="{{\'file\'+item.id+\'Delete\'}}">Delete</button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/file/inputs.html', '<div class="form-group" ng-if="FileSvc.mode==\'create\'">\n' +
+    '    <label for="FileUpload">File</label>\n' +
+    '    <input class="form-control" type="file" id="FileUpload"/>\n' +
+    '</div>\n' +
+    '<div class="form-group" ng-if="FileSvc.mode==\'update\'">\n' +
+    '    <label for="FileUpload">File</label>\n' +
+    '    <input class="form-control" type="text" id="FileUpload"\n' +
+    '                  ng-model="FileSvc.item.src" disabled/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="FileComment">Comment</label>\n' +
+    '        <textarea type="text" class="form-control" id="FileComment"\n' +
+    '                  ng-model="FileSvc.item.comment"></textarea>\n' +
+    '</div>');
+	a.put('views/file/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
+    '            <form name="fileForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileCreateCancel">{{cancelText}}</button>\n' +
+    '                    <button type="button" class="btn btn-success" ng-click="$confirm()" ng-disabled="!fileForm.$valid" id="fileCreateConfirm">\n' +
+    '                        {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>\n' +
+    '            </form>\n' +
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
@@ -444,7 +447,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                          aria-hidden="true"></span>\n' +
     '                </div>\n' +
-    '                <button type="submit" class="btn btn-success" ng-disabled="!accountForm.$valid">Save password and login\n' +
+    '                <button type="submit" class="btn btn-success" ng-disabled="!accountForm.$valid" id="accountResetpassword">Save password and login\n' +
     '                    on site\n' +
     '                </button>\n' +
     '            </form>\n' +
@@ -477,7 +480,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                          aria-hidden="true"></span>\n' +
     '                </div>\n' +
     '                <button ng-click="AccountSvc.doReg(AccountSvc.item)" class="btn btn-success"\n' +
-    '                        ng-disabled="!accountForm.$valid">Create\n' +
+    '                        ng-disabled="!accountForm.$valid" id="accountReg">Create\n' +
     '                </button>\n' +
     '            </div>\n' +
     '        </div>\n' +
@@ -500,7 +503,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                          ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                          aria-hidden="true"></span>\n' +
     '                </div>\n' +
-    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid">Sent link to reset password</button>\n' +
+    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid" id="accountRecovery">Sent link to reset password</button>\n' +
     '            </form>\n' +
     '        </div>\n' +
     '    </div>\n' +
@@ -555,9 +558,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                          aria-hidden="true"></span>\n' +
     '                </div>\n' +
     '                <button ng-click="AccountSvc.doUpdate(AccountSvc.item)" class="btn btn-success"\n' +
-    '                        ng-disabled="!accountForm.$valid">Update\n' +
+    '                        ng-disabled="!accountForm.$valid" id="accountSave">Save\n' +
     '                </button>\n' +
-    '                <button ng-click="AccountSvc.doDelete()" class="btn btn-danger">Delete account\n' +
+    '                <button ng-click="AccountSvc.doDelete()" class="btn btn-danger" id="accountDelete">Delete account\n' +
     '                </button>\n' +
     '            </div>\n' +
     '            <div class="col-md-3">\n' +
@@ -590,7 +593,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                          aria-hidden="true"></span>\n' +
     '                </div>\n' +
-    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid">Login</button>\n' +
+    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid" id="accountLogin">Login</button>\n' +
     '            </form>\n' +
     '        </div>\n' +
     '    </div>\n' +
@@ -615,8 +618,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <ul class="nav navbar-nav" ng-if="NavbarSvc.items.left.length>0">\n' +
     '                <li ng-repeat="item in NavbarSvc.items.left" ng-if="!item.hidden"\n' +
     '                    ng-class="item.active==true ? \'active\' : \'\'">\n' +
-    '                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url"></a>\n' +
-    '                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url"></a>\n' +
+    '                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url" id="{{item.name+\'Nav\'}}"></a>\n' +
+    '                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url" id="{{item.name+\'Nav\'}}"></a>\n' +
     '                </li>\n' +
     '            </ul>\n' +
     '            <form class="navbar-form navbar-right" role="search" name="searchForm" ng-if="!NavbarSvc.items.search.hidden"\n' +
@@ -627,7 +630,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                               placeholder="{{NavbarSvc.items.search.placeholder}}" ng-model="SearchSvc.searchText"\n' +
     '                               ng-enter="SearchSvc.doSearch(SearchSvc.searchText)" required/>\n' +
     '                        <span class="input-group-btn">\n' +
-    '                            <button ng-click="SearchSvc.doSearch(SearchSvc.searchText)" class="btn btn-primary" type="button" ng-disabled="!searchForm.$valid">\n' +
+    '                            <button ng-click="SearchSvc.doSearch(SearchSvc.searchText)" class="btn btn-primary" type="button" ng-disabled="!searchForm.$valid" id="searchNav">\n' +
     '                                Search\n' +
     '                            </button>\n' +
     '                        </span>\n' +
@@ -637,8 +640,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <ul class="nav navbar-nav navbar-right" ng-if="NavbarSvc.items.right.length>0">\n' +
     '                <li ng-repeat="item in NavbarSvc.items.right" ng-if="!item.hidden"\n' +
     '                    ng-class="item.active==true ? \'active\' : \'\'">\n' +
-    '                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url"></a>\n' +
-    '                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url"></a>\n' +
+    '                    <a ng-click="item.click()" ng-bind-html="item.title | unsafe" ng-if="!item.url" id="{{item.name+\'Nav\'}}"></a>\n' +
+    '                    <a ng-href="{{item.url}}" ng-bind-html="item.title | unsafe" ng-if="item.url" id="{{item.name+\'Nav\'}}"></a>\n' +
     '                </li>\n' +
     '            </ul>\n' +
     '        </div><!--/.nav-collapse -->\n' +
