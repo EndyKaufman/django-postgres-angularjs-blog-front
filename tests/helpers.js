@@ -1,6 +1,12 @@
 module.exports ={
   debug: false,
+  debugAll: false,
+  inDebug:function(){
+    return this.debugAll==true || browser.params.debugAll=='true';
+  },
   executeAndReturnJson: function (code, callback){
+        if (this.inDebug())
+            this.debug=true;
         code =
             "function getCookie(name) {\n"+
             "var cookieValue = null;\n"+
@@ -23,6 +29,8 @@ module.exports ={
         });
   },
   getJson: function(uri, callback){
+    if (this.inDebug())
+        this.debug=true;
     var $this=this;
     this.executeAndReturnJson(
         '$.get( "'+uri+'")'+
@@ -31,8 +39,6 @@ module.exports ={
         function(){
                 if ($this.debug===true){
                     console.log('\nGET: '+uri);
-                    console.log('DATA:');
-                    console.log(data);
                     console.log('RESPONSE:');
                     if (arguments[0]!=undefined)
                         console.log(arguments[0]);
@@ -46,6 +52,8 @@ module.exports ={
     )
   },
   postJson: function(uri, data, callback){
+    if (this.inDebug())
+        this.debug=true;
     var $this=this;
     this.executeAndReturnJson(
         'var postData='+JSON.stringify(data)+';'+
@@ -77,6 +85,8 @@ module.exports ={
     )
   },
   checkMail:function(processHandler, callback){
+    if (this.inDebug())
+        this.debug=true;
     var Imap = require('imap');
     //var inspect = require('util').inspect;
     var MailParser = require("mailparser").MailParser;
@@ -101,10 +111,12 @@ module.exports ={
             if (err) throw err;
             var f = imap.fetch(results, { bodies: '' });
             f.on('message', function(msg, seqno) {
-              //console.log('Message #%d', seqno);
+              if ($this.debug===true)
+                console.log('Message #%d', seqno);
               var prefix = '(#' + seqno + ') ';
               msg.on('body', function(stream, info) {
-                //console.log(prefix + 'Body');
+                if ($this.debug===true)
+                    console.log(prefix + 'Body');
 
                 var mailparser = new MailParser();
 
@@ -114,17 +126,21 @@ module.exports ={
 
               });
               msg.once('attributes', function(attrs) {
-                //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                  if ($this.debug===true)
+                    console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
               });
               msg.once('end', function() {
-                //console.log(prefix + 'Finished');
+                  if ($this.debug===true)
+                    console.log(prefix + 'Finished');
               });
             });
             f.once('error', function(err) {
-              //console.log('Fetch error: ' + err);
+              if ($this.debug===true)
+                console.log('Fetch error: ' + err);
             });
             f.once('end', function() {
-              //console.log('Done fetching all messages!');
+              if ($this.debug===true)
+                console.log('Done fetching all messages!');
               imap.end();
             });
           });
@@ -132,12 +148,14 @@ module.exports ={
     });
 
     imap.once('error', function(err) {
-      //console.log(err);
+      if ($this.debug===true)
+        console.log(err);
       callback(err);
     });
 
     imap.once('end', function() {
-      //console.log('Connection ended');
+      if ($this.debug===true)
+        console.log('Connection ended');
       callback();
     });
 

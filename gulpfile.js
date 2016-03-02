@@ -23,14 +23,19 @@ var gutil = require('gulp-util');
 
 var options = minimist(process.argv.slice(2));
 
+options.debug=(options.debug=='true')
+
 if (options.isvagrant==undefined)
 	options.isvagrant=(process.env.USER=='vagrant')?true:false;
 else
 	options.isvagrant=(options.isvagrant=='true')
+
 if (options.env==undefined)
 	options.env=process.env.ENV || 'development';
+
 if (options.host==undefined)
 	options.host=process.env.HOST || 'http://127.0.0.1:5000';
+
 if (options.static_dir==undefined)
 	options.static_dir=process.env.STATIC_DIR || 'dist/';
 
@@ -246,7 +251,7 @@ gulp.task('test', function (done) {
 		var stream = gulp.src(tests_source)
 		.pipe(protractor({
 			configFile: "protractor.config.js",
-			args: ['--baseUrl', options.host]
+			args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 		}));
 		stream.on('end', function() {
 			done();

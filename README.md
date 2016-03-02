@@ -35,6 +35,14 @@ for test one file
 gulp test --file account/recovery_access.email.api.js
 ```
 
+if error in test, you may run tests on debug mode
+
+```
+export $(cat .env)
+cd front
+gulp test --debug true
+```
+
 ## build frontend on development mode
 
 default on run command "gulp build"
