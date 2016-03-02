@@ -46,8 +46,8 @@ describe('[Angular] Work with projects as admin', function() {
                         });
                     });
                 }else{
-                    app.AccountSvc.item().then(function(response){
-                        adminResponse = response;
+                    app.AppConfig.get().then(function(response){
+                        adminResponse = response.user;
                         done();
                     });
                 }
@@ -58,6 +58,7 @@ describe('[Angular] Work with projects as admin', function() {
       it('response structure must be correct', function() {
             expect(typeof adminResponse).toEqual('object');
             if (adminResponse){
+                //console.log(adminResponse);
                 var userData = adminResponse;
                 var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                 for (var i=0; i<fields.length; i++)
@@ -199,7 +200,7 @@ describe('[Angular] Work with projects as admin', function() {
                                 app.ProjectSvc.item().then(function(item){
                                     element(by.id('projectAddImage')).click();
                                     browser.sleep(300).then(function(){
-                                        element(by.id('projectSelect'+(item.images.length-1)+'Image')).click();
+                                        element(by.id('projectSelect0Image')).click();
                                         browser.sleep(300).then(function(){
                                             element(by.id('fileCreate')).click();
                                             browser.sleep(300).then(function(){
@@ -214,7 +215,7 @@ describe('[Angular] Work with projects as admin', function() {
                                                             element(by.id('projectSave')).click();
                                                             browser.sleep(5000).then(function(){
                                                                 app.ProjectSvc.item().then(function(item){
-                                                                    expect(item.images[item.images.length-1].src).toEqual(uploadResponse.src);
+                                                                    expect(item.images[0].src).toEqual(uploadResponse.src);
                                                                 });
                                                             });
                                                         });
@@ -233,13 +234,13 @@ describe('[Angular] Work with projects as admin', function() {
                                 element(by.id('projectUpdate')).click();
                                 browser.sleep(300).then(function(){
                                     app.ProjectSvc.item().then(function(projectItem){
-                                        element(by.id('projectSelect'+(projectItem.images.length-1)+'Image')).click();
+                                        element(by.id('projectSelect0Image')).click();
                                         browser.sleep(300).then(function(){
                                             app.FileSvc.item().then(function(fileItem){
                                                 app.FileSvc.doDelete(fileItem).then(function(fileItem){
                                                     deleteUploadResponse=fileItem;
                                                     element(by.id('fileListCancel')).click();
-                                                    element(by.id('projectDelete'+(projectItem.images.length-1)+'Image')).click();
+                                                    element(by.id('projectDelete0Image')).click();
                                                     browser.sleep(300).then(function(){
                                                         element(by.id('projectSave')).click();
                                                         browser.sleep(5000).then(function(){
