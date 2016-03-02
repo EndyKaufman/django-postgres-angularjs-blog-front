@@ -33,10 +33,21 @@ describe('[Angular] Update user profile with admin role with', function() {
             done();
             return;
         }
-        element(by.id('loginNav')).click();
-        app.AccountSvc.doLogin('admin@email.com','admin@email.com').then(function(response){
-            profileResponse = response;
-            done();
+        element(by.id('loginNav')).isPresent().then(function(isPresent){
+            if (isPresent){
+                element(by.id('loginNav')).click();
+                browser.sleep(5000).then(function(){
+                    app.AccountSvc.doLogin('admin@email.com','admin@email.com').then(function(response){
+                        profileResponse = response;
+                        done();
+                    });
+                });
+            }else{
+                app.AppConfig.get().then(function(response){
+                    profileResponse = response.user;
+                    done();
+                });
+            }
         });
       });
 
