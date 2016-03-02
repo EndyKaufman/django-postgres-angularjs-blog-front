@@ -87,6 +87,7 @@ module.exports ={
   checkMail:function(processHandler, callback){
     if (this.inDebug())
         this.debug=true;
+    var $this=this;
     var Imap = require('imap');
     //var inspect = require('util').inspect;
     var MailParser = require("mailparser").MailParser;
