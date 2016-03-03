@@ -234,7 +234,7 @@ gulp.task('test', function (done) {
 			var stream = gulp.src(tests_source)
 			.pipe(protractor({
 				configFile: "protractor.config.js",
-				args: ['--baseUrl', options.host]
+				args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 			}));
 			stream.on('end', function() {
 				xvfb.stop(function() {
