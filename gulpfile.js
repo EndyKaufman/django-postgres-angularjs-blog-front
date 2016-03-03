@@ -119,17 +119,21 @@ var js_source=[
 
 //test
 var tests_source=[
-    'tests/**/*.js',
     '!tests/**/helpers.js',
     '!tests/helpers.js',
     '!tests/**/*.helpers.js',
-    '!tests/*.helpers.js'
+    '!tests/*.helpers.js',
+    'tests/**/*.api.js',
+    'tests/**/*.app.js',
+    'tests/**/*.js'
 ];
 if (options['_']=='test' && options.file!==undefined)
     tests_source=[
-        'tests/'+options.file,
-        '!tests/**/helpers.js',
-        '!tests/helpers.js'
+	'!tests/**/helpers.js',
+	'!tests/helpers.js',
+	'!tests/**/*.helpers.js',
+	'!tests/*.helpers.js',
+        'tests/'+options.file
     ];
 
 //dest
