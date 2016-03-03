@@ -38,8 +38,8 @@ describe('Create, reset password with email and delete user', function() {
         }
         //helpers.debug=true;
         helpers.postJson('/account/reg', {
-            email: process.env.EMAIL_HOST_USER,
-            password: process.env.EMAIL_HOST_USER
+            email: process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
+            password: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
         }, function(response){
             createResponse = response;
             done();
@@ -89,7 +89,7 @@ describe('Create, reset password with email and delete user', function() {
                     }
                     //helpers.debug=true;
                     helpers.postJson('/account/recovery', {
-                        email: process.env.EMAIL_HOST_USER
+                        email: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
                     }, function(response){
                         setTimeout(function(){
                             recoveryResponse = response;
@@ -112,7 +112,7 @@ describe('Create, reset password with email and delete user', function() {
                         }
                         //helpers.debug=true;
                         helpers.checkMail(function(msg){
-                            if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER){
+                            if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER.replace(/\r$/, '')){
                                 $ = cheerio.load(msg.html);
                                 if ($('strong.code').text()!='')
                                     resetCode = $('strong.code').text();
@@ -184,7 +184,7 @@ describe('Create, reset password with email and delete user', function() {
                                     }
                                     //helpers.debug=true;
                                     helpers.postJson('/account/login', {
-                                        email:process.env.EMAIL_HOST_USER,
+                                        email:process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
                                         password:'password'
                                     }, function(response){
                                         loginNewPasswordResponse = response;
