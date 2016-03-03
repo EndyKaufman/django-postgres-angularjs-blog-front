@@ -89,7 +89,7 @@ module.exports ={
         this.debug=true;
     var $this=this;
     var Imap = require('imap');
-    //var inspect = require('util').inspect;
+    var inspect = require('util').inspect;
     var MailParser = require("mailparser").MailParser;
 
     var imap = new Imap({
