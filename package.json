@@ -3,7 +3,7 @@
     "cheerio": "^0.20.0",
     "chromedriver": "^2.20.0",
     "express": "^5.0.0-alpha.2",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "git+https://git@github.com/gulpjs/gulp.git#4.0",
     "gulp-angular-templates": "0.0.2",
     "gulp-change": "^1.0.0",
     "gulp-clean": "^0.3.1",
