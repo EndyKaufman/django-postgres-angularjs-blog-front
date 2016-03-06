@@ -19,7 +19,7 @@ exports.config = {
         showColors: true,
         includeStackTrace: true,
         defaultTimeoutInterval: 60000
-    },
+    }/*,
     onPrepare: function() {
         var jasmineReporters = require('jasmine-reporters');
         jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
@@ -27,5 +27,5 @@ exports.config = {
             savePath: 'tests',
             filePrefix: 'result'
         }));
-    }
+    }*/
 };
