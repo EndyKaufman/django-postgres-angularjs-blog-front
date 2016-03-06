@@ -12,6 +12,7 @@ exports.config = {
         'browserName': 'chrome'
     },
 	getPageTimeout: 60000,
+	allScriptsTimeout: 60000,
     // Options to be passed to Jasmine-node.
     jasmineNodeOpts: {
         isVerbose: true,
