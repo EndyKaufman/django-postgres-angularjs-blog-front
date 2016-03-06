@@ -242,9 +242,9 @@ gulp.task('test', function (done) {
 				configFile: "protractor.config.js",
 				args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 			}));
-			stream.on('end', function() {
-				xvfb.stop(function() {
-					done();
+			stream.on('end', function(msg) {
+				xvfb.stop(function(msg) {
+					done(msg);
 				});
 			});
 			stream.on('error', function(err) {
@@ -259,8 +259,8 @@ gulp.task('test', function (done) {
 			configFile: "protractor.config.js",
 			args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 		}));
-		stream.on('end', function() {
-			done();
+		stream.on('end', function(msg) {
+			done(msg);
 		});
 		stream.on('error', function(err) {
 			done(err);
