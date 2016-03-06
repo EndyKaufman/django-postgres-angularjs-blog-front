@@ -233,7 +233,6 @@ gulp.task('build', gulp.series('clear','template:js','scss','less','build:css',
               'build:js'));
 
 // Tests
-var exitCode = 0;
 gulp.task('test', function (done) {
 	if (options.isvagrant){
 		var xvfb = new Xvfb({displayNum:10, timeout: 15000});
@@ -243,15 +242,14 @@ gulp.task('test', function (done) {
 				configFile: "protractor.config.js",
 				args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 			}));
-			stream.on('end', function(msg) {
-		        exitCode = msg
+			stream.on('end', function() {
 				xvfb.stop(function() {
 					done();
 				});
 			});
 			stream.on('error', function(err) {
-		        exitCode = err
 				xvfb.stop(function() {
+				    process.exit.bind(process, 1)
 					done();
 				});
 			});
@@ -262,23 +260,12 @@ gulp.task('test', function (done) {
 			configFile: "protractor.config.js",
 			args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
 		}));
-		stream.on('end', function(msg) {
-		    exitCode = msg
+		stream.on('end', function() {
 			done();
 		});
 		stream.on('error', function(err) {
-		    exitCode = err
+		    process.exit.bind(process, 1);
 			done();
 		});
 	}
 });
-
-gulp.on('err', function (err) {
-  process.emit('exit') // or throw err
-})
-
-process.on('exit', function () {
-  process.nextTick(function () {
-    process.exit(exitCode)
-  })
-})
