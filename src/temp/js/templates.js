@@ -105,6 +105,34 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/tag/list-item.html', '<div class="col-md-6" ng-repeat="item in allItem.list">\n' +
     '    <div ng-include="\'views/\'+allItem.name+\'/list-item.html\'"></div>\n' +
     '</div>');
+	a.put('views/search/list.html', '<div class="container">\n' +
+    '    <div class="page-header">\n' +
+    '        <h1>Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"</h1>\n' +
+    '    </div>\n' +
+    '    <div>\n' +
+    '        <div class="row">\n' +
+    '            <div class="col-md-9 padding-left-0">\n' +
+    '                <div ng-repeat="allItem in SearchSvc.allList">\n' +
+    '                    <p class="lead padding-left-15">Place: <a ng-bind-html="AppConst[allItem.name].strings.title | unsafe"\n' +
+    '                                              ng-href="{{\'/\'+allItem.name}}"></a></p>\n' +
+    '                <div ng-include="\'views/search/list-item.html\'"></div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '            <div class="col-md-3 padding-left-0">\n' +
+    '                <p class="lead">Tags</p>\n' +
+    '                <div ng-include="\'views/search/list-tags.html\'"></div>\n' +
+    '            </div>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/search/list-tags.html', '<div class="list-group">\n' +
+    '    <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
+    '       ng-bind-html="tag.text | unsafe" class="list-group-item" ng-repeat="tag in TagSvc.list">\n' +
+    '    </a>\n' +
+    '</div>');
+	a.put('views/search/list-item.html', '<div class="col-md-6" ng-repeat="item in allItem.list">\n' +
+    '    <div ng-include="\'views/\'+allItem.name+\'/list-item.html\'"></div>\n' +
+    '</div>');
 	a.put('views/project/update.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
     '        <h1>\n' +
@@ -270,34 +298,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            </div>\n' +
     '        </div>\n' +
     '    </form>\n' +
-    '</div>');
-	a.put('views/search/list.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"</h1>\n' +
-    '    </div>\n' +
-    '    <div>\n' +
-    '        <div class="row">\n' +
-    '            <div class="col-md-9 padding-left-0">\n' +
-    '                <div ng-repeat="allItem in SearchSvc.allList">\n' +
-    '                    <p class="lead padding-left-15">Place: <a ng-bind-html="AppConst[allItem.name].strings.title | unsafe"\n' +
-    '                                              ng-href="{{\'/\'+allItem.name}}"></a></p>\n' +
-    '                <div ng-include="\'views/search/list-item.html\'"></div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '            <div class="col-md-3 padding-left-0">\n' +
-    '                <p class="lead">Tags</p>\n' +
-    '                <div ng-include="\'views/search/list-tags.html\'"></div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/search/list-tags.html', '<div class="list-group">\n' +
-    '    <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
-    '       ng-bind-html="tag.text | unsafe" class="list-group-item" ng-repeat="tag in TagSvc.list">\n' +
-    '    </a>\n' +
-    '</div>');
-	a.put('views/search/list-item.html', '<div class="col-md-6" ng-repeat="item in allItem.list">\n' +
-    '    <div ng-include="\'views/\'+allItem.name+\'/list-item.html\'"></div>\n' +
     '</div>');
 	a.put('views/home/content.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
