@@ -1,5 +1,5 @@
 describe('Update user profile with admin role', function() {
-    var helpers = require('./../helpers.js');
+    var api = require('./../api.helpers.js');
 
     var appConfigResponse = undefined, profileResponse = undefined, logoutResponse = undefined, updateResponse = undefined, restoreProfileResponse = undefined;
 
@@ -10,7 +10,7 @@ describe('Update user profile with admin role', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
+            api.executeAndReturnJson(
                 'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
                 function(response){
                     appConfigResponse = response;
@@ -32,8 +32,8 @@ describe('Update user profile with admin role', function() {
             done();
             return;
         }
-        //helpers.debug=true;
-        helpers.postJson('/account/login', {
+        //api.debug=true;
+        api.postJson('/account/login', {
             email:'admin@email.com',
             password:'admin@email.com'
         }, function(response){
@@ -62,8 +62,8 @@ describe('Update user profile with admin role', function() {
                 done();
                 return;
             }
-            //helpers.debug=true;
-            helpers.postJson('/account/update', {
+            //api.debug=true;
+            api.postJson('/account/update', {
                 firstname:'New Name',
                 email:'admin@email.com'
             }, function(response){
@@ -93,8 +93,8 @@ describe('Update user profile with admin role', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.postJson('/account/update', {
+                //api.debug=true;
+                api.postJson('/account/update', {
                     firstname: profileResponse.data[0].firstname,
                     email: 'admin@email.com'
                 }, function(response){
@@ -123,8 +123,8 @@ describe('Update user profile with admin role', function() {
                         done();
                         return;
                     }
-                    //helpers.debug=true;
-                    helpers.postJson('/account/logout', {
+                    //api.debug=true;
+                    api.postJson('/account/logout', {
                     }, function(response){
                         logoutResponse = response;
                         done()

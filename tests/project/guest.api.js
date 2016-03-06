@@ -1,5 +1,5 @@
 describe('Work with projects as guest', function() {
-    var helpers = require('./../helpers.js');
+    var api = require('./../api.helpers.js');
 
     var appConfigResponse = undefined, itemResponse = undefined, listbysearchResponse = undefined, listbytagResponse = undefined, listResponse = undefined;
 
@@ -10,7 +10,7 @@ describe('Work with projects as guest', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
+            api.executeAndReturnJson(
                 'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
                 function(response){
                     appConfigResponse = response;
@@ -32,8 +32,8 @@ describe('Work with projects as guest', function() {
                 done();
                 return;
             }
-            //helpers.debug=true;
-            helpers.getJson('/project/list', function(response){
+            //api.debug=true;
+            api.getJson('/project/list', function(response){
                 listResponse = response;
                 done();
             });
@@ -58,8 +58,8 @@ describe('Work with projects as guest', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.getJson('/project/item/'+listResponse.data[0].name, function(response){
+                //api.debug=true;
+                api.getJson('/project/item/'+listResponse.data[0].name, function(response){
                     itemResponse = response;
                     done();
                 });
@@ -84,8 +84,8 @@ describe('Work with projects as guest', function() {
                         done();
                         return;
                     }
-                    //helpers.debug=true;
-                    helpers.getJson('/project/listbytag/'+listResponse.data[0].tags[0].text, function(response){
+                    //api.debug=true;
+                    api.getJson('/project/listbytag/'+listResponse.data[0].tags[0].text, function(response){
                         listbytagResponse = response;
                         done();
                     });
@@ -110,8 +110,8 @@ describe('Work with projects as guest', function() {
                             done();
                             return;
                         }
-                        //helpers.debug=true;
-                        helpers.getJson('/project/search/'+listResponse.data[0].name, function(response){
+                        //api.debug=true;
+                        api.getJson('/project/search/'+listResponse.data[0].name, function(response){
                             listbysearchResponse = response;
                             done();
                         });

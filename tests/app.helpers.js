@@ -1,5 +1,9 @@
 module.exports ={
     debug: false,
+    debugAll: false,
+    inDebug:function(){
+        return this.debugAll==true || browser.params.debugAll=='true';
+    },
     AppConfig: {
         get: function(){
             var data = {};

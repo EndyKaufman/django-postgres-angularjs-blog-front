@@ -129,10 +129,12 @@ var tests_source=[
 ];
 if (options['_']=='test' && options.file!==undefined)
     tests_source=[
-	'!tests/**/helpers.js',
-	'!tests/helpers.js',
-	'!tests/**/*.helpers.js',
-	'!tests/*.helpers.js',
+        '!tests/**/helpers.js',
+        '!tests/helpers.js',
+        '!tests/**/*.helpers.js',
+        '!tests/*.helpers.js',
+        'tests/**/*.api.js',
+        'tests/**/*.app.js',
         'tests/'+options.file
     ];
 

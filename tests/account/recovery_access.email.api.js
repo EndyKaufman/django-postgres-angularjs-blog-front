@@ -1,5 +1,6 @@
 describe('Create, reset password with email and delete user', function() {
-    var helpers = require('./../helpers.js');
+    var api = require('./../api.helpers.js');
+    var email = require('./../email.helpers.js');
     var cheerio = require('cheerio');
 
     var appConfigResponse = undefined, createResponse = undefined, logoutResponse = undefined,
@@ -14,7 +15,7 @@ describe('Create, reset password with email and delete user', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
+            api.executeAndReturnJson(
                 'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
                 function(response){
                     appConfigResponse = response;
@@ -36,8 +37,8 @@ describe('Create, reset password with email and delete user', function() {
             done();
             return;
         }
-        //helpers.debug=true;
-        helpers.postJson('/account/reg', {
+        //api.debug=true;
+        api.postJson('/account/reg', {
             email: process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
             password: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
         }, function(response){
@@ -66,8 +67,8 @@ describe('Create, reset password with email and delete user', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.postJson('/account/logout', {
+                //api.debug=true;
+                api.postJson('/account/logout', {
                 }, function(response){
                     logoutResponse = response;
                     done()
@@ -87,8 +88,8 @@ describe('Create, reset password with email and delete user', function() {
                         done();
                         return;
                     }
-                    //helpers.debug=true;
-                    helpers.postJson('/account/recovery', {
+                    //api.debug=true;
+                    api.postJson('/account/recovery', {
                         email: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
                     }, function(response){
                         setTimeout(function(){
@@ -110,8 +111,8 @@ describe('Create, reset password with email and delete user', function() {
                             done();
                             return;
                         }
-                        //helpers.debug=true;
-                        helpers.checkMail(function(msg){
+                        //email.debug=true;
+                        email.checkMail(function(msg){
                             if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER.replace(/\r$/, '')){
                                 $ = cheerio.load(msg.html);
                                 if ($('strong.code').text()!='')
@@ -132,8 +133,8 @@ describe('Create, reset password with email and delete user', function() {
                                 done();
                                 return;
                             }
-                            //helpers.debug=true;
-                            helpers.postJson('/account/resetpassword', {
+                            //api.debug=true;
+                            api.postJson('/account/resetpassword', {
                                 code:resetCode,
                                 password:'password'
                             }, function(response){
@@ -162,8 +163,8 @@ describe('Create, reset password with email and delete user', function() {
                                     done();
                                     return;
                                 }
-                                //helpers.debug=true;
-                                helpers.postJson('/account/logout', {
+                                //api.debug=true;
+                                api.postJson('/account/logout', {
                                 }, function(response){
                                     logoutNewPasswordResponse = response;
                                     done()
@@ -182,8 +183,8 @@ describe('Create, reset password with email and delete user', function() {
                                         done();
                                         return;
                                     }
-                                    //helpers.debug=true;
-                                    helpers.postJson('/account/login', {
+                                    //api.debug=true;
+                                    api.postJson('/account/login', {
                                         email:process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
                                         password:'password'
                                     }, function(response){
@@ -212,8 +213,8 @@ describe('Create, reset password with email and delete user', function() {
                                             done();
                                             return;
                                         }
-                                        //helpers.debug=true;
-                                        helpers.postJson('/account/delete', {
+                                        //api.debug=true;
+                                        api.postJson('/account/delete', {
                                         }, function(response){
                                             deleteResponse = response;
                                             done()

@@ -1,5 +1,5 @@
 describe('Create and delete user', function() {
-    var helpers = require('./../helpers.js');
+    var api = require('./../api.helpers.js');
     var appConfigResponse = undefined, createResponse = undefined, deleteResponse = undefined;
 
     beforeEach(function(done){
@@ -9,7 +9,7 @@ describe('Create and delete user', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
+            api.executeAndReturnJson(
                 'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
                 function(response){
                     appConfigResponse = response;
@@ -31,8 +31,8 @@ describe('Create and delete user', function() {
             done();
             return;
         }
-        //helpers.debug=true;
-        helpers.postJson('/account/reg', {
+        //api.debug=true;
+        api.postJson('/account/reg', {
             email:'newuser@email.com',
             password:'newuser@email.com'
         }, function(response){
@@ -61,8 +61,8 @@ describe('Create and delete user', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.postJson('/account/delete', {
+                //api.debug=true;
+                api.postJson('/account/delete', {
                 }, function(response){
                     deleteResponse = response;
                     done()

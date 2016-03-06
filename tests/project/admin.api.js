@@ -1,5 +1,5 @@
 describe('Work with projects as admin', function() {
-    var helpers = require('./../helpers.js');
+    var api = require('./../api.helpers.js');
 
     var appConfigResponse = undefined, adminResponse=undefined, listResponse = undefined, createResponse = undefined, updateResponse = undefined, deleteResponse = undefined;
 
@@ -10,7 +10,7 @@ describe('Work with projects as admin', function() {
         }
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get(browser.baseUrl).then(function(){
-            helpers.executeAndReturnJson(
+            api.executeAndReturnJson(
                 'if (window.AppConfig!==undefined)callback(window.AppConfig);else callback({});',
                 function(response){
                     appConfigResponse = response;
@@ -33,8 +33,8 @@ describe('Work with projects as admin', function() {
                 done();
                 return;
             }
-            //helpers.debug=true;
-            helpers.postJson('/account/login', {
+            //api.debug=true;
+            api.postJson('/account/login', {
                 email:'admin@email.com',
                 password:'admin@email.com'
             }, function(response){
@@ -63,8 +63,8 @@ describe('Work with projects as admin', function() {
                     done();
                     return;
                 }
-                //helpers.debug=true;
-                helpers.getJson('/project/list', function(response){
+                //api.debug=true;
+                api.getJson('/project/list', function(response){
                     listResponse = response;
                     done();
                 });
@@ -90,8 +90,8 @@ describe('Work with projects as admin', function() {
                         done();
                         return;
                     }
-                    //helpers.debug=true;
-                    helpers.postJson('/project/create',
+                    //api.debug=true;
+                    api.postJson('/project/create',
                         {
                             id: 101,
                             name:'newProject',
@@ -154,8 +154,8 @@ describe('Work with projects as admin', function() {
                             done();
                             return;
                         }
-                        //helpers.debug=true;
-                        helpers.postJson('/project/update/'+createdRecord.id, createdRecord, function(response){
+                        //api.debug=true;
+                        api.postJson('/project/update/'+createdRecord.id, createdRecord, function(response){
                             updateResponse = response;
                             done();
                         });
@@ -195,8 +195,8 @@ describe('Work with projects as admin', function() {
                                 done();
                                 return;
                             }
-                            //helpers.debug=true;
-                            helpers.postJson('/project/delete/'+createdRecord.id, {}, function(response){
+                            //api.debug=true;
+                            api.postJson('/project/delete/'+createdRecord.id, {}, function(response){
                                 deleteResponse = response;
                                 done();
                             });
