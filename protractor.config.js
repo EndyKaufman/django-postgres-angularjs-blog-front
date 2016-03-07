@@ -31,7 +31,7 @@ exports.config = {
         var SpecReporter = require('jasmine-spec-reporter');
         jasmine.getEnv().addReporter(new SpecReporter({
           displayStacktrace: 'all',    // display stacktrace for each failed assertion, values: (all|specs|summary|none)
-          displayFailuresSummary: true, // display summary of all failures after execution
+          displayFailuresSummary: false, // display summary of all failures after execution
           displayPendingSummary: true,  // display summary of all pending specs after execution
           displaySuccessfulSpec: true,  // display each successful spec
           displayFailedSpec: true,      // display each failed spec

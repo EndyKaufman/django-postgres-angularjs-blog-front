@@ -249,8 +249,7 @@ gulp.task('test', function (done) {
 			});
 			stream.on('error', function(err) {
 				xvfb.stop(function() {
-				    process.exit.bind(process, 1)
-					done();
+					done(err);
 				});
 			});
 		});
@@ -264,8 +263,7 @@ gulp.task('test', function (done) {
 			done();
 		});
 		stream.on('error', function(err) {
-		    process.exit.bind(process, 1);
-			done();
+			done(err);
 		});
 	}
 });
