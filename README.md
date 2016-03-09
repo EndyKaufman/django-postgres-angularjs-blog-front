@@ -32,7 +32,7 @@ gulp test --host http://127.0.0.1:5000
 for test one file
 
 ```
-gulp test --file account/recovery_access.email.api.js
+gulp test --file tests/account/recovery_access.email.api.js
 ```
 
 if error in test, you may run tests on debug mode

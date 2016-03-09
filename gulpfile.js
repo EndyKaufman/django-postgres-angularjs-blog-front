@@ -133,9 +133,7 @@ if (options['_']=='test' && options.file!==undefined)
         '!tests/helpers.js',
         '!tests/**/*.helpers.js',
         '!tests/*.helpers.js',
-        'tests/**/*.api.js',
-        'tests/**/*.app.js',
-        'tests/'+options.file
+        options.file
     ];
 
 //dest
@@ -266,4 +264,109 @@ gulp.task('test', function (done) {
 			done(err);
 		});
 	}
+});
+
+// Tests with run server
+gulp.task('test:server', function (done) {
+
+    var spawn=child_process.spawn;
+
+    function spawnRunner(title, shell, callback, logHandler){
+        if (logHandler==undefined)
+            logHandler=function (data, isError){
+                if (isError===true){
+                    gutil.log('['+title+']',gutil.colors.red(data));
+                    gutil.beep();
+                }else{
+                    gutil.log('['+title+']',gutil.colors.blue(data));
+                }
+            }
+
+        if (callback==undefined)
+            callback=function(){
+                logHandler('empty callback');
+            }
+
+        logHandler('start');
+
+        var child = spawn('bash', {detached: true}),
+            prevData = '';
+
+        for (var i=0;i<shell.length;i++)
+            if (shell[i]!==false)
+                child.stdin.write(shell[i]+'\n');
+
+        child.stdout.setEncoding('utf8');
+
+        child.stdout.on('data', function (data) {
+            if (prevData!=data){
+                prevData = data;
+                logHandler(data);
+                callback.call(child, data, false);
+            }
+        });
+
+        child.stderr.setEncoding('utf8');
+        child.stderr.on('data', function (data) {
+            if (prevData!=data){
+                prevData = data;
+                logHandler(data, true);
+                callback.call(child, data, true);
+            }
+        });
+
+        var killMeCallback=function(code){
+
+        };
+
+        child.on('close', function(code) {
+            logHandler('Close with exit code:'+ code);
+            killMeCallback(code);
+        });
+
+        child.killMe=function(callback){
+            if (callback!=undefined)
+                killMeCallback=callback;
+
+            process.kill(-child.pid);
+        }
+        return child;
+    }
+
+    var export_cat_env='export $(cat .env)';
+    if (process.env.ENV)
+        export_cat_env=false;
+
+    spawnRunner(
+        'SERVER',
+        ['cd ../', export_cat_env, 'bash scripts/server.sh'],
+        function(data, isError){
+            if (this.testSpawn===undefined){
+                this.testSpawn=true;
+
+                var serverSpawn=this;
+
+                setTimeout(function(){
+                    serverSpawn.testSpawn=spawnRunner(
+                        'TEST',
+                        ['cd ../', export_cat_env, 'bash scripts/test.sh'],
+                        function(data, isError){
+                            var testSpawn=this;
+
+                            if (data.indexOf('Finished \'test\' after')!=-1 || isError)
+                                testSpawn.killMe(function(err){
+                                    serverSpawn.killMe(function(){
+                                        if (isError)
+                                            done(data);
+                                        else
+                                            done(0);
+                                    });
+                                });
+                        }
+                    );
+                }, 10000);
+
+            }
+        }
+    );
 });
