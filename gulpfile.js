@@ -353,7 +353,7 @@ gulp.task('test:server', function (done) {
                         function(data, isError){
                             var testSpawn=this;
 
-                            if (data.indexOf('Finished \'test\' after')!=-1 || isError)
+                            if (data.indexOf('Finished \'test\' after')!=-1 || (isError && data.indexOf('removing from list!')==-1))
                                 testSpawn.killMe(function(err){
                                     serverSpawn.killMe(function(){
                                         if (isError)
