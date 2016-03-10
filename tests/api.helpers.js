@@ -93,11 +93,11 @@ module.exports ={
     var MailParser = require("mailparser").MailParser;
 
     var imap = new Imap({
-      user: process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
-      password: process.env.EMAIL_HOST_PASSWORD.replace(/\r$/, ''),
-      host: process.env.EMAIL_IMAP_HOST.replace(/\r$/, ''),
-      port: process.env.EMAIL_IMAP_PORT.replace(/\r$/, ''),
-      tls: process.env.EMAIL_IMAP_USE_TLS.replace(/\r$/, '')==1
+      user: process.env.EMAIL_HOST_USER,
+      password: process.env.EMAIL_HOST_PASSWORD,
+      host: process.env.EMAIL_IMAP_HOST,
+      port: process.env.EMAIL_IMAP_PORT,
+      tls: process.env.EMAIL_IMAP_USE_TLS==1
     });
 
     function openInbox(cb) {

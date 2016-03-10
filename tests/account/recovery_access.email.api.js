@@ -37,10 +37,10 @@ describe('Create, reset password with email and delete user', function() {
             done();
             return;
         }
-        api.debug=true;
+        //api.debug=true;
         api.postJson('/account/reg', {
-            email: process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
-            password: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
+            email: process.env.EMAIL_HOST_USER,
+            password: process.env.EMAIL_HOST_USER
         }, function(response){
             createResponse = response;
             done();
@@ -67,7 +67,7 @@ describe('Create, reset password with email and delete user', function() {
                     done();
                     return;
                 }
-                api.debug=true;
+                //api.debug=true;
                 api.postJson('/account/logout', {
                 }, function(response){
                     logoutResponse = response;
@@ -88,9 +88,9 @@ describe('Create, reset password with email and delete user', function() {
                         done();
                         return;
                     }
-                    api.debug=true;
+                    //api.debug=true;
                     api.postJson('/account/recovery', {
-                        email: process.env.EMAIL_HOST_USER.replace(/\r$/, '')
+                        email: process.env.EMAIL_HOST_USER
                     }, function(response){
                         setTimeout(function(){
                             recoveryResponse = response;
@@ -113,7 +113,7 @@ describe('Create, reset password with email and delete user', function() {
                         }
                         //email.debug=true;
                         email.checkMail(function(msg){
-                            if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER.replace(/\r$/, '')){
+                            if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER){
                                 $ = cheerio.load(msg.html);
                                 if ($('strong.code').text()!='')
                                     resetCode = $('strong.code').text();
@@ -133,7 +133,7 @@ describe('Create, reset password with email and delete user', function() {
                                 done();
                                 return;
                             }
-                            api.debug=true;
+                            //api.debug=true;
                             api.postJson('/account/resetpassword', {
                                 code:resetCode,
                                 password:'password'
@@ -163,7 +163,7 @@ describe('Create, reset password with email and delete user', function() {
                                     done();
                                     return;
                                 }
-                                api.debug=true;
+                                //api.debug=true;
                                 api.postJson('/account/logout', {
                                 }, function(response){
                                     logoutNewPasswordResponse = response;
@@ -183,9 +183,9 @@ describe('Create, reset password with email and delete user', function() {
                                         done();
                                         return;
                                     }
-                                    api.debug=true;
+                                    //api.debug=true;
                                     api.postJson('/account/login', {
-                                        email:process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
+                                        email:process.env.EMAIL_HOST_USER,
                                         password:'password'
                                     }, function(response){
                                         loginNewPasswordResponse = response;
@@ -213,7 +213,7 @@ describe('Create, reset password with email and delete user', function() {
                                             done();
                                             return;
                                         }
-                                        api.debug=true;
+                                        //api.debug=true;
                                         api.postJson('/account/delete', {
                                         }, function(response){
                                             deleteResponse = response;

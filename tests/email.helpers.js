@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports ={
   debug: false,
   debugAll: false,
@@ -7,17 +9,39 @@ module.exports ={
   checkMail:function(processHandler, callback){
     if (this.inDebug())
         this.debug=true;
-    var $this=this;
+    var $this=this, tempExists=false, tempFile=__dirname+'../../temp/'+process.env.EMAIL_HOST_USER+'.html';
+    try{
+        fs.statSync(tempFile);
+        tempExists=true;
+    }catch(err){
+        if(err.code == 'ENOENT'){
+            tempExists=false;
+        }
+    }
+    if (tempExists){
+        console.log('Load email from temp folder');
+        var msg={
+            html: fs.readFile(tempFile),
+            headers:{
+                'return-path': process.env.EMAIL_HOST_USER
+            }
+        }
+        fs.unlinkSync(tempFile);
+        processHandler(msg);
+        callback();
+        return;
+    }
+
     var Imap = require('imap');
     var inspect = require('util').inspect;
     var MailParser = require("mailparser").MailParser;
 
     var imap = new Imap({
-      user: process.env.EMAIL_HOST_USER.replace(/\r$/, ''),
-      password: process.env.EMAIL_HOST_PASSWORD.replace(/\r$/, ''),
-      host: process.env.EMAIL_IMAP_HOST.replace(/\r$/, ''),
-      port: process.env.EMAIL_IMAP_PORT.replace(/\r$/, ''),
-      tls: process.env.EMAIL_IMAP_USE_TLS.replace(/\r$/, '')==1
+      user: process.env.EMAIL_HOST_USER,
+      password: process.env.EMAIL_HOST_PASSWORD,
+      host: process.env.EMAIL_IMAP_HOST,
+      port: process.env.EMAIL_IMAP_PORT,
+      tls: process.env.EMAIL_IMAP_USE_TLS==1
     });
 
     function openInbox(cb) {
