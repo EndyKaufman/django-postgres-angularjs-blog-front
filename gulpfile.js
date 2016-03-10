@@ -332,9 +332,13 @@ gulp.task('test:server', function (done) {
         }
         return child;
     }
+
+    var export_cat_env='export $(cat .env)';
+    if (process.env.ENV)
+        export_cat_env=false;
     spawnRunner(
         'SERVER',
-        ['cd ../', 'export $(cat .env)', 'bash scripts/server.sh'],
+        ['cd ../', export_cat_env, 'bash scripts/server.sh'],
         function(data, isError){
             if (this.testSpawn===undefined){
                 this.testSpawn=true;
@@ -344,7 +348,7 @@ gulp.task('test:server', function (done) {
                 setTimeout(function(){
                     serverSpawn.testSpawn=spawnRunner(
                         'TEST',
-                        ['cd ../', 'export $(cat .env)', 'bash scripts/test.sh'],
+                        ['cd ../', export_cat_env, 'bash scripts/test.sh'],
                         function(data, isError){
                             var testSpawn=this;
 
