@@ -233,7 +233,7 @@ gulp.task('build', gulp.series('clear','template:js','scss','less','build:css',
 // Tests
 gulp.task('test', function (done) {
 	if (options.isvagrant){
-		var xvfb = new Xvfb({displayNum:10, timeout: 15000});
+		var xvfb = new Xvfb({displayNum:10, timeout: 15000, silent: true});
 		xvfb.start(function(err, xvfbProcess) {
 			var stream = gulp.src(tests_source)
 			.pipe(protractor({
@@ -348,7 +348,7 @@ gulp.task('test:server', function (done) {
                         function(data, isError){
                             var testSpawn=this;
 
-                            if (data.indexOf('Finished \'test\' after')!=-1 || (isError && data.indexOf('removing from list!')==-1))
+                            if (data.indexOf('Finished \'test\' after')!=-1 || isError                                                          )
                                 testSpawn.killMe(function(err){
                                     serverSpawn.killMe(function(){
                                         if (isError)

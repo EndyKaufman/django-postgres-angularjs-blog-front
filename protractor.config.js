@@ -11,14 +11,16 @@ exports.config = {
         //'browserName': 'phantomjs'
         'browserName': 'chrome'
     },
+    directConnect: true,
 	getPageTimeout: 60000,
-	allScriptsTimeout: 60000,
+	allScriptsTimeout: 120000,
+	//restartBrowserBetweenTests: true,
     // Options to be passed to Jasmine-node.
     jasmineNodeOpts: {
         isVerbose: true,
         showColors: true,
         includeStackTrace: true,
-        defaultTimeoutInterval: 60000,
+        defaultTimeoutInterval: 120000,
         print: function() {}
     },
     onPrepare: function() {
