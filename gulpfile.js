@@ -39,9 +39,15 @@ if (options.host==undefined)
 if (options.static_dir==undefined)
 	options.static_dir=process.env.STATIC_DIR || 'dist/';
 
+if (options.theme==undefined)
+	options.theme=process.env.THEME || 'default';
+
+//dest
+var dest_path=options.static_dir;
+
 //source
-var scss_source=['src/scss/**/*.scss'];
-var less_source=['src/less/**/*.less'];
+var scss_source=['src/theme/'+options.theme+'/scss/**/*.scss'];
+var less_source=['src/theme/'+options.theme+'/less/**/*.less'];
 
 var css_source=[
     'bower_components/normalize-css/normalize.css',
@@ -53,9 +59,7 @@ var css_source=[
     'bower_components/quantumui/dist/css/quantumui.css',
     'bower_components/ag-grid/dist/styles/ag-grid.css',
     'bower_components/ag-grid/dist/styles/theme-fresh.css',
-    'src/temp/css/**/*.css',
-    'src/**/css/*.css',
-    'src/**/*.css',];
+    'src/temp/css/**/*.css'];
 var js_source=[
     'src/js/**/tools.js',
     'bower_components/sprintf/dist/sprintf.min.js',
@@ -84,7 +88,7 @@ var js_source=[
     'bower_components/angular-ui-uploader/dist/uploader.js',
     'bower_components/ag-grid/dist/ag-grid.js',
     'src/js/app.init.js',
-    'src/js/app.skin.js',
+    'src/theme/'+options.theme+'/js/app.theme.js',
 
     'src/js/**/**/**/const.js',
     'src/js/**/**/const.js',
@@ -135,9 +139,6 @@ if (options['_']=='test' && options.file!==undefined)
         '!tests/*.helpers.js',
         options.file
     ];
-
-//dest
-var dest_path=options.static_dir;
 
 // Downloads the selenium webdriver
 gulp.task('webdriver_update', webdriver_update);
@@ -196,11 +197,11 @@ gulp.task('build:css', function () {
 
 //concat templates js
 gulp.task('template:js', function () {
-  return gulp.src('src/views/**/*.html')
+  return gulp.src('src/theme/'+options.theme+'/views/**/*.html')
     .pipe(templateCache({
       output: 'src/temp/js/templates.js',
       moduleName: 'app',
-      strip: 'src/views/',
+      strip: 'src/theme/'+options.theme+'/views/',
       prepend: 'views/',
     }))
     .pipe(gulp.dest('./'))
@@ -266,86 +267,41 @@ gulp.task('test', function (done) {
 	}
 });
 
+// Run build
+gulp.task('scripts:build', function (done) {
+    var export_cat_env='export $(cat .env)';
+    if (process.env.ENV)
+        export_cat_env=false;
+    spawnRunner(
+        'BUILD',
+        ['cd ../', export_cat_env, 'bash scripts/build.sh', 'echo stop_spawn'],
+        function(data, isError){
+            var buildSpawn=this;
+            if (isError || data.indexOf('stop_spawn')!=-1)
+                buildSpawn.killMe(function(err){
+                    done(data);
+                });
+        },
+        done
+    );
+});
+
+// Run server
+gulp.task('scripts:server', function (done) {
+    var export_cat_env='export $(cat .env)';
+    if (process.env.ENV)
+        export_cat_env=false;
+    spawnRunner(
+        'SERVER',
+        ['cd ../', export_cat_env, 'bash scripts/server.sh'],
+        function(data, isError){
+        },
+        done
+    );
+});
+
 // Tests with run server
-gulp.task('test:server', function (done) {
-
-    var spawn=child_process.spawn;
-
-    function spawnRunner(title, shell, callback, logHandler, processExitHandler){
-        var child = spawn('bash', {detached: true}),
-            prevData = '';
-
-        child.showLog=true;
-
-        if (logHandler==undefined || logHandler==false)
-            logHandler=function (data, isError){
-                if (this.showLog){
-                    if (isError===true){
-                        gutil.log('['+title+']',gutil.colors.red(data));
-                        gutil.beep();
-                    }else{
-                        gutil.log('['+title+']',gutil.colors.blue(data));
-                    }
-                }
-            }
-
-        if (callback==undefined)
-            callback=function(){
-                logHandler.call(child, 'empty callback', false);
-            }
-
-        logHandler.call(child, 'start', false);
-
-        for (var i=0;i<shell.length;i++)
-            if (shell[i]!==false)
-                child.stdin.write(shell[i]+'\n');
-
-        child.stdout.setEncoding('utf8');
-
-        child.stdout.on('data', function (data) {
-            if (prevData!=data){
-                prevData = data;
-                logHandler.call(child, data, false);
-                if (child.killed!==true)
-                    callback.call(child, data, false);
-            }
-        });
-
-        child.stderr.setEncoding('utf8');
-        child.stderr.on('data', function (data) {
-            if (prevData!=data){
-                prevData = data;
-                logHandler.call(child, data, true);
-                if (child.killed!==true)
-                    callback.call(child, data, true);
-            }
-        });
-
-        var killMeCallback=function(code){
-
-        };
-
-        child.on('close', function(code) {
-            logHandler.call(child, 'Close with exit code:'+ code, false);
-            killMeCallback(code);
-            if (processExitHandler!=undefined)
-                processExitHandler();
-            child.killed=true;
-        });
-
-        child.killMe=function(callback){
-            if (callback!=undefined)
-                killMeCallback=callback;
-
-            process.kill(-child.pid);
-        }
-
-        //catches ctrl+c event
-        process.on('SIGINT', child.killMe.bind());
-
-        return child;
-    }
-
+gulp.task('scripts:test', function (done) {
     var export_cat_env='export $(cat .env)';
     if (process.env.ENV)
         export_cat_env=false;
@@ -379,14 +335,87 @@ gulp.task('test:server', function (done) {
                                     });
                                 }
                             },
-                            false,
                             done
                         );
                 }, 10000);
 
             }
         },
-        false,
         done
     );
 });
+
+function spawnRunner(title, shell, callback, processExitHandler, logHandler){
+    var child = child_process.spawn('bash', {detached: true}),
+        prevData = '';
+
+    child.showLog=true;
+
+    if (logHandler==undefined)
+        logHandler=function (data, isError){
+            if (this.showLog){
+                if (isError===true){
+                    gutil.log('['+title+']',gutil.colors.red(data));
+                    gutil.beep();
+                }else{
+                    gutil.log('['+title+']',gutil.colors.blue(data));
+                }
+            }
+        }
+
+    if (callback==undefined)
+        callback=function(){
+            logHandler.call(child, 'empty callback', false);
+        }
+
+    logHandler.call(child, 'start', false);
+
+    for (var i=0;i<shell.length;i++)
+        if (shell[i]!==false)
+            child.stdin.write(shell[i]+'\n');
+
+    child.stdout.setEncoding('utf8');
+
+    child.stdout.on('data', function (data) {
+        if (prevData!=data){
+            prevData = data;
+            logHandler.call(child, data, false);
+            if (child.killed!==true)
+                callback.call(child, data, false);
+        }
+    });
+
+    child.stderr.setEncoding('utf8');
+    child.stderr.on('data', function (data) {
+        if (prevData!=data){
+            prevData = data;
+            logHandler.call(child, data, true);
+            if (child.killed!==true)
+                callback.call(child, data, true);
+        }
+    });
+
+    var killMeCallback=function(code){
+
+    };
+
+    child.on('close', function(code) {
+        logHandler.call(child, 'Close with exit code:'+ code, false);
+        killMeCallback(code);
+        if (processExitHandler!=undefined)
+            processExitHandler();
+        child.killed=true;
+    });
+
+    child.killMe=function(callback){
+        if (callback!=undefined)
+            killMeCallback=callback;
+
+        process.kill(-child.pid);
+    }
+
+    //catches ctrl+c event
+    process.on('SIGINT', child.killMe.bind());
+
+    return child;
+}
