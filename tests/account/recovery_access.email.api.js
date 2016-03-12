@@ -111,6 +111,7 @@ describe('Create, reset password with email and delete user', function() {
                             done();
                             return;
                         }
+                        resetCode=false;
                         //email.debug=true;
                         email.checkMail(function(msg){
                             if (msg.html != undefined && msg.headers['return-path'] == process.env.EMAIL_HOST_USER){
@@ -123,6 +124,7 @@ describe('Create, reset password with email and delete user', function() {
 
                     it('response structure must be correct', function() {
                         expect(resetCode).toBeDefined();
+                        expect(resetCode).not.toEqual(false);
                     });
 
 

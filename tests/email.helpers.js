@@ -9,7 +9,10 @@ module.exports ={
   checkMail:function(processHandler, callback){
     if (this.inDebug())
         this.debug=true;
-    var $this=this, tempExists=false, tempFile=__dirname+'../../temp/'+process.env.EMAIL_HOST_USER+'.html';
+
+    var $this=this, tempExists=false, tempFile=__dirname+'/../../temp/'+process.env.EMAIL_HOST_USER+'.html';
+    if ($this.debug)
+        console.log(tempFile);
     try{
         fs.statSync(tempFile);
         tempExists=true;
@@ -18,17 +21,23 @@ module.exports ={
             tempExists=false;
         }
     }
+    if ($this.debug)
+        console.log(tempExists);
     if (tempExists){
-        console.log('Load email from temp folder');
-        var msg={
-            html: fs.readFile(tempFile),
-            headers:{
-                'return-path': process.env.EMAIL_HOST_USER
+        fs.readFile(tempFile, 'utf8', function(event, data){
+            console.log('Load email from temp folder');
+            var msg={
+                html: data,
+                headers:{
+                    'return-path': process.env.EMAIL_HOST_USER
+                }
             }
-        }
-        fs.unlinkSync(tempFile);
-        processHandler(msg);
-        callback();
+            if ($this.debug)
+                console.log(msg);
+            fs.unlinkSync(tempFile);
+            processHandler(msg);
+            callback();
+        });
         return;
     }
 

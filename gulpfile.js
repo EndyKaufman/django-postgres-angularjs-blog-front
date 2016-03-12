@@ -271,26 +271,30 @@ gulp.task('test:server', function (done) {
 
     var spawn=child_process.spawn;
 
-    function spawnRunner(title, shell, callback, logHandler){
-        if (logHandler==undefined)
+    function spawnRunner(title, shell, callback, logHandler, processExitHandler){
+        var child = spawn('bash', {detached: true}),
+            prevData = '';
+
+        child.showLog=true;
+
+        if (logHandler==undefined || logHandler==false)
             logHandler=function (data, isError){
-                if (isError===true){
-                    gutil.log('['+title+']',gutil.colors.red(data));
-                    gutil.beep();
-                }else{
-                    gutil.log('['+title+']',gutil.colors.blue(data));
+                if (this.showLog){
+                    if (isError===true){
+                        gutil.log('['+title+']',gutil.colors.red(data));
+                        gutil.beep();
+                    }else{
+                        gutil.log('['+title+']',gutil.colors.blue(data));
+                    }
                 }
             }
 
         if (callback==undefined)
             callback=function(){
-                logHandler('empty callback');
+                logHandler.call(child, 'empty callback', false);
             }
 
-        logHandler('start');
-
-        var child = spawn('bash', {detached: true}),
-            prevData = '';
+        logHandler.call(child, 'start', false);
 
         for (var i=0;i<shell.length;i++)
             if (shell[i]!==false)
@@ -301,8 +305,9 @@ gulp.task('test:server', function (done) {
         child.stdout.on('data', function (data) {
             if (prevData!=data){
                 prevData = data;
-                logHandler(data);
-                callback.call(child, data, false);
+                logHandler.call(child, data, false);
+                if (child.killed!==true)
+                    callback.call(child, data, false);
             }
         });
 
@@ -310,8 +315,9 @@ gulp.task('test:server', function (done) {
         child.stderr.on('data', function (data) {
             if (prevData!=data){
                 prevData = data;
-                logHandler(data, true);
-                callback.call(child, data, true);
+                logHandler.call(child, data, true);
+                if (child.killed!==true)
+                    callback.call(child, data, true);
             }
         });
 
@@ -320,8 +326,11 @@ gulp.task('test:server', function (done) {
         };
 
         child.on('close', function(code) {
-            logHandler('Close with exit code:'+ code);
+            logHandler.call(child, 'Close with exit code:'+ code, false);
             killMeCallback(code);
+            if (processExitHandler!=undefined)
+                processExitHandler();
+            child.killed=true;
         });
 
         child.killMe=function(callback){
@@ -330,6 +339,10 @@ gulp.task('test:server', function (done) {
 
             process.kill(-child.pid);
         }
+
+        //catches ctrl+c event
+        process.on('SIGINT', child.killMe.bind());
+
         return child;
     }
 
@@ -346,26 +359,34 @@ gulp.task('test:server', function (done) {
                 var serverSpawn=this;
 
                 setTimeout(function(){
-                    serverSpawn.testSpawn=spawnRunner(
-                        'TEST',
-                        ['cd ../', export_cat_env, 'bash scripts/test.sh'],
-                        function(data, isError){
-                            var testSpawn=this;
+                    if (serverSpawn.killed!==true)
+                        serverSpawn.testSpawn=spawnRunner(
+                            'TEST',
+                            ['cd ../', export_cat_env, 'bash scripts/test.sh'],
+                            function(data, isError){
+                                var testSpawn=this;
 
-                            if (data.indexOf('Finished \'test\' after')!=-1 || isError)
-                                testSpawn.killMe(function(err){
-                                    serverSpawn.killMe(function(){
-                                        if (isError)
-                                            done(data);
-                                        else
-                                            done(0);
+                                if (data.indexOf('Finished \'test\' after')!=-1 || isError){
+                                    serverSpawn.showLog=isError;
+
+                                    testSpawn.killMe(function(err){
+                                        serverSpawn.killMe(function(){
+                                            if (isError)
+                                                done(data);
+                                            else
+                                                done(0);
+                                        });
                                     });
-                                });
-                        }
-                    );
+                                }
+                            },
+                            false,
+                            done
+                        );
                 }, 10000);
 
             }
-        }
+        },
+        false,
+        done
     );
 });
