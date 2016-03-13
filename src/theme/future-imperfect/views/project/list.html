@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 padding-left-0">
+            <div ng-include="'views/site-header.html'"></div>
+            <div ng-include="'views/project/list-tags.html'"></div>
+        </div>
+        <div class="col-md-9 padding-left-0">
+            <div>
+                <div class="col-md-12">
+                    <div class="thumbnail">
+                        <div class="page-header">
+                            <h1>
+                                <span>My projects</span>
+                                <a ng-href="#/project/create"
+                                   class="btn btn-info" ng-if="AccountSvc.isAdmin()" id="projectCreate">Create</a>
+                            </h1>
+                            <p class="lead" ng-bind-html="AppConst.project.strings.description | unsafe"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-repeat="item in ProjectSvc.list">
+                    <div ng-include="'views/project/list-item.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

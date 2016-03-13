@@ -1,0 +1,19 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+            <div class="modal-body">
+                <div class="modal-body-inner">
+                    <div ng-controller="FileCtrl">
+                        <div ng-include="'views/file/list.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileListCancel">{{cancelText}}</button>
+                <button type="button" class="btn btn-success" ng-click="$confirm()" id="fileListConfirm">{{confirmText}}</button>
+            </div>
+            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="form-group" ng-if="FileSvc.mode=='create'">
+    <label for="FileUpload">File</label>
+    <input class="form-control" type="file" id="FileUpload"/>
+</div>
+<div class="form-group" ng-if="FileSvc.mode=='update'">
+    <label for="FileUpload">File</label>
+    <input class="form-control" type="text" id="FileUpload"
+                  ng-model="FileSvc.item.src" disabled/>
+</div>
+<div class="form-group">
+    <label for="FileComment">Comment</label>
+        <textarea type="text" class="form-control" id="FileComment"
+                  ng-model="FileSvc.item.comment"></textarea>
+</div>
