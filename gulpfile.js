@@ -42,122 +42,13 @@ if (options.static_dir==undefined)
 if (options.theme==undefined)
 	options.theme=process.env.THEME || 'default';
 
-//dest
-var dest_path=options.static_dir;
-
-//source
-var scss_source=['src/theme/'+options.theme+'/scss/**/*.scss'];
-var less_source=['src/theme/'+options.theme+'/less/**/*.less'];
-
-var css_source=[
-    'bower_components/normalize-css/normalize.css',
-    'bower_components/google-code-prettify/bin/prettify.min.css',
-    'bower_components/angular-ui-tree/dist/angular-ui-tree.min.css',
-    'bower_components/ng-tags-input/ng-tags-input.css',
-    'bower_components/ng-tags-input/ng-tags-input.bootstrap.css',
-    'bower_components/quantumui/dist/css/addon/effect-light.min.css',
-    'bower_components/quantumui/dist/css/quantumui.css',
-    'bower_components/ag-grid/dist/styles/ag-grid.css',
-    'bower_components/ag-grid/dist/styles/theme-fresh.css',
-    'src/temp/css/**/*.css'];
-var js_source=[
-    'src/js/**/tools.js',
-    'bower_components/sprintf/dist/sprintf.min.js',
-    'bower_components/chance/chance.js',
-    'bower_components/google-code-prettify/src/run_prettify.js',
-    //'bower_components/element-queries/dist/element-queries.min.js',
-    'bower_components/angular/angular.js',
-    'bower_components/angular-route/angular-route.js',
-    'bower_components/angular-cookies/angular-cookies.js',
-    'bower_components/angular-animate/angular-animate.js',
-    'bower_components/angular-resource/angular-resource.js',
-    'bower_components/angular-sanitize/angular-sanitize.js',
-    'bower_components/quantumui/dist/js/quantumui.js',
-    'bower_components/angular-ui-tree/dist/angular-ui-tree.js',
-    'bower_components/angular-strap/dist/angular-strap.js',
-    'bower_components/angular-strap/dist/angular-strap.tpl.js',
-    'bower_components/ng-tags-input/ng-tags-input.js',
-    'bower_components/angular-bootstrap-show-errors/src/showErrors.js',
-    'bower_components/showdown/src/showdown.js',
-    'bower_components/showdown/src/ng-showdown.js',
-    'bower_components/showdown/src/extensions/github.js',
-    'bower_components/showdown/src/extensions/prettify.js',
-    'bower_components/showdown/src/extensions/table.js',
-    'bower_components/showdown/src/extensions/twitter.js',
-    'bower_components/angular-markdown/angular.markdown.js',
-    'bower_components/angular-ui-uploader/dist/uploader.js',
-    'bower_components/ag-grid/dist/ag-grid.js',
-    'src/js/app.init.js',
-    'src/theme/'+options.theme+'/js/app.theme.js',
-
-    'src/js/**/**/**/const.js',
-    'src/js/**/**/const.js',
-    'src/js/**/const.js',
-    'src/js/app.const.js',
-
-    'src/js/**/**/**/route.js',
-    'src/js/**/**/route.js',
-    'src/js/**/route.js',
-    'src/js/app.route.js',
-
-    'src/js/**/init.js',
-    'src/temp/js/templates.js',
-    'src/js/**/utils.js',
-
-    'src/js/**/**/**/*.res.js',
-    'src/js/**/**/*.res.js',
-    'src/js/**/*.res.js',
-    'src/js/app.res.js',
-
-    'src/js/**/**/**/*.svc.js',
-    'src/js/**/**/*.svc.js',
-    'src/js/**/*.svc.js',
-    'src/js/app.svc.js',
-
-    'src/js/**/**/**/*.ctrl.js',
-    'src/js/**/**/*.ctrl.js',
-    'src/js/**/*.ctrl.js',
-    'src/js/app.ctrl.js',
-
-    'src/js/**/*.js'];
-
-//test
-var tests_source=[
-    '!tests/**/helpers.js',
-    '!tests/helpers.js',
-    '!tests/**/*.helpers.js',
-    '!tests/*.helpers.js',
-    'tests/**/*.api.js',
-    'tests/**/*.app.js',
-    'tests/**/*.js'
-];
-if (options['_']=='test' && options.file!==undefined)
-    tests_source=[
-        '!tests/**/helpers.js',
-        '!tests/helpers.js',
-        '!tests/**/*.helpers.js',
-        '!tests/*.helpers.js',
-        options.file
-    ];
+var config = require('./src/theme/'+options.theme+'/config.json');
 
 // Downloads the selenium webdriver
 gulp.task('webdriver_update', webdriver_update);
 
 // Runs the selenium webdriver
 gulp.task('webdriver_standalone', webdriver_standalone);
-
-//source modifi function
-function sourceChange(content) {
-    return content
-    .replace(new RegExp("../../bower_components/bootstrap/fonts/glyphicons-halflings-regular","ig"),
-    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/fonts/glyphicons-halflings-regular')
-    .replace(new RegExp("# sourceMappingURL=","ig"),'')
-    .replace(new RegExp("../../images/scrollbar/resizer.png","ig"),'')
-    .replace(new RegExp("../../images/scrollbar/arrow-up.png","ig"),'')
-    .replace(new RegExp("../../images/scrollbar/arrow-down.png","ig"),'')
-    .replace(new RegExp("../../images/scrollbar/arrow-left.png","ig"),'')
-    .replace(new RegExp("../../images/scrollbar/arrow-right.png","ig"),'');
-}
 
 //clear temp folder
 gulp.task('clear', function () {
@@ -166,42 +57,43 @@ gulp.task('clear', function () {
 
 //compile sass
 gulp.task('scss', function () {
-  return gulp.src(scss_source)
+  return gulp.src(config.scss.source.map(optionsChange))
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./src/temp/css'));
 });
 
 //compile less
 gulp.task('less', function () {
-  return gulp.src(less_source)
+  return gulp.src(config.less.source.map(optionsChange))
     .pipe(less())
     .pipe(gulp.dest('./src/temp/css'));
 });
 
 //build css
 gulp.task('build:css', function () {
+  var source=config.css.source.map(optionsChange);
   if (options.env=='production')
-	  return gulp.src(css_source)
+	  return gulp.src(source)
 		.pipe(sourcemaps.init({loadMaps:true}))
 		.pipe(minifyCSS({compatibility: 'ie8'}))
 		.pipe(change(sourceChange))
-		.pipe(concat(dest_path+'app.css'))
+		.pipe(concat(options.static_dir+'app.css'))
 		.pipe(sourcemaps.write({addComment: false}))
 		.pipe(gulp.dest('.'));
   else
-	  return gulp.src(css_source)
+	  return gulp.src(source)
 		.pipe(change(sourceChange))
-		.pipe(concat(dest_path+'app.css'))
+		.pipe(concat(options.static_dir+'app.css'))
 		.pipe(gulp.dest('.'));
 });
 
 //concat templates js
 gulp.task('template:js', function () {
-  return gulp.src('src/theme/'+options.theme+'/views/**/*.html')
+  return gulp.src(config.template.source.map(optionsChange))
     .pipe(templateCache({
       output: 'src/temp/js/templates.js',
       moduleName: 'app',
-      strip: 'src/theme/'+options.theme+'/views/',
+      strip: optionsChange(config.template.strip),
       prepend: 'views/',
     }))
     .pipe(gulp.dest('./'))
@@ -209,20 +101,21 @@ gulp.task('template:js', function () {
 
 //build js
 gulp.task('build:js', function () {
+  var source=config.js.source.map(optionsChange);
   if (options.env=='production')
-	  return gulp.src(js_source)
+	  return gulp.src(source)
 		.pipe(sourcemaps.init())
 		.pipe(ngAnnotate())
 		.pipe(uglify())
 		.pipe(change(sourceChange))
-		.pipe(concat(dest_path+'app.js'))
+		.pipe(concat(options.static_dir+'app.js'))
 		.pipe(sourcemaps.write({addComment: false}))
 		.pipe(gulp.dest('.'));
   else
-	  return gulp.src(js_source)
+	  return gulp.src(source)
 		.pipe(sourcemaps.init())
 		.pipe(change(sourceChange))
-		.pipe(concat(dest_path+'app.js'))
+		.pipe(concat(options.static_dir+'app.js'))
 		.pipe(sourcemaps.write({addComment: false}))
 		.pipe(gulp.dest('.'));
 });
@@ -233,10 +126,14 @@ gulp.task('build', gulp.series('clear','template:js','scss','less','build:css',
 
 // Tests
 gulp.task('test', function (done) {
+    var source=config.test.source.map(optionsChange);
+    if (options['_']=='test' && options.file!==undefined)
+        source=config.test.source_custom.map(optionsChange);
+
 	if (options.isvagrant){
 		var xvfb = new Xvfb({displayNum:10, timeout: 15000, silent: true});
 		xvfb.start(function(err, xvfbProcess) {
-			var stream = gulp.src(tests_source)
+			var stream = gulp.src(source)
 			.pipe(protractor({
 				configFile: "protractor.config.js",
 				args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
@@ -253,7 +150,7 @@ gulp.task('test', function (done) {
 			});
 		});
 	}else{
-		var stream = gulp.src(tests_source)
+		var stream = gulp.src(source)
 		.pipe(protractor({
 			configFile: "protractor.config.js",
 			args: ['--baseUrl', options.host, '--params.debugAll', options.debug]
@@ -279,7 +176,10 @@ gulp.task('scripts:build', function (done) {
             var buildSpawn=this;
             if (isError || data.indexOf('stop_spawn')!=-1)
                 buildSpawn.killMe(function(err){
-                    done(data);
+                    if (isError)
+                        done(data);
+                    else
+                        done(0);
                 });
         },
         done
@@ -418,4 +318,18 @@ function spawnRunner(title, shell, callback, processExitHandler, logHandler){
     process.on('SIGINT', child.killMe.bind());
 
     return child;
+}
+
+//change by options
+function optionsChange(src){
+    for (var key in options)
+        src=src.replace(new RegExp("%"+key, "g"), options[key])
+    return src;
+}
+
+//source modifi function
+function sourceChange(content) {
+    for (var key in config.sourceChange)
+        content=content.replace(new RegExp(key, "ig"), config.sourceChange[key])
+    return content;
 }
