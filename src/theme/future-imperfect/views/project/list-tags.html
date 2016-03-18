@@ -2,7 +2,7 @@
     <div class="caption">
         <h3>Tags</h3>
         <p><span ng-repeat="tag in TagSvc.list">
-                                <a ng-href="{{'#/tag/'+tag.text}}" class="btn btn-default btn-xs"
+                                <a ng-href="{{'#/tag/'+tag.text}}" class="btn btn-link btn-xs"
                                    ng-bind-html="tag.text | unsafe"></a>
                             </span></p>
     </div>

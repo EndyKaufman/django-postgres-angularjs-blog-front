@@ -25,7 +25,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control search-query"
                                placeholder="{{NavbarSvc.items.search.placeholder}}" ng-model="SearchSvc.searchText"
-                               ng-enter="SearchSvc.doSearch(SearchSvc.searchText)" required/>
+                               ng-enter="SearchSvc.doSearch(SearchSvc.searchText)"/>
                         <span class="input-group-btn">
                             <button ng-click="SearchSvc.doSearch(SearchSvc.searchText)" class="btn btn-primary" type="button" ng-disabled="!searchForm.$valid" id="searchNav">
                                 Search
