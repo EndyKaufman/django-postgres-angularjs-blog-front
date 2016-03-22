@@ -65,7 +65,12 @@ gulp.task('scss', function () {
 //compile less
 gulp.task('less', function () {
   return gulp.src(config.less.source.map(optionsChange))
-    .pipe(less())
+    .pipe(less({
+      paths: config.less.paths.map(optionsChange).map(function(folder){
+        return path.join(__dirname, folder);
+      })
+    })
+    .on('error', console.log))
     .pipe(gulp.dest('./src/temp/css'));
 });
 

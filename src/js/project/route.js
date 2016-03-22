@@ -19,10 +19,5 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: 'views/project/list.html',
         controller: 'ProjectCtrl',
         list: true
-      })
-      .when('/home', {
-        templateUrl: 'views/project/list.html',
-        controller: 'ProjectCtrl',
-        list: true
       });
 });

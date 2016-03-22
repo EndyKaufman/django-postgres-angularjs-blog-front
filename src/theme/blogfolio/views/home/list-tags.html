@@ -1,0 +1,3 @@
+<ul class="list-unstyled">
+    <li ng-repeat="tag in TagSvc.list"><i class="fa fa-tag"></i> <a ng-href="{{'#/tag/'+tag.text}}" ng-class="tag.text==TagSvc.tagText?'active':''" ng-bind-html="tag.text | unsafe">Etiam hendrerit urna nunc</a></li>
+</ul>

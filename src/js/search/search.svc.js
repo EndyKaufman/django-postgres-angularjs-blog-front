@@ -4,6 +4,9 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
     service.allList=false;
 
     service.countItemsOnRow=3;
+    service.limitOnHome=3;
+    service.limit=10;
+    service.begin=0;
 
     service.title=AppConst.search.strings.title;
     service.searchText='';

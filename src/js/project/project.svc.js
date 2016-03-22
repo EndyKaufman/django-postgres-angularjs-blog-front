@@ -20,6 +20,9 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
     service.list=false;
 
     service.countItemsOnRow=2;
+    service.limitOnHome=3;
+    service.limit=10;
+    service.begin=0;
 
     service.title=AppConst.project.strings.title;
 

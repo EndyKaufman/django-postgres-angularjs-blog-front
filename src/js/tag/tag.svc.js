@@ -5,6 +5,9 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     service.allList=false;
 
     service.countItemsOnRow=3;
+    service.limitOnHome=3;
+    service.limit=10;
+    service.begin=0;
 
     service.title=AppConst.tag.strings.title;
 

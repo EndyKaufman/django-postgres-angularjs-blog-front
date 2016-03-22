@@ -38,8 +38,8 @@
     <h2>Tags</h2>
     <p class="lead">
         <span ng-repeat="tag in ProjectSvc.item.tags">
-            <button ng-href="{{'#/tag/'+tag.text}}" class="btn btn-md btn-default"
-               ng-bind-html="tag.text | unsafe"></button>
+            <a ng-href="{{'#/tag/'+tag.text}}" class="btn btn-md btn-default"
+               ng-bind-html="tag.text | unsafe"></a>
         </span>
     </p>
 </div>

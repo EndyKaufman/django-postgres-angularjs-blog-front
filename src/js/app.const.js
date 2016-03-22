@@ -1,4 +1,4 @@
-app.factory('AppConst', function($rootScope, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, SearchConst, NavbarConst){
+app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, SearchConst, NavbarConst){
     var navbar={
         left:[
             {
@@ -38,15 +38,8 @@ app.factory('AppConst', function($rootScope, AccountConst, TagConst, NoteConst, 
             }
         ]
     };
-    var home={
-        url:'#/home',
-        title: 'MY BLOG',
-        description: 'description of blog',
-        name: 'MY_BLOG',
-        image: '//2.gravatar.com/avatar/767fc9c115a1b989744c755db47feb60?s=132&d=wavatar'
-    };
     var service={
-        home: home,
+        home: HomeConst,
         navbar: angular.extend({}, NavbarConst, navbar),
         search: SearchConst,
         account: AccountConst,
