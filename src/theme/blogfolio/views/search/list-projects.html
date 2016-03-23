@@ -1,4 +1,4 @@
-<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">
+<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">
     <div ng-include="'views/project/list-item.html'"></div>
 </div><!--//item-->
 <a class="btn btn-cta-secondary" ng-href="#/project">All projects <i

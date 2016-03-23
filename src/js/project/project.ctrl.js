@@ -4,5 +4,6 @@ app.controller('ProjectCtrl', function ($scope, $timeout, ProjectSvc, AccountSvc
 	$scope.TagSvc=TagSvc;
 	$scope.FileSvc=FileSvc;
 
+	TagSvc.init();
 	ProjectSvc.init();
 });

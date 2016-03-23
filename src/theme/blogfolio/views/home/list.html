@@ -3,16 +3,10 @@
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
                 <div class="section-inner">
-                    <h2 class="heading">
-                        <span ng-bind-html="AppConst.project.strings.title | unsafe"></span>
-                        <a ng-href="#/project/create"
-                           class="btn btn-cta-primary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i
-                                class="fa fa-plus"></i> Create</a>
+                    <h2 class="heading" ng-include="'views/project/list-header.html'">
                     </h2>
                     <div class="content">
                         <div ng-include="'views/home/list-projects.html'"></div>
-                        <a class="btn btn-cta-secondary" ng-href="#/project">All projects <i
-                                class="fa fa-chevron-right"></i></a>
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->

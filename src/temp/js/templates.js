@@ -77,62 +77,110 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                        </span>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/tag/list.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Tag: <span ng-bind-html="TagSvc.tagText | unsafe"></span></h1>\n' +
-    '    </div>\n' +
-    '    <div>\n' +
-    '        <div class="row">\n' +
-    '            <div class="col-md-9 padding-left-0">\n' +
-    '                <div ng-repeat="allItem in TagSvc.allList">\n' +
-    '                    <p class="lead padding-left-15">Place: <a ng-bind-html="AppConst[allItem.name].strings.title | unsafe"\n' +
-    '                                              ng-href="{{\'/\'+allItem.name}}"></a></p>\n' +
-    '                    <div ng-include="\'views/tag/list-item.html\'"></div>\n' +
-    '                </div>\n' +
+	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Tag: <span ng-bind-html="TagSvc.tagText | unsafe"></span>\n' +
+    '                    </h1>\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in TagSvc.allList">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\'">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
     '            </div>\n' +
-    '            <div class="col-md-3 padding-left-0">\n' +
-    '                <p class="lead">Tags</p>\n' +
-    '                <div ng-include="\'views/tag/list-tags.html\'"></div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="#/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"\n' +
+    '                    </h1>\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\'">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
     '            </div>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/tag/list-tags.html', '<div class="list-group">\n' +
-    '    <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
-    '       ng-bind-html="tag.text | unsafe" class="list-group-item" ng-repeat="tag in TagSvc.list">\n' +
-    '    </a>\n' +
-    '</div>');
-	a.put('views/tag/list-item.html', '<div class="col-md-6" ng-repeat="item in allItem.list">\n' +
-    '    <div ng-include="\'views/\'+allItem.name+\'/list-item.html\'"></div>\n' +
-    '</div>');
-	a.put('views/search/list.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"</h1>\n' +
-    '    </div>\n' +
-    '    <div>\n' +
-    '        <div class="row">\n' +
-    '            <div class="col-md-9 padding-left-0">\n' +
-    '                <div ng-repeat="allItem in SearchSvc.allList">\n' +
-    '                    <p class="lead padding-left-15">Place: <a ng-bind-html="AppConst[allItem.name].strings.title | unsafe"\n' +
-    '                                              ng-href="{{\'/\'+allItem.name}}"></a></p>\n' +
-    '                <div ng-include="\'views/search/list-item.html\'"></div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '            <div class="col-md-3 padding-left-0">\n' +
-    '                <p class="lead">Tags</p>\n' +
-    '                <div ng-include="\'views/search/list-tags.html\'"></div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/search/list-tags.html', '<div class="list-group">\n' +
-    '    <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
-    '       ng-bind-html="tag.text | unsafe" class="list-group-item" ng-repeat="tag in TagSvc.list">\n' +
-    '    </a>\n' +
-    '</div>');
-	a.put('views/search/list-item.html', '<div class="col-md-6" ng-repeat="item in allItem.list">\n' +
-    '    <div ng-include="\'views/\'+allItem.name+\'/list-item.html\'"></div>\n' +
-    '</div>');
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="#/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/project/update.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
     '        <h1>\n' +
@@ -164,13 +212,11 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">\n' +
-    '                        <span ng-bind-html="AppConst.project.strings.title | unsafe"></span>\n' +
-    '                        <a ng-href="#/project/create"\n' +
-    '                           class="btn btn-cta-primary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate">Create</a>\n' +
-    '                    </h2>\n' +
+    '                    <h1 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                    </h1>\n' +
     '                    <div class="content">\n' +
-    '                        <div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limit:ProjectSvc.begin">\n' +
+    '                        <div class="item row"\n' +
+    '                             ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limit:ProjectSvc.begin">\n' +
     '                            <div ng-include="\'views/project/list-item.html\'"></div>\n' +
     '                        </div><!--//item-->\n' +
     '                    </div><!--//content-->\n' +
@@ -192,7 +238,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h2 class="heading">Tags</h2>\n' +
     '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/project/list-tags.html\'"></div>\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </aside><!--//section-->\n' +
@@ -200,9 +246,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/project/list-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in TagSvc.list"><i class="fa fa-tag"></i> <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'" ng-bind-html="tag.text | unsafe">Etiam hendrerit urna nunc</a></li>\n' +
-    '</ul>');
 	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{\'#/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
     '    <img class="img-responsive project-image" ng-src="{{AppConfig.static_url+item.images[0].srcStatic}}"\n' +
     '         ng-if="item.images.length>0"\n' +
@@ -237,65 +280,85 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
     '    <hr class="divider" ng-if="!$last"/>\n' +
     '</div><!--//desc-->');
-	a.put('views/project/item.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>\n' +
-    '            <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
-    '            <a ng-href="{{\'#/project/update/\'+ProjectSvc.item.name}}"\n' +
-    '               class="btn btn-primary" ng-if="AccountSvc.isAdmin()" id="projectUpdate">Edit</a>\n' +
-    '        </h1>\n' +
-    '    </div>\n' +
+	a.put('views/project/list-header.html', '<span ng-bind-html="AppConst.project.strings.title | unsafe"></span>\n' +
+    '<a ng-href="#/project/create"\n' +
+    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  Create</a>');
+	a.put('views/project/item.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
-    '        <div ng-include="\'views/project/item-view.html\'"></div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/project/item-view.html', '<div class="col-md-8 padding-left-15">\n' +
-    '    <img ng-src="{{AppConfig.static_url+ProjectSvc.item.images[0].srcStatic}}" ng-if="ProjectSvc.item.images.length==1"\n' +
-    '         class="img-responsive">\n' +
-    '    <div ng-if="ProjectSvc.item.images.length>1">\n' +
-    '        <div data-nq-carousel="">\n' +
-    '            <div data-carousel-item="" ng-repeat="image in ProjectSvc.item.images">\n' +
-    '                <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
-    '                    ng-bind-html="image.title | unsafe"></h3-->\n' +
-    '                <img ng-src="{{AppConfig.static_url+image.srcStatic}}">\n' +
-    '                <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
-    '                    <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
+    '                        <a ng-href="{{\'#/project/update/\'+ProjectSvc.item.name}}"\n' +
+    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div class="item row">\n' +
+    '                            <div ng-include="\'views/project/item-content.html\'"></div>\n' +
+    '                        </div><!--//item-->\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Description</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <span ng-bind-html="ProjectSvc.item.description | unsafe"></span>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/project/item-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/project/item-tags.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="tag in ProjectSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{\'#/tag/\'+tag.text}}"\n' +
+    '                                                                             ng-bind-html="tag.text | unsafe"></a></li>\n' +
+    '</ul>');
+	a.put('views/project/item-content.html', '<div ng-if="ProjectSvc.item.images.length>0">\n' +
+    '    <div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '        <div ng-if="ProjectSvc.item.images.length==1">\n' +
+    '            <img ng-src="{{AppConfig.static_url+ProjectSvc.item.images[0].srcStatic}}"\n' +
+    '                 class="img-responsive"/>\n' +
+    '        </div>\n' +
+    '        <div ng-if="ProjectSvc.item.images.length>1">\n' +
+    '            <div data-nq-carousel="">\n' +
+    '                <div data-carousel-item="" ng-repeat="image in ProjectSvc.item.images">\n' +
+    '                    <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
+    '                        ng-bind-html="image.title | unsafe"></h3-->\n' +
+    '                    <img ng-src="{{AppConfig.static_url+image.srcStatic}}">\n' +
+    '                    <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
+    '                        <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
+    '                    </div>\n' +
     '                </div>\n' +
     '            </div>\n' +
     '        </div>\n' +
-    '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.images.length==0" class="lead">\n' +
-    '        <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item.text">\n' +
-    '            <p ng-bind-html="ProjectSvc.item.text | unsafe"></p>\n' +
-    '        </div>\n' +
-    '        <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item.html">\n' +
-    '            <p ng-bind-html="ProjectSvc.item.html | unsafe"></p>\n' +
-    '        </div>\n' +
-    '        <div ng-if="ProjectSvc.item.type==3 && ProjectSvc.item.url">\n' +
-    '            <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>\n' +
-    '        </div>\n' +
-    '        <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">\n' +
-    '            <markdown extensions="github, table, twitter" strip="true" allow-html="true"\n' +
-    '                      ng-model="ProjectSvc.item.markdown">\n' +
-    '            </markdown>\n' +
-    '        </div>\n' +
+    '        <hr class="divider"/>\n' +
     '    </div>\n' +
     '</div>\n' +
-    '<div class="col-md-4 padding-left-15">\n' +
-    '    <h2>Description</h2>\n' +
-    '    <p class="lead">\n' +
-    '        <span ng-bind-html="ProjectSvc.item.description | unsafe"></span>\n' +
-    '    </p>\n' +
-    '    <h2>Tags</h2>\n' +
-    '    <p class="lead">\n' +
-    '        <span ng-repeat="tag in ProjectSvc.item.tags">\n' +
-    '            <a ng-href="{{\'#/tag/\'+tag.text}}" class="btn btn-md btn-default"\n' +
-    '               ng-bind-html="tag.text | unsafe"></a>\n' +
-    '        </span>\n' +
-    '    </p>\n' +
-    '</div>\n' +
-    '<div class="col-md-12 padding-left-15 lead" ng-if="ProjectSvc.item.images.length!=0">\n' +
-    '    <br/>\n' +
+    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
     '    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item.text">\n' +
     '        <p ng-bind-html="ProjectSvc.item.text | unsafe"></p>\n' +
     '    </div>\n' +
@@ -310,7 +373,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                  ng-model="ProjectSvc.item.markdown">\n' +
     '        </markdown>\n' +
     '    </div>\n' +
-    '</div>');
+    '</div><!--//desc-->');
 	a.put('views/project/create.html', '<div class="container" ng-init="ProjectSvc.initEmptyItem()">\n' +
     '    <div class="page-header">\n' +
     '        <h1>\n' +
@@ -338,16 +401,10 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">\n' +
-    '                        <span ng-bind-html="AppConst.project.strings.title | unsafe"></span>\n' +
-    '                        <a ng-href="#/project/create"\n' +
-    '                           class="btn btn-cta-primary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i\n' +
-    '                                class="fa fa-plus"></i> Create</a>\n' +
+    '                    <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
     '                    </h2>\n' +
     '                    <div class="content">\n' +
     '                        <div ng-include="\'views/home/list-projects.html\'"></div>\n' +
-    '                        <a class="btn btn-cta-secondary" ng-href="#/project">All projects <i\n' +
-    '                                class="fa fa-chevron-right"></i></a>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +
@@ -376,11 +433,18 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in TagSvc.list"><i class="fa fa-tag"></i> <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'" ng-bind-html="tag.text | unsafe">Etiam hendrerit urna nunc</a></li>\n' +
-    '</ul>');
+    '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
+    '        <i class="fa fa-tag"></i> <a ng-href="{{\'#/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
+    '                                     ng-bind-html="tag.text | unsafe"></a></li>\n' +
+    '</ul>\n' +
+    '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i\n' +
+    '        class="fa fa-chevron-down"></i></a>\n' +
+    '');
 	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->');
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="#/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/home/content.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
     '        <h1>Page header</h1>\n' +
@@ -504,92 +568,206 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/account/resetpassword.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Reset password</h1>\n' +
-    '    </div>\n' +
-    '    <p class="lead">Please enter code from email and new password for you account</p>\n' +
-    '    <p>\n' +
+	a.put('views/account/resetpassword.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
-    '        <div class="col-sm-4">\n' +
-    '            <form ng-submit="AccountSvc.doResetpassword(code, password)" name="accountForm" ng-init="code=AccountSvc.resetpasswordCode">\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="code">Code:</label>\n' +
-    '                    <input type="text" class="form-control" name="code" id="code" placeholder="code from email"\n' +
-    '                           ng-model="code" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.code.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.code.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="password">New password:</label>\n' +
-    '                    <input type="password" class="form-control" name="password" id="password" placeholder="new password"\n' +
-    '                           ng-model="password" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.password.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <button type="submit" class="btn btn-success" ng-disabled="!accountForm.$valid" id="accountResetpassword">Save password and login\n' +
-    '                    on site\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/account/reg.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>\n' +
-    '            <span>Registration form</span>\n' +
-    '        </h1>\n' +
-    '    </div>\n' +
-    '    <form name="accountForm">\n' +
-    '        <div class="row">\n' +
-    '            <div class="col-md-4">\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="email">Email</label>\n' +
-    '                    <input type="email" class="form-control" name="email" id="email"\n' +
-    '                           ng-model="AccountSvc.item.email" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.email.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="password">Password</label>\n' +
-    '                    <input type="password" class="form-control" name="password" id="password"\n' +
-    '                           ng-model="AccountSvc.item.password" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.password.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <button ng-click="AccountSvc.doReg(AccountSvc.item)" class="btn btn-success"\n' +
-    '                        ng-disabled="!accountForm.$valid" id="accountReg">Create\n' +
-    '                </button>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '    </form>\n' +
-    '</div>');
-	a.put('views/account/recovery.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Recovery access</h1>\n' +
-    '    </div>\n' +
-    '    <p class="lead">Please enter you email address used on registration</p>\n' +
-    '    <p>\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Reset password\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <p>Please enter code from email and new password for you account</p>\n' +
+    '                        <form ng-submit="AccountSvc.doResetpassword(code, password)" name="accountForm"\n' +
+    '                              ng-init="code=AccountSvc.resetpasswordCode">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="code">Code:</label>\n' +
+    '                                <input type="text" class="form-control" name="code" id="code"\n' +
+    '                                       placeholder="code from email"\n' +
+    '                                       ng-model="code" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.code.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.code.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="password">New password:</label>\n' +
+    '                                <input type="password" class="form-control" name="password" id="password"\n' +
+    '                                       placeholder="new password"\n' +
+    '                                       ng-model="password" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button type="submit" class="btn btn btn-cta-secondary" ng-disabled="!accountForm.$valid"\n' +
+    '                                    id="accountResetpassword">Save password and login\n' +
+    '                                on site\n' +
+    '                            </button>s\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Additionally</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/account/additionally.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/account/reg.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
-    '        <div class="col-sm-4">\n' +
-    '            <form ng-submit="AccountSvc.doRecovery(email)" name="accountForm">\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="email">Email:</label>\n' +
-    '                    <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
-    '                           ng-model="email" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.email.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid" id="accountRecovery">Sent link to reset password</button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Registration form\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <form name="accountForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email">Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="AccountSvc.item.email" required>\n' +
+    '                                        <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
+    '                                              class="form-control-feedback"\n' +
+    '                                              ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                              aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="password">Password</label>\n' +
+    '                                <input type="password" class="form-control" name="password" id="password"\n' +
+    '                                       ng-model="AccountSvc.item.password" required>\n' +
+    '                                        <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
+    '                                              class="form-control-feedback"\n' +
+    '                                              ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                              aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="AccountSvc.doReg(AccountSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!accountForm.$valid" id="accountReg">Create\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Additionally</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/account/additionally.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/account/recovery.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Recovery access\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <p>Please enter you email address used on registration</p>\n' +
+    '                        <form ng-submit="AccountSvc.doRecovery(email)" name="accountForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email">Email:</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
+    '                                       ng-model="email" required>\n' +
+    '                            <span ng-show="accountForm.$submitted || accountForm.email.$touched" class="form-control-feedback"\n' +
+    '                                  ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                  aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button type="submit" class="btn btn btn-cta-secondary" ng-disabled="!accountForm.$valid"\n' +
+    '                                    id="accountRecovery">Sent link to reset password\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Additionally</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/account/additionally.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
 	a.put('views/account/profile.html', '<div class="container">\n' +
     '    <div class="page-header">\n' +
     '        <h1>\n' +
@@ -650,39 +828,82 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </form>\n' +
     '</div>');
-	a.put('views/account/login.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Login on site</h1>\n' +
-    '    </div>\n' +
-    '    <p class="lead">Please enter you email address and password for login on site</p>\n' +
-    '    <p>\n' +
+	a.put('views/account/login.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
-    '        <div class="col-sm-4">\n' +
-    '            <form ng-submit="AccountSvc.doLogin(email, password)" name="accountForm">\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="email">Email:</label>\n' +
-    '                    <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
-    '                           ng-model="email" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.email.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <div class="form-group has-feedback" show-errors>\n' +
-    '                    <label for="password">Password:</label>\n' +
-    '                    <input type="password" class="form-control" name="password" id="password" placeholder="password"\n' +
-    '                           ng-model="password" required>\n' +
-    '                    <span ng-show="accountForm.$submitted || accountForm.password.$touched" class="form-control-feedback"\n' +
-    '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                          aria-hidden="true"></span>\n' +
-    '                </div>\n' +
-    '                <button type="submit" class="btn btn-primary" ng-disabled="!accountForm.$valid" id="accountLogin">Login</button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '    </p>\n' +
-    '    <p>If you lose password please click to <a ng-href="#/recovery">recovery password</a></p>\n' +
-    '    <p>For registration on site use <a ng-href="#/reg">registration form</a></p>\n' +
-    '</div>');
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Login on site\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <p>Please enter you email address and password for login on site</p>\n' +
+    '                        <form ng-submit="AccountSvc.doLogin(email, password)" name="accountForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email">Email:</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
+    '                                       ng-model="email" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="password">Password:</label>\n' +
+    '                                <input type="password" class="form-control" name="password" id="password"\n' +
+    '                                       placeholder="password"\n' +
+    '                                       ng-model="password" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button type="submit" class="btn btn-cta-secondary" ng-disabled="!accountForm.$valid"\n' +
+    '                                    id="accountLogin">\n' +
+    '                                Login\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Additionally</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/account/additionally.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/account/additionally.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-if="$routeParams.navId!=\'login\'"><i class="fa fa-link"></i> <a ng-href="#/login">Login</a></li>\n' +
+    '    <li ng-if="$routeParams.navId!=\'reg\'"><i class="fa fa-link"></i> <a ng-href="#/reg">Registration</a></li>\n' +
+    '    <li ng-if="$routeParams.navId!=\'recovery\'"><i class="fa fa-link"></i> <a ng-href="#/recovery">Recovery password</a></li>\n' +
+    '</ul>');
 	a.put('views/search.html', '<form role="search" name="searchForm" ng-controller="NavbarCtrl" ng-if="!NavbarSvc.items.search.hidden"\n' +
     '      novalidate>\n' +
     '    <div class="form-search search-only">\n' +

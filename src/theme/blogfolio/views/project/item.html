@@ -1,12 +1,50 @@
-<div class="container">
-    <div class="page-header">
-        <h1>
-            <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>
-            <a ng-href="{{'#/project/update/'+ProjectSvc.item.name}}"
-               class="btn btn-primary" ng-if="AccountSvc.isAdmin()" id="projectUpdate">Edit</a>
-        </h1>
-    </div>
+<div class="container sections-wrapper">
     <div class="row">
-        <div ng-include="'views/project/item-view.html'"></div>
-    </div>
-</div>
+        <div class="primary col-md-8 col-sm-12 col-xs-12">
+            <section class="latest section">
+                <div class="section-inner">
+                    <h1 class="heading">
+                        <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>
+                        <a ng-href="{{'#/project/update/'+ProjectSvc.item.name}}"
+                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                    </h1>
+                    <div class="content">
+                        <div class="item row">
+                            <div ng-include="'views/project/item-content.html'"></div>
+                        </div><!--//item-->
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </section><!--//section-->
+
+        </div><!--//primary-->
+        <div class="secondary col-md-4 col-sm-12 col-xs-12">
+            <aside class="list description aside section">
+                <div class="section-inner">
+                    <h2 class="heading">Description</h2>
+                    <div class="content">
+                        <span ng-bind-html="ProjectSvc.item.description | unsafe"></span>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//section-->
+
+            <aside class="list tags aside section">
+                <div class="section-inner">
+                    <h2 class="heading">Tags</h2>
+                    <div class="content">
+                        <div ng-include="'views/project/item-tags.html'"></div>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//section-->
+
+            <aside class="info aside section">
+                <div class="section-inner">
+                    <h2 class="heading sr-only">Search</h2>
+                    <div class="content">
+                        <div ng-include="'views/search.html'"></div>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//aside-->
+
+        </div><!--//secondary-->
+    </div><!--//row-->
+</div><!--//masonry-->
