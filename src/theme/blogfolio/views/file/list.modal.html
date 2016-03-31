@@ -10,8 +10,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileListCancel">{{cancelText}}</button>
-                <button type="button" class="btn btn-success" ng-click="$confirm()" id="fileListConfirm">{{confirmText}}</button>
+                <button type="button" class="btn btn-cta-secondary" ng-click="$cancel()" id="fileListCancel"><i
+                        class="fa fa-undo"></i> {{cancelText}}
+                </button>
+                <button type="button" class="btn btn-cta-primary" ng-click="$confirm()" id="fileListConfirm"><i
+                        class="fa fa-check"></i> {{confirmText}}
+                </button>
             </div>
             <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>
         </div>

@@ -4,6 +4,9 @@
          alt="{{item.title}}"/>
 </a>
 <div class="desc col-md-8 col-sm-8 col-xs-12" ng-if="item.images.length>0">
+    <a ng-href="{{'#/project/update/'+item.name}}"
+       class="btn btn-cta-default btn-xs pull-right" ng-if="AccountSvc.isAdmin()"
+       id="{{'project'+$index+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     <h3 class="title">
         <a ng-href="{{'#/project/'+item.name}}" ng-bind-html="item.title | unsafe"></a>
     </h3>
@@ -11,22 +14,19 @@
     <p>
         <a class="more-link" ng-href="{{'#/project/'+item.name}}" id="{{'project'+$index+'Detail'}}"><i
                 class="fa fa-link"></i> Detail...</a>
-        <a ng-href="{{'#/project/update/'+item.name}}"
-           class="btn btn-cta-secondary btn-xs" ng-if="AccountSvc.isAdmin()"
-           id="{{'project'+$index+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     </p>
 </div><!--//desc-->
 <div class="desc col-md-12 col-sm-12 col-xs-12" ng-if="item.images.length==0">
+    <a ng-href="{{'#/project/update/'+item.name}}"
+       class="btn btn-cta-default btn-xs pull-right" ng-if="AccountSvc.isAdmin()"
+       id="{{'project'+$index+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit</a>
+    <p ng-bind-html="item.description | unsafe"></p>
     <h3 class="title">
         <a ng-href="{{'#/project/'+item.name}}" ng-bind-html="item.title | unsafe"></a>
     </h3>
-    <p ng-bind-html="item.description | unsafe"></p>
     <p>
         <a class="more-link" ng-href="{{'#/project/'+item.name}}" id="{{'project'+$index+'Detail'}}"><i
                 class="fa fa-link"></i> Detail...</a>
-        <a ng-href="{{'#/project/update/'+item.name}}"
-           class="btn btn-cta-secondary btn-xs" ng-if="AccountSvc.isAdmin()"
-           id="{{'project'+$index+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     </p>
 </div><!--//desc-->
 <div class="desc col-md-12 col-sm-12 col-xs-12">

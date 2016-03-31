@@ -25,6 +25,9 @@
   "less": {
     "source": [
       "src/theme/%theme/less/**/*.less"
+    ],
+    "paths": [
+      "src/theme/%theme/less"
     ]
   },
   "css": {

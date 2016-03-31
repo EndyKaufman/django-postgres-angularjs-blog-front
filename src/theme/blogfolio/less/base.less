@@ -68,6 +68,32 @@ a.btn-cta-secondary,  .btn-cta-secondary {
     }
 }
 
+a.btn-cta-red,  .btn-cta-red {
+    background: @btn-color-red;
+    border: 1px solid @btn-color-red;
+    color: #fff;
+    font-weight:600;
+    text-transform: uppercase;
+    &:hover {
+        background: darken(@btn-color-red, 5%);
+        border: 1px solid darken(@btn-color-red, 5%);
+        color: #fff;
+    }
+}
+
+a.btn-cta-default,  .btn-cta-default {
+    background: @lighter-grey;
+    border: 1px solid @lighter-grey;
+    color: #fff;
+    font-weight:600;
+    text-transform: uppercase;
+    &:hover {
+        background: darken(@lighter-grey, 5%);
+        border: 1px solid darken(@lighter-grey, 5%);
+        color: #fff;
+    }
+}
+
 .text-highlight {
     color: darken(@color, 30%);
 }

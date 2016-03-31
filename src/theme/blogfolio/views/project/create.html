@@ -9,8 +9,13 @@
             <div class="col-md-9">
                 <div ng-include="'views/project/inputs/central.html'"></div>
                 <div>
-                    <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid" id="projectCreate">Create</button>
-                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right" id="projectAddImage">Add image
+                    <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-cta-primary"
+                            ng-disabled="!projectForm.$valid" id="projectCreate">
+                        <i class="fa fa-check"></i> Create
+                    </button>
+                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-secondary pull-right"
+                            id="projectAddImage">
+                        <i class="fa fa-plus"></i>Add image
                     </button>
                 </div>
             </div>

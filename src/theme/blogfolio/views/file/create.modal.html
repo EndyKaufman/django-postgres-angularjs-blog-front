@@ -9,9 +9,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="$cancel()" id="fileCreateCancel">{{cancelText}}</button>
-                    <button type="button" class="btn btn-success" ng-click="$confirm()" ng-disabled="!fileForm.$valid" id="fileCreateConfirm">
-                        {{confirmText}}
+                    <button type="button" class="btn btn-cta-secondary" ng-click="$cancel()" id="fileCreateCancel">
+                        <i class="fa fa-undo"></i> {{cancelText}}
+                    </button>
+                    <button type="button" class="btn btn-cta-primary" ng-click="$confirm()"
+                            ng-disabled="!fileForm.$valid" id="fileCreateConfirm">
+                        <i class="fa fa-check"></i> {{confirmText}}
                     </button>
                 </div>
                 <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">&nbsp;</button>
