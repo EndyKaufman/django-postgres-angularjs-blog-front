@@ -731,7 +731,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                    <div class="content">\n' +
     '                        <p>Please enter code from email and new password for you account</p>\n' +
     '                        <form ng-submit="AccountSvc.doResetpassword(code, password)" name="accountForm"\n' +
-    '                              ng-init="code=AccountSvc.resetpasswordCode">\n' +
+    '                              ng-init="code=$routeParams.code">\n' +
     '                            <div class="form-group has-feedback" show-errors>\n' +
     '                                <label for="code">Code:</label>\n' +
     '                                <input type="text" class="form-control" name="code" id="code"\n' +
@@ -755,7 +755,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                            <button type="submit" class="btn btn btn-cta-secondary" ng-disabled="!accountForm.$valid"\n' +
     '                                    id="accountResetpassword">Save password and login\n' +
     '                                on site\n' +
-    '                            </button>s\n' +
+    '                            </button>\n' +
     '                        </form>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
