@@ -24,7 +24,7 @@
   },
   "less": {
     "source": [
-      "src/theme/%theme/less/**/*.less"
+      "src/theme/%theme/less/styles.less"
     ],
     "paths": [
       "src/theme/%theme/less"
@@ -37,16 +37,16 @@
       "bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
       "bower_components/ng-tags-input/ng-tags-input.css",
       "bower_components/ng-tags-input/ng-tags-input.bootstrap.css",
-      "bower_components/quantumui/dist/css/addon/effect-light.min.css",
-      "bower_components/quantumui/dist/css/quantumui.css",
       "bower_components/ag-grid/dist/styles/ag-grid.css",
       "bower_components/ag-grid/dist/styles/theme-fresh.css",
-      "src/temp/css/**/*.css"
+      "src/temp/css/**/*.css",
+      "src/temp/css/styles.css"
     ]
   },
   "js": {
     "source": [
       "src/js/**/tools.js",
+      "bower_components/speakingurl/speakingurl.min.js",
       "bower_components/sprintf/dist/sprintf.min.js",
       "bower_components/chance/chance.js",
       "bower_components/google-code-prettify/src/run_prettify.js",
@@ -96,7 +96,8 @@
       "src/js/**/**/*.ctrl.js",
       "src/js/**/*.ctrl.js",
       "src/js/app.ctrl.js",
-      "src/js/**/*.js"
+      "src/js/**/*.js",
+      "src/theme/%theme/js/**/*.js"
     ]
   },
   "template": {

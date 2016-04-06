@@ -10,6 +10,7 @@ app.config(['$resourceProvider','$httpProvider', function($resourceProvider,$htt
       });
 
     $locationProvider.html5Mode({
-      requireBase: false
+        enabled: true,
+        requireBase: false
     });
 });

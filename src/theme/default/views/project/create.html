@@ -1,22 +1,54 @@
-<div class="container" ng-init="ProjectSvc.initEmptyItem()">
-    <div class="page-header">
-        <h1>
-            <span>Create project</span>
-        </h1>
-    </div>
+<div class="container sections-wrapper" ng-init="ProjectSvc.initEmptyItem()">
     <form name="projectForm">
         <div class="row">
-            <div class="col-md-9">
-                <div ng-include="'views/project/inputs/central.html'"></div>
-                <div>
-                    <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-success" ng-disabled="!projectForm.$valid" id="projectCreate">Create</button>
-                    <button ng-click="ProjectSvc.doAddImage()" class="btn btn-primary pull-right" id="projectAddImage">Add image
-                    </button>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div ng-include="'views/project/inputs/right.html'"></div>
-            </div>
-        </div>
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                <section class="latest section">
+                    <div class="section-inner">
+                        <h1 class="heading">
+                            <span>Create project</span>
+                        </h1>
+                        <div class="content">
+                            <div ng-include="'views/project/inputs/central.html'"></div>
+                            <div>
+                                <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-cta-secondary"
+                                        ng-disabled="!projectForm.$valid" id="projectCreate">
+                                    <i class="fa fa-check"></i> Create
+                                </button>
+                                <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"
+                                        id="projectDelete">
+                                    <i class="fa fa-trash"></i> Delete project
+                                </button>
+                                <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"
+                                        id="projectAddImage">
+                                    <i class="fa fa-plus"></i> Add image
+                                </button>
+                            </div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </section><!--//section-->
+
+            </div><!--//primary-->
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+
+                <aside class="list tags aside section">
+                    <div class="section-inner">
+                        <h2 class="heading">Additionally</h2>
+                        <div class="content">
+                            <div ng-include="'views/project/inputs/right.html'"></div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </aside><!--//section-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <h2 class="heading sr-only">Search</h2>
+                        <div class="content">
+                            <div ng-include="'views/search.html'"></div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </aside><!--//aside-->
+
+            </div><!--//secondary-->
+        </div><!--//row-->
     </form>
-</div>
+</div><!--//masonry-->

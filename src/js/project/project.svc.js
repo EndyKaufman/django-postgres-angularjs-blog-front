@@ -54,6 +54,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
     }
 
 	service.doCreate=function(item){
+	    service.slugName(item.name);
 	    $rootScope.$broadcast('show-errors-check-validity');
 		 ProjectRes.actionCreate(item).then(
             function (response) {
@@ -72,6 +73,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
         );
     }
 	service.doUpdate=function(item){
+	    service.slugName(item.name);
 	    $rootScope.$broadcast('show-errors-check-validity');
 		 ProjectRes.actionUpdate(item).then(
             function (response) {
@@ -125,6 +127,12 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
         service.item.images.push({
             id: chance.guid(),
             title: text
+        });
+    }
+    service.slugName=function(value){
+        service.item.name=getSlug(value, {
+            lang:'ru',
+            uric: true
         });
     }
     service.initEmptyItem=function(){

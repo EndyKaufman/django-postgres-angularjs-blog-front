@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-3">
-        <button ng-click="FileSvc.showCreate()" class="btn btn-info" type="button" id="fileCreate">
-            Add file
+        <button ng-click="FileSvc.showCreate()" class="btn btn-cta-default" type="button" id="fileCreate">
+            <i class="fa fa-plus"></i> Add file
         </button>
     </div>
     <div class="col-md-9">
@@ -11,7 +11,7 @@
                    ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>
                                         <span class="input-group-btn">
                                             <button ng-click="FileSvc.doSearch(FileSvc.searchText)"
-                                                    class="btn btn-primary"
+                                                    class="btn btn-cta-secondary"
                                                     type="button" id="fileSearch">
                                                 Search
                                             </button>
@@ -30,13 +30,17 @@
     </thead>
     <tbody>
     <tr ng-repeat="item in FileSvc.list" ng-click="FileSvc.selectItem(item)"
-        ng-class="(FileSvc.item.id==item.id)?'info':''">
+        ng-class="(FileSvc.item.id==item.id)?'bold':''">
         <td ng-bind-html="item.id"></td>
         <td ng-bind-html="item.src | unsafe"></td>
         <td ng-bind-html="item.comment | unsafe"></td>
         <td class="text-right">
-            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-info" type="button" id="{{'file'+item.id+'Update'}}">Edit</button>
-            <button ng-click="FileSvc.doDelete(item)" class="btn btn-danger" type="button" id="{{'file'+item.id+'Delete'}}">Delete</button>
+            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
+                    id="{{'file'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit
+            </button>
+            <button ng-click="FileSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"
+                    id="{{'file'+item.id+'Delete'}}"><i class="fa fa-trash"></i> Delete
+            </button>
         </td>
     </tr>
     </tbody>

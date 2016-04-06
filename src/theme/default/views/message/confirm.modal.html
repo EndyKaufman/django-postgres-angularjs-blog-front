@@ -3,18 +3,14 @@
         <div class="modal-content">
             <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
             <div class="modal-body">
-                <div class="modal-body-inner">
-                    <div ng-controller="FileCtrl">
-                        <div ng-include="'views/file/list.html'"></div>
-                    </div>
-                </div>
+                <div class="modal-body-inner" ng-bind="content"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileListCancel"><i
-                        class="fa fa-undo"></i> {{cancelText}}
+                <button type="button" class="btn btn-cta-default" ng-click="$cancel()">
+                    <i class="fa fa-undo"></i> {{cancelText}}
                 </button>
-                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()" id="fileListConfirm"><i
-                        class="fa fa-check"></i> {{confirmText}}
+                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">
+                    <i class="fa fa-check"></i> {{confirmText}}
                 </button>
             </div>
             <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">

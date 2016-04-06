@@ -29,7 +29,7 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
             item.url=navItem.urls.url;
 
         if (item.url===undefined)
-            item.url='#/'+item.name;
+            item.url='/'+item.name;
 
         if (item.click!=undefined){
             item.url=false;
@@ -50,7 +50,7 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
             service.goHome();
     }
     service.goHome=function(){
-        $location.path(AppConst.home.url.replace('#',''));
+        $location.path(AppConst.home.url);
     }
 
     service.init=function(navId){
