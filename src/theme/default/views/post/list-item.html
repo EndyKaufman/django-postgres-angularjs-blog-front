@@ -1,0 +1,31 @@
+<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{'/post/'+item.name}}" ng-if="item.images.length>0">
+    <img class="img-responsive post-image" ng-src="{{AppConfig.static_url+item.images[0].srcStatic}}"
+         ng-if="item.images.length>0"
+         alt="{{item.title}}"/>
+</a>
+<div class="desc col-xs-12" ng-class="item.images.length>0?'col-md-8 col-sm-8':'col-md-12 col-sm-12'">
+    <div class="pull-right">
+        <a ng-click="PostSvc.doDelete(item)" class="btn btn-cta-red btn-xs"
+           id="postDelete" ng-if="AccountSvc.isAdmin()">
+            <i class="fa fa-trash"></i>
+            <span class="hidden-xs">Delete</span>
+        </a>
+        <a ng-href="{{'/post/update/'+item.name}}"
+           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"
+           id="{{'post'+$index+'Update'}}">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="hidden-xs">Edit</span>
+        </a>
+    </div>
+    <h3 class="title">
+        <a ng-href="{{'/post/'+item.name}}" ng-bind-html="item.title | unsafe"></a>
+    </h3>
+    <p ng-bind-html="item.description | unsafe"></p>
+    <p>
+        <a class="more-link" ng-href="{{'/post/'+item.name}}" id="{{'post'+$index+'Detail'}}"><i
+                class="fa fa-link"></i> Detail...</a>
+    </p>
+</div><!--//desc-->
+<div class="desc col-md-12 col-sm-12 col-xs-12">
+    <hr class="divider" ng-if="!$last"/>
+</div><!--//desc-->

@@ -1,0 +1,57 @@
+<div class="container sections-wrapper">
+    <form name="postForm">
+        <div class="row">
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                <section class="latest section">
+                    <div class="section-inner">
+                        <h1 class="heading">
+                            <span>Edit post</span>
+                            <a ng-href="{{'/post/'+PostSvc.item.name}}"
+                               class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"
+                               id="postUpdate"><i class="fa fa-pencil-square-o"></i> View</a>
+                        </h1>
+                        <div class="content">
+                            <div ng-include="'views/post/inputs/central.html'"></div>
+                            <div>
+                                <button ng-click="PostSvc.doUpdate(PostSvc.item)" class="btn btn-cta-secondary"
+                                        ng-disabled="!postForm.$valid" id="postSave">
+                                    <i class="fa fa-floppy-o"></i> Save
+                                </button>
+                                <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"
+                                        id="postDelete">
+                                    <i class="fa fa-trash"></i> Delete post
+                                </button>
+                                <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"
+                                        id="postAddImage">
+                                    <i class="fa fa-plus"></i> Add image
+                                </button>
+                            </div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </section><!--//section-->
+
+            </div><!--//primary-->
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+
+                <aside class="list tags aside section">
+                    <div class="section-inner">
+                        <h2 class="heading">Additionally</h2>
+                        <div class="content">
+                            <div ng-include="'views/post/inputs/right.html'"></div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </aside><!--//section-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <h2 class="heading sr-only">Search</h2>
+                        <div class="content">
+                            <div ng-include="'views/search.html'"></div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </aside><!--//aside-->
+
+            </div><!--//secondary-->
+        </div><!--//row-->
+    </form>
+</div><!--//masonry-->

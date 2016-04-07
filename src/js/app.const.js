@@ -1,14 +1,38 @@
-app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, SearchConst, NavbarConst){
+app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, NavbarConst){
+    var home={
+        title: 'MY BLOG',
+        description: 'description of blog',
+        name: 'MY_BLOG',
+        image: 'https://avatars2.githubusercontent.com/u/4127109?v=3&s=460',
+        social:[
+            {
+                url:'http://google.com',
+                iconClass:'fa fa-google-plus'
+            },
+            {
+                url:'http://github.com',
+                iconClass:'fa fa-github'
+            },
+            {
+                url:'http://twitter.com',
+                iconClass:'fa fa-twitter'
+            },
+            {
+                url:'http://youtube.com',
+                iconClass:'fa fa-youtube'
+            }
+        ]
+    };
     var navbar={
         left:[
             {
                 name: 'project'
             },
             {
-                name: 'note',
+                name: 'post',
             },
             {
-                name: 'bookmark',
+                name: 'contact',
             }
         ],
         right:[
@@ -39,14 +63,15 @@ app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, 
         ]
     };
     var service={
-        home: HomeConst,
+        home: angular.extend({}, HomeConst, home),
         navbar: angular.extend({}, NavbarConst, navbar),
         search: SearchConst,
         account: AccountConst,
         tag: TagConst,
         note: NoteConst,
         bookmark: BookmarkConst,
-        project: ProjectConst
+        project: ProjectConst,
+        post: PostConst
     };
 
     return service;

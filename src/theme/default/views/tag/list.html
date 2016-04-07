@@ -20,6 +20,15 @@
                     </div><!--//section-inner-->
                 </section><!--//section-->
 
+                <section class="latest section" ng-if="allItem.name=='post'">
+                    <div class="section-inner">
+                        <h2 class="heading" ng-include="'views/post/list-header.html'">
+                        </h2>
+                        <div class="content">
+                            <div ng-include="'views/tag/list-post.html'"></div>
+                        </div><!--//content-->
+                    </div><!--//section-inner-->
+                </section><!--//section-->
             </div>
 
         </div><!--//primary-->

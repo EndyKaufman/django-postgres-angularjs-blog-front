@@ -1,5 +1,5 @@
 app.constant('HomeConst', {
-    url:'/home',
+    url:'/home'/*,
     title: 'MY BLOG',
     description: 'description of blog',
     name: 'MY_BLOG',
@@ -21,5 +21,5 @@ app.constant('HomeConst', {
             url:'http://youtube.com',
             iconClass:'fa fa-youtube'
         }
-    ]
+    ]*/
 });

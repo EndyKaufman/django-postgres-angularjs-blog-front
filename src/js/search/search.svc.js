@@ -1,4 +1,4 @@
-app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes) {
+app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes) {
     var service={};
 
     service.allList=false;
@@ -30,12 +30,18 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
             service.allList=[];
             $q.all([
                 TagSvc.load(),
-                ProjectRes.getSearch($routeParams.searchText)
+                ProjectRes.getSearch($routeParams.searchText),
+                PostRes.getSearch($routeParams.searchText)
             ]).then(function(responseList) {
                 for (var i=1;i<responseList.length;i++){
                     if (i==1)
                         service.allList.push({
                             name: 'project',
+                            list: responseList[i].data.data
+                        });
+                    if (i==2)
+                        service.allList.push({
+                            name: 'post',
                             list: responseList[i].data.data
                         });
                 }

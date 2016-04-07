@@ -3,23 +3,17 @@
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
                 <div class="section-inner">
-                    <h2 class="heading" ng-include="'views/project/list-header.html'">
-                    </h2>
+                    <h1 class="heading" ng-include="'views/post/list-header.html'">
+                    </h1>
                     <div class="content">
-                        <div ng-include="'views/home/list-projects.html'"></div>
+                        <div class="item row"
+                             ng-repeat="item in PostSvc.list | limitTo:PostSvc.limit:PostSvc.begin">
+                            <div ng-include="'views/post/list-item.html'"></div>
+                        </div><!--//item-->
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->
 
-            <section class="latest section">
-                <div class="section-inner">
-                    <h2 class="heading" ng-include="'views/post/list-header.html'">
-                    </h2>
-                    <div class="content">
-                        <div ng-include="'views/home/list-posts.html'"></div>
-                    </div><!--//content-->
-                </div><!--//section-inner-->
-            </section><!--//section-->
         </div><!--//primary-->
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
             <aside class="info aside section">
