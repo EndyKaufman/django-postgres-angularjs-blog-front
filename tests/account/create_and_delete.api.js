@@ -32,7 +32,7 @@ describe('Create and delete user', function() {
             return;
         }
         //api.debug=true;
-        api.postJson('/account/reg', {
+        api.postJson('/api/v1/account/reg', {
             email:'newuser@email.com',
             password:'newuser@email.com'
         }, function(response){
@@ -62,7 +62,7 @@ describe('Create and delete user', function() {
                     return;
                 }
                 //api.debug=true;
-                api.postJson('/account/delete', {
+                api.postJson('/api/v1/account/delete', {
                 }, function(response){
                     deleteResponse = response;
                     done()

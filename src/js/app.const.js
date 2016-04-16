@@ -1,4 +1,5 @@
-app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, NavbarConst){
+app.factory('AppConst', function($rootScope,
+HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, ContactConst, NavbarConst){
     var home={
         title: 'MY BLOG',
         description: 'description of blog',
@@ -71,7 +72,8 @@ app.factory('AppConst', function($rootScope, HomeConst, AccountConst, TagConst, 
         note: NoteConst,
         bookmark: BookmarkConst,
         project: ProjectConst,
-        post: PostConst
+        post: PostConst,
+        contact: ContactConst
     };
 
     return service;

@@ -34,7 +34,7 @@ describe('Work with posts as admin', function() {
                 return;
             }
             //api.debug=true;
-            api.postJson('/account/login', {
+            api.postJson('/api/v1/account/login', {
                 email:'admin@email.com',
                 password:'admin@email.com'
             }, function(response){
@@ -64,7 +64,7 @@ describe('Work with posts as admin', function() {
                     return;
                 }
                 //api.debug=true;
-                api.getJson('/post/list', function(response){
+                api.getJson('/api/v1/post/list', function(response){
                     listResponse = response;
                     done();
                 });
@@ -91,7 +91,7 @@ describe('Work with posts as admin', function() {
                         return;
                     }
                     //api.debug=true;
-                    api.postJson('/post/create',
+                    api.postJson('/api/v1/post/create',
                         {
                             id: 101,
                             name:'newPost',
@@ -155,7 +155,7 @@ describe('Work with posts as admin', function() {
                             return;
                         }
                         //api.debug=true;
-                        api.postJson('/post/update/'+createdRecord.id, createdRecord, function(response){
+                        api.postJson('/api/v1/post/update/'+createdRecord.id, createdRecord, function(response){
                             updateResponse = response;
                             done();
                         });
@@ -196,7 +196,7 @@ describe('Work with posts as admin', function() {
                                 return;
                             }
                             //api.debug=true;
-                            api.postJson('/post/delete/'+createdRecord.id, {}, function(response){
+                            api.postJson('/api/v1/post/delete/'+createdRecord.id, {}, function(response){
                                 deleteResponse = response;
                                 done();
                             });

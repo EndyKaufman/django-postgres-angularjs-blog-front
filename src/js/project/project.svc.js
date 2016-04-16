@@ -104,7 +104,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
                                 break;
                             }
                         }
-                        service.item={};
+                        service.initEmptyItem();
                         $rootScope.$broadcast('project.delete', item);
                     }
                 },

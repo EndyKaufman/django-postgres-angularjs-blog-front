@@ -33,7 +33,7 @@ describe('Update user profile with admin role', function() {
             return;
         }
         //api.debug=true;
-        api.postJson('/account/login', {
+        api.postJson('/api/v1/account/login', {
             email:'admin@email.com',
             password:'admin@email.com'
         }, function(response){
@@ -63,7 +63,7 @@ describe('Update user profile with admin role', function() {
                 return;
             }
             //api.debug=true;
-            api.postJson('/account/update', {
+            api.postJson('/api/v1/account/update', {
                 firstname:'New Name',
                 email:'admin@email.com'
             }, function(response){
@@ -94,7 +94,7 @@ describe('Update user profile with admin role', function() {
                     return;
                 }
                 //api.debug=true;
-                api.postJson('/account/update', {
+                api.postJson('/api/v1/account/update', {
                     firstname: profileResponse.data[0].firstname,
                     email: 'admin@email.com'
                 }, function(response){
@@ -124,7 +124,7 @@ describe('Update user profile with admin role', function() {
                         return;
                     }
                     //api.debug=true;
-                    api.postJson('/account/logout', {
+                    api.postJson('/api/v1/account/logout', {
                     }, function(response){
                         logoutResponse = response;
                         done()

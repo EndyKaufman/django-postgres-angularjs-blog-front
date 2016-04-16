@@ -33,7 +33,7 @@ describe('Work with projects as guest', function() {
                 return;
             }
             //api.debug=true;
-            api.getJson('/project/list', function(response){
+            api.getJson('/api/v1/project/list', function(response){
                 listResponse = response;
                 done();
             });
@@ -59,7 +59,7 @@ describe('Work with projects as guest', function() {
                     return;
                 }
                 //api.debug=true;
-                api.getJson('/project/item/'+listResponse.data[0].name, function(response){
+                api.getJson('/api/v1/project/item/'+listResponse.data[0].name, function(response){
                     itemResponse = response;
                     done();
                 });
@@ -85,7 +85,7 @@ describe('Work with projects as guest', function() {
                         return;
                     }
                     //api.debug=true;
-                    api.getJson('/project/listbytag/'+listResponse.data[0].tags[0].text, function(response){
+                    api.getJson('/api/v1/project/listbytag/'+listResponse.data[0].tags[0].text, function(response){
                         listbytagResponse = response;
                         done();
                     });
@@ -111,7 +111,7 @@ describe('Work with projects as guest', function() {
                             return;
                         }
                         //api.debug=true;
-                        api.getJson('/project/search/'+listResponse.data[0].name, function(response){
+                        api.getJson('/api/v1/project/search/'+listResponse.data[0].name, function(response){
                             listbysearchResponse = response;
                             done();
                         });

@@ -104,7 +104,7 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
                                 break;
                             }
                         }
-                        service.item={};
+                        service.initEmptyItem();
                         $rootScope.$broadcast('post.delete', item);
                     }
                 },

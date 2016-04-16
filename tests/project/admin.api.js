@@ -34,7 +34,7 @@ describe('Work with projects as admin', function() {
                 return;
             }
             //api.debug=true;
-            api.postJson('/account/login', {
+            api.postJson('/api/v1/account/login', {
                 email:'admin@email.com',
                 password:'admin@email.com'
             }, function(response){
@@ -64,7 +64,7 @@ describe('Work with projects as admin', function() {
                     return;
                 }
                 //api.debug=true;
-                api.getJson('/project/list', function(response){
+                api.getJson('/api/v1/project/list', function(response){
                     listResponse = response;
                     done();
                 });
@@ -91,7 +91,7 @@ describe('Work with projects as admin', function() {
                         return;
                     }
                     //api.debug=true;
-                    api.postJson('/project/create',
+                    api.postJson('/api/v1/project/create',
                         {
                             id: 101,
                             name:'newProject',
@@ -155,7 +155,7 @@ describe('Work with projects as admin', function() {
                             return;
                         }
                         //api.debug=true;
-                        api.postJson('/project/update/'+createdRecord.id, createdRecord, function(response){
+                        api.postJson('/api/v1/project/update/'+createdRecord.id, createdRecord, function(response){
                             updateResponse = response;
                             done();
                         });
@@ -196,7 +196,7 @@ describe('Work with projects as admin', function() {
                                 return;
                             }
                             //api.debug=true;
-                            api.postJson('/project/delete/'+createdRecord.id, {}, function(response){
+                            api.postJson('/api/v1/project/delete/'+createdRecord.id, {}, function(response){
                                 deleteResponse = response;
                                 done();
                             });

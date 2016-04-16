@@ -169,7 +169,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
     '                        </h2>\n' +
     '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-post.html\'"></div>\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
     '                        </div><!--//content-->\n' +
     '                    </div><!--//section-inner-->\n' +
     '                </section><!--//section-->\n' +
@@ -268,7 +268,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-post.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
@@ -958,7 +958,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/home/list-post.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
+	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
@@ -1108,6 +1108,74 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Contact us\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <form name="contactForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="username">You name</label>\n' +
+    '                                <input type="text" class="form-control" name="username" id="username"\n' +
+    '                                       ng-model="ContactSvc.item.username" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email">Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="ContactSvc.item.email" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="message">Message</label>\n' +
+    '                                <textarea class="form-control" name="message" id="message"\n' +
+    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
+    '                                <i class="fa fa-envelope-o"></i> Send message\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
 	a.put('views/account/resetpassword.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +

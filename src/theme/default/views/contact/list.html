@@ -1,0 +1,68 @@
+<div class="container sections-wrapper">
+    <div class="row">
+        <div class="primary col-md-8 col-sm-12 col-xs-12">
+            <section class="latest section">
+                <div class="section-inner">
+                    <h1 class="heading">
+                        Contact us
+                    </h1>
+                    <div class="content">
+                        <form name="contactForm">
+                            <div class="form-group has-feedback" show-errors>
+                                <label for="username">You name</label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                       ng-model="ContactSvc.item.username" required>
+                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"
+                                      class="form-control-feedback"
+                                      ng-class="!contactForm.username.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                      aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback" show-errors>
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                       ng-model="ContactSvc.item.email" required>
+                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"
+                                      ng-class="!contactForm.email.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                      aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback" show-errors>
+                                <label for="message">Message</label>
+                                <textarea class="form-control" name="message" id="message"
+                                       ng-model="ContactSvc.item.message" required></textarea>
+                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"
+                                      class="form-control-feedback"
+                                      ng-class="!contactForm.message.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                      aria-hidden="true"></span>
+                            </div>
+                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"
+                                    ng-disabled="!contactForm.$valid" id="contactSend">
+                                <i class="fa fa-envelope-o"></i> Send message
+                            </button>
+                        </form>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </section><!--//section-->
+
+        </div><!--//primary-->
+        <div class="secondary col-md-4 col-sm-12 col-xs-12">
+            <aside class="info aside section">
+                <div class="section-inner">
+                    <h2 class="heading sr-only">Search</h2>
+                    <div class="content">
+                        <div ng-include="'views/search.html'"></div>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//aside-->
+
+            <aside class="list tags aside section">
+                <div class="section-inner">
+                    <h2 class="heading">Tags</h2>
+                    <div class="content">
+                        <div ng-include="'views/home/list-tags.html'"></div>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//section-->
+
+        </div><!--//secondary-->
+    </div><!--//row-->
+</div><!--//masonry-->

@@ -2,39 +2,39 @@ app.factory('AccountRes', function (AppConst, AppRes) {
     var service={};
 
     service.actionLogin=function(email, password){
-        return AppRes.post('/account/login', {
+        return AppRes.post('/api/v1/account/login', {
             email: email,
             password: password
         });
     };
 
     service.actionLogout=function(){
-        return AppRes.post('/account/logout');
+        return AppRes.post('/api/v1/account/logout');
     };
 
     service.actionReg=function(item){
-        return AppRes.post('/account/reg', item);
+        return AppRes.post('/api/v1/account/reg', item);
     }
 
     service.actionRecovery=function(email){
-        return AppRes.post('/account/recovery', {
+        return AppRes.post('/api/v1/account/recovery', {
             email: email
         });
     }
 
     service.actionResetpassword=function(code, password){
-        return AppRes.post('/account/resetpassword', {
+        return AppRes.post('/api/v1/account/resetpassword', {
             code: code,
             password: password
         });
     };
 
     service.actionDelete=function(){
-        return AppRes.post('/account/delete');
+        return AppRes.post('/api/v1/account/delete');
     }
 
     service.actionUpdate=function(item){
-        return AppRes.post('/account/update', item);
+        return AppRes.post('/api/v1/account/update', item);
     }
 
     return service;

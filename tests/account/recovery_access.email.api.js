@@ -38,7 +38,7 @@ describe('Create, reset password with email and delete user', function() {
             return;
         }
         //api.debug=true;
-        api.postJson('/account/reg', {
+        api.postJson('/api/v1/account/reg', {
             email: process.env.EMAIL_HOST_USER,
             password: process.env.EMAIL_HOST_USER
         }, function(response){
@@ -68,7 +68,7 @@ describe('Create, reset password with email and delete user', function() {
                     return;
                 }
                 //api.debug=true;
-                api.postJson('/account/logout', {
+                api.postJson('/api/v1/account/logout', {
                 }, function(response){
                     logoutResponse = response;
                     done()
@@ -89,7 +89,7 @@ describe('Create, reset password with email and delete user', function() {
                         return;
                     }
                     //api.debug=true;
-                    api.postJson('/account/recovery', {
+                    api.postJson('/api/v1/account/recovery', {
                         email: process.env.EMAIL_HOST_USER
                     }, function(response){
                         setTimeout(function(){
@@ -136,7 +136,7 @@ describe('Create, reset password with email and delete user', function() {
                                 return;
                             }
                             //api.debug=true;
-                            api.postJson('/account/resetpassword', {
+                            api.postJson('/api/v1/account/resetpassword', {
                                 code:resetCode,
                                 password:'password'
                             }, function(response){
@@ -166,7 +166,7 @@ describe('Create, reset password with email and delete user', function() {
                                     return;
                                 }
                                 //api.debug=true;
-                                api.postJson('/account/logout', {
+                                api.postJson('/api/v1/account/logout', {
                                 }, function(response){
                                     logoutNewPasswordResponse = response;
                                     done()
@@ -186,7 +186,7 @@ describe('Create, reset password with email and delete user', function() {
                                         return;
                                     }
                                     //api.debug=true;
-                                    api.postJson('/account/login', {
+                                    api.postJson('/api/v1/account/login', {
                                         email:process.env.EMAIL_HOST_USER,
                                         password:'password'
                                     }, function(response){
@@ -216,7 +216,7 @@ describe('Create, reset password with email and delete user', function() {
                                             return;
                                         }
                                         //api.debug=true;
-                                        api.postJson('/account/delete', {
+                                        api.postJson('/api/v1/account/delete', {
                                         }, function(response){
                                             deleteResponse = response;
                                             done()
