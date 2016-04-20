@@ -116,6 +116,52 @@ module.exports ={
             }, data);
         }
     },
+    PostSvc:{
+        item: function(){
+            var data = {};
+            return browser.executeAsyncScript(function(data, callback) {
+                var PostSvc = angular.element(document.body).injector().get('PostSvc');
+                callback(PostSvc.item);
+            }, data);
+        },
+        list: function(){
+            var data = {};
+            return browser.executeAsyncScript(function(data, callback) {
+                var PostSvc = angular.element(document.body).injector().get('PostSvc');
+                callback(PostSvc.list);
+            }, data);
+        },
+        doUpdate: function(item) {
+            var data = item;
+            return browser.executeAsyncScript(function(data, callback) {
+                var PostSvc = angular.element(document.body).injector().get('PostSvc');
+                PostSvc.doUpdate(data);
+                setTimeout(function(){
+                    callback(PostSvc.item);
+                },5000);
+            }, data);
+        },
+        doCreate: function(item) {
+            var data = item;
+            return browser.executeAsyncScript(function(data, callback) {
+                var PostSvc = angular.element(document.body).injector().get('PostSvc');
+                PostSvc.doCreate(data);
+                setTimeout(function(){
+                    callback(PostSvc.item);
+                },5000);
+            }, data);
+        },
+        doDelete: function(item) {
+            var data = item;
+            return browser.executeAsyncScript(function(data, callback) {
+                var PostSvc = angular.element(document.body).injector().get('PostSvc');
+                PostSvc.doDelete(data);
+                setTimeout(function(){
+                    callback(PostSvc.item);
+                },5000);
+            }, data);
+        }
+    },
     FileSvc:{
         list: function() {
             var data = {};

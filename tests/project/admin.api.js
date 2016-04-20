@@ -1,7 +1,8 @@
 describe('Work with projects as admin', function() {
     var api = require('./../api.helpers.js');
 
-    var appConfigResponse = undefined, adminResponse=undefined, listResponse = undefined, createResponse = undefined, updateResponse = undefined, deleteResponse = undefined;
+    var appConfigResponse = undefined, adminResponse=undefined, listResponse = undefined,
+    createResponse = undefined, updateResponse = undefined, deleteResponse = undefined, logoutResponse2=undefined;
 
     beforeEach(function(done){
         if (appConfigResponse!==undefined){
@@ -205,6 +206,28 @@ describe('Work with projects as admin', function() {
                         it('response structure must be correct', function() {
                             expect(typeof deleteResponse).toEqual('object');
                             expect(deleteResponse.code).toEqual('ok');
+                        });
+
+                        describe('Logout from site', function() {
+
+                            beforeEach(function(done){
+                                if (logoutResponse2!==undefined){
+                                    done();
+                                    return;
+                                }
+                                //api.debug=true;
+                                api.postJson('/api/v1/account/logout', {
+                                }, function(response){
+                                    logoutResponse2 = response;
+                                    done()
+
+                                });
+                            });
+
+                            it('response structure must be correct', function() {
+                                expect(typeof logoutResponse2).toEqual('object');
+                                expect(logoutResponse2.code).toEqual('ok');
+                            });
                         });
                     });
                 });

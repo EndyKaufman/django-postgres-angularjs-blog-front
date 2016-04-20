@@ -228,6 +228,7 @@ describe('Create, reset password with email and delete user', function() {
                                         expect(typeof deleteResponse).toEqual('object');
                                         expect(deleteResponse.code).toEqual('ok');
                                     });
+
                                   });
                             });
                         });
