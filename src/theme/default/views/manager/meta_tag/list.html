@@ -1,0 +1,28 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Content</th>
+        <th>Attributes</th>
+        <th class="text-right">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in MetaTagSvc.list"
+        ng-class="(MetaTagSvc.item.id==item.id)?'bold':''">
+        <td ng-bind-html="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td ng-bind-html="item.name | unsafe" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td ng-bind-html="item.content | unsafe" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td ng-bind-html="item.attributes | unsafe" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td class="text-right">
+            <button ng-click="MetaTagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
+                    id="{{'meta_tag'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit
+            </button>
+            <button ng-click="MetaTagSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"
+                    id="{{'meta_tag'+item.id+'Delete'}}"><i class="fa fa-trash"></i> Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

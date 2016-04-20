@@ -1,61 +1,22 @@
-app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $modal, MessageSvc) {
+app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, NavbarSvc, MessageSvc, $routeParams, $route) {
     var service={};
-
-    $rootScope.$on('fileCreate.show',function(event, item){
-        var element = document.getElementById('FileUpload');
-        element.addEventListener('change', function(e) {
-            var files = e.target.files;
-            FileRes.addFiles(files);
-        });
-    });
 
     service.item={};
     service.list=false;
 
-    service.showList=function(item){
-        service.initEmptyItem();
-        service.load().then(function(){
-            for (var i=0;i<service.list.length;i++){
-                if (item.src==service.list[i].src)
-                    service.item=service.list[i];
-            }
-            var boxOptions = {
-                title: 'Select file',
-                confirmTemplate: 'views/file/list.modal.html',
-                size: 'lg',
-                boxType: 'confirm',
-                theme: 'alert',
-                effect: false,
-                confirmText: 'Select',
-                cancelText: 'Cancel',
-                afterConfirm: function(){
-                    if (item.src!==service.item.src){
-                        delete item.id;
-                        item.src=service.item.src;
-                        item.srcStatic=service.item.srcStatic;
-                    }
-                },
-                afterCancel: function(){
-
-                },
-                prefixEvent: 'fileList'
-            }
-            $modalBox(boxOptions);
-        });
-    }
-
     service.initEmptyItem=function(){
         service.item = {};
-        service.item.comment = '';
-        service.item.src='';
+        service.item.name = '';
+        service.item.content = '';
+        service.item.attributes='';
     }
 
     service.showCreate=function(){
         service.mode='create';
         service.initEmptyItem();
         var boxOptions = {
-            title: 'Add new file',
-            confirmTemplate: 'views/file/create.modal.html',
+            title: 'Add new meta_tag',
+            confirmTemplate: 'views/manager/meta_tag/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
@@ -68,7 +29,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
             afterCancel: function(){
 
             },
-            prefixEvent: 'fileCreate'
+            prefixEvent: 'meta_tagCreate'
         }
         $modalBox(boxOptions);
     }
@@ -82,7 +43,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
         service.item=angular.copy(item);
         var boxOptions = {
             title: 'Edit properties',
-            confirmTemplate: 'views/file/update.modal.html',
+            confirmTemplate: 'views/manager/meta_tag/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
@@ -95,7 +56,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
             afterCancel: function(){
 
             },
-            prefixEvent: 'fileUpdate'
+            prefixEvent: 'meta_tagUpdate'
         }
         $modalBox(boxOptions);
     }
@@ -110,12 +71,12 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
 
 	service.doCreate=function(item){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		FileRes.actionCreate(item).then(
+		MetaTagRes.actionCreate(item).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
                     service.list.push(service.item);
-                    $rootScope.$broadcast('file.create', service.item);
+                    $rootScope.$broadcast('meta_tag.create', service.item);
                 }
             },
             function (response) {
@@ -126,13 +87,13 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
     }
 	service.doUpdate=function(item){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		FileRes.actionUpdate(item).then(
+		MetaTagRes.actionUpdate(item).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
                     service.updateItemOnList(service.item);
 
-                    $rootScope.$broadcast('file.update', service.item);
+                    $rootScope.$broadcast('meta_tag.update', service.item);
                 }
             },
             function (response) {
@@ -142,9 +103,9 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
         );
     }
 	service.doDelete=function(item){
-         MessageSvc.confirm('file/remove/confirm', {values:[item.src]},
+         MessageSvc.confirm('meta_tag/remove/confirm', {values:[item.src]},
          function(){
-             FileRes.actionDelete(item).then(
+             MetaTagRes.actionDelete(item).then(
                 function (response) {
                     if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                         for (var i=0;i<service.list.length;i++){
@@ -154,7 +115,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
                             }
                         }
                         service.item={};
-                        $rootScope.$broadcast('file.delete', item);
+                        $rootScope.$broadcast('meta_tag.delete', item);
                     }
                 },
                 function (response) {
@@ -168,10 +129,10 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
     service.load=function(){
         var deferred = $q.defer();
         if (service.list===false){
-            FileRes.getList().then(function (response) {
+            MetaTagRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 deferred.resolve(service.list);
-                $rootScope.$broadcast('file.load', service.list);
+                $rootScope.$broadcast('meta_tag.load', service.list);
             }, function (response) {
                 service.list=[];
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
@@ -183,20 +144,14 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
         return deferred.promise;
     }
 
-    service.doSearch=function(text){
-        var deferred = $q.defer();
-        FileRes.getSearch(text).then(function (response) {
-            service.list=angular.copy(response.data.data);
-            deferred.resolve(service.list);
-            $rootScope.$broadcast('file.load', service.list);
-        }, function (response) {
-            service.list=[];
-            if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                MessageSvc.error(response.data.code, response.data);
-            deferred.resolve(service.list);
-        });
-        return deferred.promise;
-    }
+    service.init=function(reload){
+        NavbarSvc.init($routeParams.navId);
 
+        $q.all([
+            service.load()
+        ]).then(function(responseList) {
+
+        });
+    }
     return service;
   });

@@ -179,7 +179,7 @@ gulp.task('scripts:build', function (done) {
         ['cd ../', export_cat_env, 'bash scripts/build.sh', 'echo stop_spawn'],
         function(data, isError){
             var buildSpawn=this;
-            if (isError || data.indexOf('stop_spawn')!=-1)
+            if ((isError && data.indexOf('Using json JSON module')==-1) || data.indexOf('stop_spawn')!=-1)
                 buildSpawn.killMe(function(err){
                     if (isError)
                         done(data);

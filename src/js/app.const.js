@@ -1,5 +1,5 @@
 app.factory('AppConst', function($rootScope,
-HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, ContactConst, NavbarConst){
+HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst){
     var home={
         title: 'MY BLOG',
         description: 'description of blog',
@@ -45,6 +45,12 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
                 }
             },
             {
+                name: 'manager',
+                hiddenHandler: function(){
+                    return AppConfig.user.id==undefined || (AppConfig.user.id!=undefined && AppConfig.user.roles.indexOf('admin')==-1)
+                }
+            },
+            {
                 name: 'profile',
                 parent:'account',
                 hiddenHandler: function(){
@@ -66,6 +72,7 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
     var service={
         home: angular.extend({}, HomeConst, home),
         navbar: angular.extend({}, NavbarConst, navbar),
+        manager: ManagerConst,
         search: SearchConst,
         account: AccountConst,
         tag: TagConst,

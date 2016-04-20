@@ -76203,6 +76203,7 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
     var service={
         home: angular.extend({}, HomeConst, home),
         navbar: angular.extend({}, NavbarConst, navbar),
+        management: ManagementConst,
         search: SearchConst,
         account: AccountConst,
         tag: TagConst,
@@ -76483,71 +76484,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                        </span>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"\n' +
-    '                    </h1>\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in SearchSvc.allList">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\'">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\'">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -76610,6 +76546,71 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"\n' +
+    '                    </h1>\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\'">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\'">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
@@ -77241,6 +77242,43 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/management/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Management\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        hi\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
 	a.put('views/home/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -78032,6 +78070,47 @@ app.factory('AppRes', function ($q, $http, $cookies, uiUploader) {
     service.init();    
     return service;
   });
+app.factory('AccountRes', function (AppConst, AppRes) {
+    var service={};
+
+    service.actionLogin=function(email, password){
+        return AppRes.post('/api/v1/account/login', {
+            email: email,
+            password: password
+        });
+    };
+
+    service.actionLogout=function(){
+        return AppRes.post('/api/v1/account/logout');
+    };
+
+    service.actionReg=function(item){
+        return AppRes.post('/api/v1/account/reg', item);
+    }
+
+    service.actionRecovery=function(email){
+        return AppRes.post('/api/v1/account/recovery', {
+            email: email
+        });
+    }
+
+    service.actionResetpassword=function(code, password){
+        return AppRes.post('/api/v1/account/resetpassword', {
+            code: code,
+            password: password
+        });
+    };
+
+    service.actionDelete=function(){
+        return AppRes.post('/api/v1/account/delete');
+    }
+
+    service.actionUpdate=function(item){
+        return AppRes.post('/api/v1/account/update', item);
+    }
+
+    return service;
+  });
 app.factory('ContactRes', function (AppConst, AppRes) {
     var service={};
 
@@ -78070,47 +78149,6 @@ app.factory('FileRes', function ($q, AppConst, uiUploader, AppRes) {
 
     service.addFiles=function(files){
         service.files = AppRes.addFiles(files);
-    }
-
-    return service;
-  });
-app.factory('AccountRes', function (AppConst, AppRes) {
-    var service={};
-
-    service.actionLogin=function(email, password){
-        return AppRes.post('/api/v1/account/login', {
-            email: email,
-            password: password
-        });
-    };
-
-    service.actionLogout=function(){
-        return AppRes.post('/api/v1/account/logout');
-    };
-
-    service.actionReg=function(item){
-        return AppRes.post('/api/v1/account/reg', item);
-    }
-
-    service.actionRecovery=function(email){
-        return AppRes.post('/api/v1/account/recovery', {
-            email: email
-        });
-    }
-
-    service.actionResetpassword=function(code, password){
-        return AppRes.post('/api/v1/account/resetpassword', {
-            code: code,
-            password: password
-        });
-    };
-
-    service.actionDelete=function(){
-        return AppRes.post('/api/v1/account/delete');
-    }
-
-    service.actionUpdate=function(item){
-        return AppRes.post('/api/v1/account/update', item);
     }
 
     return service;
@@ -78188,6 +78226,219 @@ app.factory('AppSvc', function () {
     service.init=function(reload){
     }
     service.init();    
+    return service;
+  });
+app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, $routeParams, NavbarSvc) {
+    var service={};
+
+    $rootScope.$on('account.update',function(event, data){
+        MessageSvc.info('account/update/success');
+        AppConfig.user=service.item;
+    });
+
+    $rootScope.$on('account.create',function(event, data){
+        MessageSvc.info('account/create/success');
+        AppConfig.user=service.item;
+        NavbarSvc.init();
+        NavbarSvc.goBack();
+    });
+
+    $rootScope.$on('account.login',function(event, data){
+        MessageSvc.info('account/login/success');
+        AppConfig.user=service.item;
+        NavbarSvc.init();
+        NavbarSvc.goHome();
+    });
+
+    $rootScope.$on('account.doLogout',function(event, data){
+        service.doLogout();
+    });
+
+    $rootScope.$on('account.logout',function(event, data){
+        MessageSvc.info('account/logout/success');
+        AppConfig.user=service.item;
+        NavbarSvc.init();
+        NavbarSvc.goHome();
+    });
+
+    $rootScope.$on('account.delete',function(event, data){
+        MessageSvc.info('account/delete/success');
+        AppConfig.user=service.item;
+        NavbarSvc.init();
+        NavbarSvc.goHome();
+    });
+
+    $rootScope.$on('account.recovery',function(event, data){
+        service.goResetpassword();
+        MessageSvc.info('account/recovery/checkemail', {values:[data.email]});
+    });
+
+    service.item={};
+
+    service.goResetpassword=function(){
+        $location.path('/resetpassword');
+    }
+    service.init=function(reload){
+        NavbarSvc.init($routeParams.navId);
+        if (($routeParams.navId=='login' || $routeParams.navId=='reg' || $routeParams.navId=='resetpassword' || $routeParams.navId=='recovery') && service.isLogged()){
+            NavbarSvc.goHome();
+            return;
+        }
+        if ($routeParams.navId=='profile' && !service.isLogged()){
+            NavbarSvc.goHome();
+            return;
+        }
+        if ($routeParams.navId=='resetpassword'){
+            if ($routeParams.code!==undefined)
+                service.resetpasswordCode=$routeParams.code;
+            else
+                service.resetpasswordCode='';
+            return;
+        }
+
+        $q.all([
+            service.load()
+        ]).then(function(responseList) {
+
+        });
+    }
+
+    service.load=function(){
+        var deferred = $q.defer();
+        service.item=AppConfig.user;
+        deferred.resolve(service.item);
+        return deferred.promise;
+    }
+
+	service.doReg=function(item){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		 AccountRes.actionReg(item).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                    $rootScope.$broadcast('account.create', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+
+	service.doRecovery=function(email){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		 AccountRes.actionRecovery(email).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    $rootScope.$broadcast('account.recovery', {email:email});
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+
+	service.doResetpassword=function(code, password){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		 AccountRes.actionResetpassword(code, password).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                    $rootScope.$broadcast('account.resetpassword', {code:code});
+                	$rootScope.$broadcast('account.login', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+
+	service.doUpdate=function(item){
+	    $rootScope.$broadcast('show-errors-check-validity');
+		 AccountRes.actionUpdate(item).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                    $rootScope.$broadcast('account.update', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+    }
+
+	service.doLogin=function(email, password){
+	    AccountRes.actionLogin(email,password).then(
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                    service.item=angular.copy(response.data.data[0]);
+                	$rootScope.$broadcast('account.login', service.item);
+                }
+            },
+            function (response) {
+                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                    MessageSvc.error(response.data.code, response.data);
+            }
+        );
+	}
+	service.doLogout=function(){
+         MessageSvc.confirm('account/logout/confirm', {},
+         function(){
+             AccountRes.actionLogout().then(
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                        service.item={}
+                        $rootScope.$broadcast('account.logout', service.item);
+                    }
+                },
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                        MessageSvc.error(response.data.code, response.data);
+                }
+            );
+        });
+    }
+	service.doDelete=function(){
+         MessageSvc.confirm('account/delete/confirm', {},
+         function(){
+             AccountRes.actionDelete().then(
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
+                        service.item={}
+                        $rootScope.$broadcast('account.delete', service.item);
+                    }
+                },
+                function (response) {
+                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
+                        MessageSvc.error(response.data.code, response.data);
+                }
+            );
+        });
+    }
+
+    service.isLogged=function(){
+        return AppConfig.user.id!=undefined;
+    }
+
+    service.isAdmin=function(){
+        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('admin')!=-1
+    }
+
+    service.isAuthor=function(){
+        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('author')!=-1
+    }
+
+    service.isUser=function(){
+        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('user')!=-1
+    }
+
     return service;
   });
 app.factory('ContactSvc', function ($q, $location, AppConst, ContactRes, MessageSvc, $rootScope, $routeParams, NavbarSvc, TagSvc) {
@@ -78434,6 +78685,178 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
 
     return service;
   });
+app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $modal) {
+    var service={};
+
+    service.list=false;
+    service.infoEnable=true;
+    service.confirmEnable=true;
+
+    var extVSprintF=function(message, data){
+        var new_data=[]
+        var new_message=message;
+
+        if (Array.isArray(data)){
+            for (var key in data){
+                if (typeof data[key] !== 'object' && !Array.isArray(data[key]))
+                    new_data.push(data[key]);
+            }
+        }
+        else
+        if (typeof data === 'object'){
+            for (var key in data){
+                if (typeof data[key] !== 'object' && !Array.isArray(data[key]))
+                    new_message=new_message.replace(new RegExp('%'+key, 'ig'),data[key]);
+            }
+        }
+        else
+        if (data!=undefined)
+            new_data.push(data);
+        return vsprintf(new_message, new_data);
+    }
+
+    service.error=function(message, data, callbackOk){
+        if (data===undefined)
+            data={values:[]};
+
+        if (data.title===undefined)
+            data.title='Error';
+
+        if (callbackOk===undefined)
+            callbackOk=function(){
+            }
+        if (service.list[message]!==undefined)
+            message=service.list[message];
+
+        var boxOptions = {
+            title: data.title,
+            content: extVSprintF(message, data.values),
+            theme: 'danger',
+            confirmTemplate: 'views/message/confirm.modal.html',
+            promptTemplate: 'views/message/prompt.modal.html',
+            alertTemplate: 'views/message/alert.modal.html',
+            effect: false,
+            afterOk: callbackOk,
+            html: true
+        }
+
+        $modalBox(boxOptions);
+        $rootScope.$broadcast('message.error', message, data, callbackOk);
+    }
+
+    service.alert=function(message, data, callbackOk){
+        if (data===undefined)
+            data={values:[]};
+
+        if (data.title===undefined)
+            data.title='Info';
+
+        if (callbackOk===undefined)
+            callbackOk=function(){
+            }
+        if (service.list[message]!==undefined)
+            message=service.list[message];
+
+        var boxOptions = {
+            title: data.title,
+            content: extVSprintF(message, data.values),
+            theme: 'alert',
+            confirmTemplate: 'views/message/confirm.modal.html',
+            promptTemplate: 'views/message/prompt.modal.html',
+            alertTemplate: 'views/message/alert.modal.html',
+            effect: false,
+            afterOk: callbackOk,
+            html: true
+        }
+        $modalBox(boxOptions);
+        $rootScope.$broadcast('message.alert', message, data, callbackOk);
+    }
+
+    service.confirm=function(message, data, callbackOk, callbackCancel){
+        if (data===undefined)
+            data={values:[]};
+
+        if (data.title===undefined)
+            data.title='Message';
+
+        if (callbackOk===undefined)
+            callbackOk=function(){
+            }
+        if (callbackCancel===undefined)
+            callbackCancel=function(){
+            }
+        if (service.list[message]!==undefined)
+            message=service.list[message];
+
+        if (service.confirmEnable===false){
+            callbackOk();
+            return;
+        }
+
+        var boxOptions = {
+            title: data.title,
+            content: extVSprintF(message, data.values),
+            boxType: 'confirm',
+            theme: 'alert',
+            confirmTemplate: 'views/message/confirm.modal.html',
+            promptTemplate: 'views/message/prompt.modal.html',
+            alertTemplate: 'views/message/alert.modal.html',
+            effect: false,
+            confirmText: 'Yes',
+            cancelText: 'No',
+            afterConfirm: callbackOk,
+            afterCancel: callbackCancel,
+            html: true
+        }
+
+        $modalBox(boxOptions);
+        $rootScope.$broadcast('message.confirm', message, data, callbackOk);
+    }
+
+
+    service.info=function(message, data, type){
+
+        if (service.infoEnable===false)
+            return;
+
+        service.alert(message, data);
+/*
+        if (data===undefined)
+            data={values:[]};
+
+        if (data.title===undefined)
+            data.title='';
+        if (data.alertType===undefined)
+            data.alertType='info';
+        if (data.placement===undefined)
+            data.placement='bottom-right';
+
+        if (service.list[message]!==undefined)
+            message=service.list[message];
+
+        $alert({
+            content: extVSprintF(message, data.values),
+            title: data.title,
+            alertType: data.alertType,
+            placement: data.placement
+        });
+*/
+    }
+
+    service.init=function(){
+        service.list={};
+        for (var key in AppConst){
+            if (AppConst[key]['message']!==undefined){
+                angular.extend(service.list, AppConst[key]['message']);
+            }
+        }
+    }
+
+    if (service.list===false)
+        service.init();
+
+    return service;
+  });
 app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, $window, AppConst) {
     var service={};
 
@@ -78507,219 +78930,6 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
             modifiItem(service.items.right[i]);
         }
         $rootScope.$broadcast('navbar.change', false, {current:{params:{navId:$routeParams.navId}}}, false);
-    }
-
-    return service;
-  });
-app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, $routeParams, NavbarSvc) {
-    var service={};
-
-    $rootScope.$on('account.update',function(event, data){
-        MessageSvc.info('account/update/success');
-        AppConfig.user=service.item;
-    });
-
-    $rootScope.$on('account.create',function(event, data){
-        MessageSvc.info('account/create/success');
-        AppConfig.user=service.item;
-        NavbarSvc.init();
-        NavbarSvc.goBack();
-    });
-
-    $rootScope.$on('account.login',function(event, data){
-        MessageSvc.info('account/login/success');
-        AppConfig.user=service.item;
-        NavbarSvc.init();
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.doLogout',function(event, data){
-        service.doLogout();
-    });
-
-    $rootScope.$on('account.logout',function(event, data){
-        MessageSvc.info('account/logout/success');
-        AppConfig.user=service.item;
-        NavbarSvc.init();
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.delete',function(event, data){
-        MessageSvc.info('account/delete/success');
-        AppConfig.user=service.item;
-        NavbarSvc.init();
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.recovery',function(event, data){
-        service.goResetpassword();
-        MessageSvc.info('account/recovery/checkemail', {values:[data.email]});
-    });
-
-    service.item={};
-
-    service.goResetpassword=function(){
-        $location.path('/resetpassword');
-    }
-    service.init=function(reload){
-        NavbarSvc.init($routeParams.navId);
-        if (($routeParams.navId=='login' || $routeParams.navId=='reg' || $routeParams.navId=='resetpassword' || $routeParams.navId=='recovery') && service.isLogged()){
-            NavbarSvc.goHome();
-            return;
-        }
-        if ($routeParams.navId=='profile' && !service.isLogged()){
-            NavbarSvc.goHome();
-            return;
-        }
-        if ($routeParams.navId=='resetpassword'){
-            if ($routeParams.code!==undefined)
-                service.resetpasswordCode=$routeParams.code;
-            else
-                service.resetpasswordCode='';
-            return;
-        }
-
-        $q.all([
-            service.load()
-        ]).then(function(responseList) {
-
-        });
-    }
-
-    service.load=function(){
-        var deferred = $q.defer();
-        service.item=AppConfig.user;
-        deferred.resolve(service.item);
-        return deferred.promise;
-    }
-
-	service.doReg=function(item){
-	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionReg(item).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    service.item=angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.create', service.item);
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-    }
-
-	service.doRecovery=function(email){
-	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionRecovery(email).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    $rootScope.$broadcast('account.recovery', {email:email});
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-    }
-
-	service.doResetpassword=function(code, password){
-	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionResetpassword(code, password).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    service.item=angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.resetpassword', {code:code});
-                	$rootScope.$broadcast('account.login', service.item);
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-    }
-
-	service.doUpdate=function(item){
-	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionUpdate(item).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    service.item=angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.update', service.item);
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-    }
-
-	service.doLogin=function(email, password){
-	    AccountRes.actionLogin(email,password).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    service.item=angular.copy(response.data.data[0]);
-                	$rootScope.$broadcast('account.login', service.item);
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-	}
-	service.doLogout=function(){
-         MessageSvc.confirm('account/logout/confirm', {},
-         function(){
-             AccountRes.actionLogout().then(
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                        service.item={}
-                        $rootScope.$broadcast('account.logout', service.item);
-                    }
-                },
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                        MessageSvc.error(response.data.code, response.data);
-                }
-            );
-        });
-    }
-	service.doDelete=function(){
-         MessageSvc.confirm('account/delete/confirm', {},
-         function(){
-             AccountRes.actionDelete().then(
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                        service.item={}
-                        $rootScope.$broadcast('account.delete', service.item);
-                    }
-                },
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                        MessageSvc.error(response.data.code, response.data);
-                }
-            );
-        });
-    }
-
-    service.isLogged=function(){
-        return AppConfig.user.id!=undefined;
-    }
-
-    service.isAdmin=function(){
-        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('admin')!=-1
-    }
-
-    service.isAuthor=function(){
-        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('author')!=-1
-    }
-
-    service.isUser=function(){
-        return AppConfig.user!=undefined && AppConfig.user.roles!=undefined && AppConfig.user.roles.indexOf('user')!=-1
     }
 
     return service;
@@ -79224,178 +79434,6 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     }
     return service;
   });
-app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $modal) {
-    var service={};
-
-    service.list=false;
-    service.infoEnable=true;
-    service.confirmEnable=true;
-
-    var extVSprintF=function(message, data){
-        var new_data=[]
-        var new_message=message;
-
-        if (Array.isArray(data)){
-            for (var key in data){
-                if (typeof data[key] !== 'object' && !Array.isArray(data[key]))
-                    new_data.push(data[key]);
-            }
-        }
-        else
-        if (typeof data === 'object'){
-            for (var key in data){
-                if (typeof data[key] !== 'object' && !Array.isArray(data[key]))
-                    new_message=new_message.replace(new RegExp('%'+key, 'ig'),data[key]);
-            }
-        }
-        else
-        if (data!=undefined)
-            new_data.push(data);
-        return vsprintf(new_message, new_data);
-    }
-
-    service.error=function(message, data, callbackOk){
-        if (data===undefined)
-            data={values:[]};
-
-        if (data.title===undefined)
-            data.title='Error';
-
-        if (callbackOk===undefined)
-            callbackOk=function(){
-            }
-        if (service.list[message]!==undefined)
-            message=service.list[message];
-
-        var boxOptions = {
-            title: data.title,
-            content: extVSprintF(message, data.values),
-            theme: 'danger',
-            confirmTemplate: 'views/message/confirm.modal.html',
-            promptTemplate: 'views/message/prompt.modal.html',
-            alertTemplate: 'views/message/alert.modal.html',
-            effect: false,
-            afterOk: callbackOk,
-            html: true
-        }
-
-        $modalBox(boxOptions);
-        $rootScope.$broadcast('message.error', message, data, callbackOk);
-    }
-
-    service.alert=function(message, data, callbackOk){
-        if (data===undefined)
-            data={values:[]};
-
-        if (data.title===undefined)
-            data.title='Info';
-
-        if (callbackOk===undefined)
-            callbackOk=function(){
-            }
-        if (service.list[message]!==undefined)
-            message=service.list[message];
-
-        var boxOptions = {
-            title: data.title,
-            content: extVSprintF(message, data.values),
-            theme: 'alert',
-            confirmTemplate: 'views/message/confirm.modal.html',
-            promptTemplate: 'views/message/prompt.modal.html',
-            alertTemplate: 'views/message/alert.modal.html',
-            effect: false,
-            afterOk: callbackOk,
-            html: true
-        }
-        $modalBox(boxOptions);
-        $rootScope.$broadcast('message.alert', message, data, callbackOk);
-    }
-
-    service.confirm=function(message, data, callbackOk, callbackCancel){
-        if (data===undefined)
-            data={values:[]};
-
-        if (data.title===undefined)
-            data.title='Message';
-
-        if (callbackOk===undefined)
-            callbackOk=function(){
-            }
-        if (callbackCancel===undefined)
-            callbackCancel=function(){
-            }
-        if (service.list[message]!==undefined)
-            message=service.list[message];
-
-        if (service.confirmEnable===false){
-            callbackOk();
-            return;
-        }
-
-        var boxOptions = {
-            title: data.title,
-            content: extVSprintF(message, data.values),
-            boxType: 'confirm',
-            theme: 'alert',
-            confirmTemplate: 'views/message/confirm.modal.html',
-            promptTemplate: 'views/message/prompt.modal.html',
-            alertTemplate: 'views/message/alert.modal.html',
-            effect: false,
-            confirmText: 'Yes',
-            cancelText: 'No',
-            afterConfirm: callbackOk,
-            afterCancel: callbackCancel,
-            html: true
-        }
-
-        $modalBox(boxOptions);
-        $rootScope.$broadcast('message.confirm', message, data, callbackOk);
-    }
-
-
-    service.info=function(message, data, type){
-
-        if (service.infoEnable===false)
-            return;
-
-        service.alert(message, data);
-/*
-        if (data===undefined)
-            data={values:[]};
-
-        if (data.title===undefined)
-            data.title='';
-        if (data.alertType===undefined)
-            data.alertType='info';
-        if (data.placement===undefined)
-            data.placement='bottom-right';
-
-        if (service.list[message]!==undefined)
-            message=service.list[message];
-
-        $alert({
-            content: extVSprintF(message, data.values),
-            title: data.title,
-            alertType: data.alertType,
-            placement: data.placement
-        });
-*/
-    }
-
-    service.init=function(){
-        service.list={};
-        for (var key in AppConst){
-            if (AppConst[key]['message']!==undefined){
-                angular.extend(service.list, AppConst[key]['message']);
-            }
-        }
-    }
-
-    if (service.list===false)
-        service.init();
-
-    return service;
-  });
 app.controller('AppCtrl', function ($scope, AppSvc, AppConst, UtilsSvc, AccountSvc, MessageSvc) {
     $scope.AppConfig=AppConfig;
 
@@ -79403,6 +79441,16 @@ app.controller('AppCtrl', function ($scope, AppSvc, AppConst, UtilsSvc, AccountS
     $scope.AppConst=AppConst;
 	$scope.AppSvc=AppSvc;
 	$scope.MessageSvc=MessageSvc;
+});
+app.controller('AccountCtrl', function ($scope, $routeParams, AccountSvc, TagSvc, ProjectSvc) {
+    $scope.AccountSvc=AccountSvc;
+    $scope.TagSvc=TagSvc;
+    $scope.ProjectSvc=ProjectSvc;
+    $scope.$routeParams=$routeParams;
+
+	TagSvc.init();
+	ProjectSvc.init();
+	AccountSvc.init();
 });
 app.controller('ContactCtrl', function ($scope, $routeParams, ContactSvc, TagSvc, ProjectSvc) {
     $scope.ContactSvc=ContactSvc;
@@ -79415,21 +79463,23 @@ app.controller('ContactCtrl', function ($scope, $routeParams, ContactSvc, TagSvc
 app.controller('FileCtrl', function ($scope, FileSvc) {
 	$scope.FileSvc=FileSvc;
 });
+app.controller('HomeCtrl', function ($scope, $timeout, ProjectSvc, PostSvc, AccountSvc, TagSvc, FileSvc, NavbarSvc) {
+    $scope.AccountSvc=AccountSvc;
+	$scope.ProjectSvc=ProjectSvc;
+	$scope.PostSvc=PostSvc;
+	$scope.TagSvc=TagSvc;
+	$scope.FileSvc=FileSvc;
+
+	TagSvc.init();
+	ProjectSvc.init();
+	PostSvc.init();
+    NavbarSvc.init('home');
+});
 app.controller('NavbarCtrl', function ($scope, NavbarSvc, SearchSvc) {
 	$scope.NavbarSvc=NavbarSvc;
 	$scope.SearchSvc=SearchSvc;
 
     NavbarSvc.init();
-});
-app.controller('AccountCtrl', function ($scope, $routeParams, AccountSvc, TagSvc, ProjectSvc) {
-    $scope.AccountSvc=AccountSvc;
-    $scope.TagSvc=TagSvc;
-    $scope.ProjectSvc=ProjectSvc;
-    $scope.$routeParams=$routeParams;
-
-	TagSvc.init();
-	ProjectSvc.init();
-	AccountSvc.init();
 });
 app.controller('PostCtrl', function ($scope, $timeout, PostSvc, AccountSvc, TagSvc, FileSvc) {
     $scope.AccountSvc=AccountSvc;
@@ -79470,18 +79520,6 @@ app.controller('TagCtrl', function ($scope, TagSvc, AccountSvc, ProjectSvc, Post
 	ProjectSvc.init();
 	PostSvc.init();
 	TagSvc.init();
-});
-app.controller('HomeCtrl', function ($scope, $timeout, ProjectSvc, PostSvc, AccountSvc, TagSvc, FileSvc, NavbarSvc) {
-    $scope.AccountSvc=AccountSvc;
-	$scope.ProjectSvc=ProjectSvc;
-	$scope.PostSvc=PostSvc;
-	$scope.TagSvc=TagSvc;
-	$scope.FileSvc=FileSvc;
-
-	TagSvc.init();
-	ProjectSvc.init();
-	PostSvc.init();
-    NavbarSvc.init('home');
 });
 jQuery(document).ready(function($) {
 

@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" ng-controller="MetaTagCtrl">
+            <form name="meta_tagForm">
+                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+                <div class="modal-body">
+                    <div class="modal-body-inner">
+                        <div ng-include="'views/manager/meta_tag/inputs.html'"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="meta_tagUpdateCancel">
+                        <i class="fa fa-undo"></i> {{cancelText}}
+                    </button>
+                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"
+                            ng-disabled="!meta_tagForm.$valid" id="meta_tagUpdateConfirm">
+                        <i class="fa fa-floppy-o"></i> {{confirmText}}
+                    </button>
+                </div>
+                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">
+                    <i class="fa fa-times"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

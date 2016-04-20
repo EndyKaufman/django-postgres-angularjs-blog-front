@@ -53,7 +53,7 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
         $location.path(AppConst.home.url);
     }
 
-    service.init=function(navId){
+    service.init=function(navId, subNavId){
         if (navId!=undefined)
             $routeParams.navId=navId;
         else
@@ -63,6 +63,15 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
         if ($route.current !== undefined && $route.current.params!==undefined && $route.current.params.navId!=undefined)
             $routeParams.navId=$route.current.params.navId;
 
+        if (subNavId!=undefined)
+            $routeParams.subNavId=subNavId;
+        else
+        if ($route.current !== undefined && $route.current.$$route!==undefined && $route.current.$$route.subNavId!=undefined)
+            $routeParams.subNavId=$route.current.$$route.subNavId
+        else
+        if ($route.current !== undefined && $route.current.params!==undefined && $route.current.params.subNavId!=undefined)
+            $routeParams.subNavId=$route.current.params.subNavId;
+
         service.items=AppConst.navbar;
         for (var i=0;i<service.items.left.length;i++){
             modifiItem(service.items.left[i]);
@@ -70,7 +79,14 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
         for (var i=0;i<service.items.right.length;i++){
             modifiItem(service.items.right[i]);
         }
-        $rootScope.$broadcast('navbar.change', false, {current:{params:{navId:$routeParams.navId}}}, false);
+        $rootScope.$broadcast('navbar.change', false, {
+            current:{
+                params:{
+                    navId:$routeParams.navId,
+                    subNavId:$routeParams.subNavId
+                }
+            }
+        }, false);
     }
 
     return service;
