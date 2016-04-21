@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" ng-controller="PublicLinkCtrl">
+            <form name="public_linkForm">
+                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+                <div class="modal-body">
+                    <div class="modal-body-inner">
+                        <div ng-include="'views/manager/public_link/inputs.html'"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="public_linkCreateCancel">
+                        <i class="fa fa-undo"></i> {{cancelText}}
+                    </button>
+                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"
+                            ng-disabled="!public_linkForm.$valid" id="public_linkCreateConfirm">
+                        <i class="fa fa-check"></i> {{confirmText}}
+                    </button>
+                </div>
+                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">
+                    <i class="fa fa-times"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
