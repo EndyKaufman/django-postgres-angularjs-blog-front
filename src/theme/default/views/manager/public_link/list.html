@@ -2,9 +2,11 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>Name</th>
-        <th>Content</th>
-        <th>Attributes</th>
+        <th>Icon</th>
+        <th>Title</th>
+        <th>In header</th>
+        <th>In contact</th>
+        <th>In footer</th>
         <th class="text-right">Actions</th>
     </tr>
     </thead>
@@ -12,9 +14,13 @@
     <tr ng-repeat="item in PublicLinkSvc.list"
         ng-class="(PublicLinkSvc.item.id==item.id)?'bold':''">
         <td ng-bind-html="item.id" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.name | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.content | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.attributes | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-click="PublicLinkSvc.selectItem(item)">
+            <i class="{{(item.icon=='')?'fa':item.icon}}"></i>
+        </td>
+        <td ng-bind-html="item.title | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind-html="(item.in_header==1)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind-html="(item.in_contact)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind-html="(item.in_footer)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="PublicLinkSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'public_link'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit

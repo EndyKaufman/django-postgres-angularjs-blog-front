@@ -11,5 +11,11 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'MetaTagCtrl',
         navId: 'manager',
         subNavId: 'meta_tag'
+      })
+      .when('/manager/public_link', {
+        templateUrl: 'views/manager/public_link.html',
+        controller: 'PublicLinkCtrl',
+        navId: 'manager',
+        subNavId: 'public_link'
       });
 });

@@ -7,6 +7,10 @@ app.constant('ManagerConst', {
         title: 'Meta tags',
         name: 'meta_tag'
     },
+    public_link:{
+        title: 'Public links',
+        name: 'public_link'
+    },
     message:{
     }
 });

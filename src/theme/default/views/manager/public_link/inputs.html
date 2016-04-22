@@ -1,14 +1,42 @@
 <div class="form-group">
-    <label for="PublicLinkName">Name</label>
-    <input class="form-control" type="text" id="PublicLinkName" ng-model="PublicLinkSvc.item.name"/>
+    <label for="PublicLinkSrc">Src</label>
+    <input class="form-control" type="text" id="PublicLinkSrc" ng-model="PublicLinkSvc.item.src"/>
 </div>
 <div class="form-group">
-    <label for="PublicLinkContent">Content</label>
-    <input type="text" class="form-control" id="PublicLinkContent"
-           ng-model="PublicLinkSvc.item.content"/>
+    <label for="PublicLinkTitle">Title</label>
+    <input type="text" class="form-control" id="PublicLinkTitle"
+           ng-model="PublicLinkSvc.item.title"/>
 </div>
 <div class="form-group">
-    <label for="PublicLinkAttributes">Attributes</label>
-    <input type="text" class="form-control" id="PublicLinkAttributes"
-           ng-model="PublicLinkSvc.item.attributes"/>
+    <label for="PublicLinkDescription">Description</label>
+    <textarea class="form-control" id="PublicLinkDescription"
+              ng-model="PublicLinkSvc.item.description"></textarea>
+</div>
+<div class="form-group">
+    <label for="PublicLinkIcon">Icon</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="PublicLinkIcon"
+               ng-model="PublicLinkSvc.item.icon"/>
+        <span class="input-group-btn">
+            <button ng-click="IconsSvc.showList(PublicLinkSvc.item.icon)"
+                    class="btn btn-cta-secondary" type="button" id="publicLinkSelectIcon">
+                <i class="{{(PublicLinkSvc.item.icon=='')?'fa':PublicLinkSvc.item.icon}}"></i>
+            </button>
+        </span>
+    </div>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" ng-model="PublicLinkSvc.item.in_header" ng-true-value="1" ng-false-value="0"> In header
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" ng-model="PublicLinkSvc.item.in_contact" ng-true-value="1" ng-false-value="0"> In contact
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" ng-model="PublicLinkSvc.item.in_footer" ng-true-value="1" ng-false-value="0"> In footer
+    </label>
 </div>
