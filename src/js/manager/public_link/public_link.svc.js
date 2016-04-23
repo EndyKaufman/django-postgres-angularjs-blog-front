@@ -10,6 +10,7 @@ app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, 
         service.item.title = '';
         service.item.description='';
         service.item.icon='';
+        service.item.position=0;
         service.item.in_header=0;
         service.item.in_footer=0;
         service.item.in_contact=1;

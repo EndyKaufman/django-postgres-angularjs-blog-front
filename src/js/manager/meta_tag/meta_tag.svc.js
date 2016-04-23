@@ -9,6 +9,7 @@ app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modal
         service.item.name = '';
         service.item.content = '';
         service.item.attributes='';
+        service.item.position=0;
     }
 
     service.showCreate=function(){

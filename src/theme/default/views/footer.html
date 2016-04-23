@@ -3,7 +3,7 @@
     <div class="container text-center">
         <small>
             <ul class="list-inline" ng-if="PublicLinkSvc.list.length>0">
-                <li ng-repeat="item in PublicLinkSvc.list" ng-if="item.in_footer">
+                <li ng-repeat="item in PublicLinkSvc.list | orderBy:'position'" ng-if="item.in_footer">
                     <a ng-href="{{item.src}}" target="_blank">
                         <i class="" ng-class="item.icon"></i>
                         <span ng-bind="item.title"></span>
