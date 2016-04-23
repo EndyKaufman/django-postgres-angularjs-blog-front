@@ -5,8 +5,5 @@ app.controller('SearchCtrl', function ($scope, SearchSvc, AccountSvc, TagSvc, Pr
 	$scope.ProjectSvc=ProjectSvc;
 	$scope.PostSvc=PostSvc;
 
-	TagSvc.init();
-	ProjectSvc.init();
-	PostSvc.init();
 	SearchSvc.init();
 });

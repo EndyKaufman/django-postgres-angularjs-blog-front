@@ -4,7 +4,5 @@ app.controller('TagCtrl', function ($scope, TagSvc, AccountSvc, ProjectSvc, Post
 	$scope.ProjectSvc=ProjectSvc;
 	$scope.PostSvc=PostSvc;
 
-	ProjectSvc.init();
-	PostSvc.init();
 	TagSvc.init();
 });

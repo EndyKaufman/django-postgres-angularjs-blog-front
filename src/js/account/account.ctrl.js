@@ -4,7 +4,7 @@ app.controller('AccountCtrl', function ($scope, $routeParams, AccountSvc, TagSvc
     $scope.ProjectSvc=ProjectSvc;
     $scope.$routeParams=$routeParams;
 
-	TagSvc.init();
-	ProjectSvc.init();
+	TagSvc.load();
+	ProjectSvc.load();
 	AccountSvc.init();
 });

@@ -3,6 +3,6 @@ app.controller('ContactCtrl', function ($scope, $routeParams, ContactSvc, TagSvc
     $scope.TagSvc=TagSvc;
     $scope.$routeParams=$routeParams;
 
-	TagSvc.init();
+	TagSvc.load();
 	ContactSvc.init();
 });

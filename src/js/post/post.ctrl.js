@@ -4,6 +4,5 @@ app.controller('PostCtrl', function ($scope, $timeout, PostSvc, AccountSvc, TagS
 	$scope.TagSvc=TagSvc;
 	$scope.FileSvc=FileSvc;
 
-	TagSvc.init();
 	PostSvc.init();
 });
