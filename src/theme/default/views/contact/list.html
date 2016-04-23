@@ -45,6 +45,15 @@
 
         </div><!--//primary-->
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
+            <aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">
+                <div class="section-inner">
+                    <h2 class="heading">Other</h2>
+                    <div class="content">
+                        <div ng-include="'views/contact/links.html'"></div>
+                    </div><!--//content-->
+                </div><!--//section-inner-->
+            </aside><!--//section-->
+
             <aside class="info aside section">
                 <div class="section-inner">
                     <h2 class="heading sr-only">Search</h2>

@@ -1,0 +1,4 @@
+<ul class="list-unstyled">
+    <li ng-repeat="item in PublicLinkSvc.list" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a
+            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>
+</ul>

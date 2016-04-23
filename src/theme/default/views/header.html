@@ -6,10 +6,10 @@
         <div class="profile-content pull-left">
             <h1 class="name cursor-pointer" ng-bind-html="AppConst.home.title | unsafe" ng-click="NavbarSvc.goHome()"></h1>
             <h2 class="desc cursor-pointer" ng-bind-html="AppConst.home.description | unsafe" ng-click="NavbarSvc.goHome()"></h2>
-            <ul class="social list-inline" ng-if="AppConst.home.social && AppConst.home.social.length>0">
+            <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">
                 <li ng-class="$last ? 'last-item' : ''"
-                    ng-repeat="item in AppConst.home.social">
-                    <a ng-href="{{item.url}}"><i class="" ng-class="item.iconClass"></i></a>
+                    ng-repeat="item in PublicLinkSvc.list" ng-if="item.in_header">
+                    <a ng-href="{{item.src}}" target="_blank"><i class="" ng-class="item.icon"></i></a>
                 </li>
             </ul>
         </div><!--//profile-->
