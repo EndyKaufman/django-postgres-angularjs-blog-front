@@ -1,28 +1,17 @@
-<div ng-include="'views/not-access.html'" ng-if="!AccountSvc.isAdmin()"></div>
-<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">
+<div class="container sections-wrapper">
     <div class="row">
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
                 <div class="section-inner">
-                    <h1 class="heading" ng-include="'views/manager/public_link/list-header.html'">
-                    </h1>
+                    <h1>Error</h1>
                     <div class="content">
-                        <div ng-include="'views/manager/public_link/list.html'"></div>
+                        Not founded!
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->
 
         </div><!--//primary-->
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
-            <aside class="list manager-menu aside section">
-                <div class="section-inner">
-                    <h2 class="heading">Menu</h2>
-                    <div class="content">
-                        <div ng-include="'views/manager/menu.html'"></div>
-                    </div><!--//content-->
-                </div><!--//section-inner-->
-            </aside><!--//section-->
-
             <aside class="info aside section">
                 <div class="section-inner">
                     <h2 class="heading sr-only">Search</h2>

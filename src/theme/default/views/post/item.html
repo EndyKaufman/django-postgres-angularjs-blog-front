@@ -1,4 +1,5 @@
-<div class="container sections-wrapper">
+<div ng-include="'views/not-access.html'" ng-if="!AccountSvc.isAdmin()"></div>
+<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">
     <div class="row">
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
@@ -6,7 +7,7 @@
                     <h1 class="heading">
                         <span ng-bind-html="PostSvc.item.title | unsafe"></span>
                         <a ng-href="{{'/post/update/'+PostSvc.item.name}}"
-                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                           class="btn btn-cta-secondary pull-right btn-xs" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>
                     </h1>
                     <div class="content">
                         <div class="item row">

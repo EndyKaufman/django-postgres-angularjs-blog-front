@@ -203,7 +203,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/public_link/list-header.html', '<span ng-bind-html="AppConst.manager.public_link.title | unsafe"></span>\n' +
-    '<button ng-click="PublicLinkSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '<button ng-click="PublicLinkSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
     '        type="button" id="public_linkCreate">\n' +
     '    <i class="fa fa-plus"></i> Create\n' +
     '</button>');
@@ -332,7 +332,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/meta_tag/list-header.html', '<span ng-bind-html="AppConst.manager.meta_tag.title | unsafe"></span>\n' +
-    '<button ng-click="MetaTagSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '<button ng-click="MetaTagSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
     '        type="button" id="meta_tagCreate">\n' +
     '    <i class="fa fa-plus"></i> Create\n' +
     '</button>');
@@ -511,7 +511,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/project/update.html', '<div class="container sections-wrapper">\n' +
+	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <form name="projectForm">\n' +
     '        <div class="row">\n' +
     '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -520,7 +521,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                        <h1 class="heading">\n' +
     '                            <span>Edit project</span>\n' +
     '                            <a ng-href="{{\'/project/\'+ProjectSvc.item.name}}"\n' +
-    '                               class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '                               class="btn btn-cta-default pull-right btn-xs"\n' +
     '                               id="projectUpdate"><i class="fa fa-pencil-square-o"></i> View</a>\n' +
     '                        </h1>\n' +
     '                        <div class="content">\n' +
@@ -916,7 +917,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/post/list-header.html', '<span ng-bind-html="AppConst.post.strings.title | unsafe"></span>\n' +
     '<a ng-href="/post/create"\n' +
     '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postCreate"><i class="fa fa-plus"></i>  Create</a>');
-	a.put('views/post/item.html', '<div class="container sections-wrapper">\n' +
+	a.put('views/post/item.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
@@ -924,7 +926,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                    <h1 class="heading">\n' +
     '                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>\n' +
     '                        <a ng-href="{{\'/post/update/\'+PostSvc.item.name}}"\n' +
-    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>\n' +
+    '                           class="btn btn-cta-secondary pull-right btn-xs" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
     '                        <div class="item row">\n' +
@@ -1138,7 +1140,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/manager/public_link.html', '<div class="container sections-wrapper">\n' +
+	a.put('views/manager/public_link.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
@@ -1183,7 +1186,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/manager/meta_tag.html', '<div class="container sections-wrapper">\n' +
+	a.put('views/manager/meta_tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
@@ -1904,6 +1908,76 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                                    </span>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/not-founded.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1>Error</h1>\n' +
+    '                    <div class="content">\n' +
+    '                        Not founded!\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/not-access.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1>Error</h1>\n' +
+    '                    <div class="content">\n' +
+    '                        Not access!\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
 	a.put('views/header.html', '<!-- ******HEADER****** -->\n' +
     '<header class="header" ng-controller="NavbarCtrl">\n' +
     '    <div class="container">\n' +

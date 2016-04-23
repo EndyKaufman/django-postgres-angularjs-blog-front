@@ -1,4 +1,5 @@
-<div class="container sections-wrapper">
+<div ng-include="'views/not-access.html'" ng-if="!AccountSvc.isAdmin()"></div>
+<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">
     <div class="row">
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
