@@ -11,6 +11,10 @@ app.constant('ManagerConst', {
         title: 'Public links',
         name: 'public_link'
     },
+    properties:{
+        title: 'Properties',
+        name: 'properties'
+    },
     message:{
     }
 });

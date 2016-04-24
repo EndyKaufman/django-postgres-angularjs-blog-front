@@ -17,5 +17,11 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'PublicLinkCtrl',
         navId: 'manager',
         subNavId: 'public_link'
+      })
+      .when('/manager/properties', {
+        templateUrl: 'views/manager/properties.html',
+        controller: 'PropertiesCtrl',
+        navId: 'manager',
+        subNavId: 'properties'
       });
 });
