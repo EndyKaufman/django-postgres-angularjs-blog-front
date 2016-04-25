@@ -8,6 +8,7 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
         service.item = {};
         service.item.name = '';
         service.item.value = '';
+        service.item.comment = '';
     }
 
     service.showCreate=function(){

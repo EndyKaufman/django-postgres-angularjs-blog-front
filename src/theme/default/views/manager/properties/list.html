@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>#</th>
+        <th>Comment</th>
         <th>Name</th>
         <th>Value</th>
         <th class="text-right">Actions</th>
@@ -10,15 +11,16 @@
     <tbody>
     <tr ng-repeat="item in PropertiesSvc.list | orderBy:'position'"
         ng-class="(PropertiesSvc.item.id==item.id)?'bold':''">
-        <td ng-bind-html="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.name | unsafe" ng-click="PropertiesSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.value | unsafe" ng-click="PropertiesSvc.selectItem(item)"></td>
+        <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>
+        <td ng-bind="item.comment" ng-click="PropertiesSvc.selectItem(item)"></td>
+        <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>
+        <td ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="PropertiesSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'properties'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit
             </button>
             <button ng-click="PropertiesSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"
-                    id="{{'properties'+item.id+'Delete'}}"><i class="fa fa-trash"></i> Delete
+                    id="{{'properties'+item.id+'Delete'}}" ng-if="item.only_update==1"><i class="fa fa-trash"></i> Delete
             </button>
         </td>
     </tr>
