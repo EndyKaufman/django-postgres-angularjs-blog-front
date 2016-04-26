@@ -28,12 +28,15 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
 
         if ($routeParams.searchText!=undefined){
             service.allList=[];
+            service.allListSumSize=0;
             $q.all([
                 TagSvc.load(),
                 ProjectRes.getSearch($routeParams.searchText),
                 PostRes.getSearch($routeParams.searchText)
             ]).then(function(responseList) {
                 for (var i=1;i<responseList.length;i++){
+                    if (responseList[i].data.data && responseList[i].data.data.length>0)
+                        service.allListSumSize=service.allListSumSize+responseList[i].data.data.length;
                     if (i==1)
                         service.allList.push({
                             name: 'project',

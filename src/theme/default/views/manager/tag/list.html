@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Text</th>
+        <th>Description</th>
+        <th class="text-right">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in TagSvc.list | orderBy:'position'"
+        ng-class="(TagSvc.item.id==item.id)?'bold':''">
+        <td ng-bind-html="item.id" ng-click="TagSvc.selectItem(item)"></td>
+        <td ng-bind-html="item.text | unsafe" ng-click="TagSvc.selectItem(item)"></td>
+        <td ng-bind-html="item.description | unsafe" ng-click="TagSvc.selectItem(item)"></td>
+        <td class="text-right">
+            <button ng-click="TagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
+                    id="{{'tag'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit
+            </button>
+            <button ng-click="TagSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"
+                    id="{{'tag'+item.id+'Delete'}}"><i class="fa fa-trash"></i> Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

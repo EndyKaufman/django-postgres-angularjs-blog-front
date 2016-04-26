@@ -23,5 +23,11 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'PropertiesCtrl',
         navId: 'manager',
         subNavId: 'properties'
+      })
+      .when('/manager/tag', {
+        templateUrl: 'views/manager/tag.html',
+        controller: 'TagCtrl',
+        navId: 'manager',
+        subNavId: 'tag'
       });
 });

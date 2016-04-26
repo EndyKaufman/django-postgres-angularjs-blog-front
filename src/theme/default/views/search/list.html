@@ -6,11 +6,14 @@
                     <h1 class="heading">
                         Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"
                     </h1>
+                    <div class="content" ng-if="SearchSvc.allListSumSize==0">
+                        Nothing...
+                    </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->
 
-            <div ng-repeat="allItem in SearchSvc.allList">
-                <section class="latest section" ng-if="allItem.name=='project'">
+            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">
+                <section class="latest section" ng-if="allItem.name=='project'" ng-if="allItem.length>0">
                     <div class="section-inner">
                         <h2 class="heading" ng-include="'views/project/list-header.html'">
                         </h2>
@@ -19,7 +22,7 @@
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </section><!--//section-->
-                <section class="latest section" ng-if="allItem.name=='post'">
+                <section class="latest section" ng-if="allItem.name=='post'" ng-if="allItem.length>0">
                     <div class="section-inner">
                         <h2 class="heading" ng-include="'views/post/list-header.html'">
                         </h2>
