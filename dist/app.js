@@ -76007,37 +76007,42 @@ app.config(function ($selectProvider, showErrorsConfigProvider, $carouselProvide
 app.constant('AccountConst',{
     reg:{
         title: 'Reg',
-        name: 'reg'
+        name: 'reg',
+        description: 'Registration on site'
     },
     login:{
         title: 'Login',
-        name: 'login'
+        name: 'login',
+        description: 'Authorization on site'
     },
     logout:{
         title: 'Logout',
-        name: 'logout'
+        name: 'logout',
+        description: 'Logout from site'
     },
     profile:{
         title: 'Profile',
-        name: 'profile'
+        name: 'profile',
+        description: 'Profile of user'
     },
     recovery:{
         name: 'Recovery',
-        name: 'recovery'
+        name: 'recovery',
+        description: 'Recovery access to site'
     },
     message:{
         'account/exists':'User with email <strong>%s</strong> is exists!',
-        'account/noemail':'Email is empty!',
-        'account/nopassword':'Password is empty!',
-        'account/wrongemail':'Email is incorrect!',
-        'account/usernotfound':'User not founded!',
-        'account/wrongpassword':'Wrong password!',
-        'account/notactive':'User not activated!',
-        'account/younotactive':'You not activated!',
+        'account/no_email':'Email is empty!',
+        'account/no_password':'Password is empty!',
+        'account/wrong_email':'Email is incorrect!',
+        'account/user_not_found':'User not founded!',
+        'account/wrong_password':'Wrong password!',
+        'account/not_active':'User not activated!',
+        'account/you_not_active':'You not activated!',
         'account/login/success':'You authorizing!',
         'account/logout/success':'Bye-Bye!',
         'account/logout/confirm':'Do you really want to leave?',
-        'account/usernotfound':'User with email <strong>%s</strong> not found!',
+        'account/user_not_found':'User with email <strong>%s</strong> not found!',
         'account/recovery/checkemail':'Check email <strong>%s</strong> for code to reset password',
         'account/delete/confirm':'Do you really want to delete account?'
     }
@@ -76049,7 +76054,8 @@ app.constant('BookmarkConst', {
 });
 app.constant('ContactConst',{
     strings:{
-        title: 'Contact us'
+        title: 'Contact us',
+        description: 'Contact us'
     }
 });
 app.constant('FileConst', {
@@ -76064,19 +76070,23 @@ app.constant('ManagerConst', {
     },
     meta_tag:{
         title: 'Meta tags',
-        name: 'meta_tag'
+        name: 'meta_tag',
+        description: 'Meta tags'
     },
     tag:{
         title: 'Tags',
-        name: 'tag'
+        name: 'tag',
+        description: 'Tags'
     },
     public_link:{
         title: 'Public links',
-        name: 'public_link'
+        name: 'public_link',
+        description: 'Public links'
     },
     properties:{
         title: 'Properties',
-        name: 'properties'
+        name: 'properties',
+        description: 'Properties'
     },
     message:{
     }
@@ -76129,12 +76139,14 @@ app.constant('ProjectConst', {
 });
 app.constant('SearchConst', {
     strings:{
-        title:'Search'
+        title:'Search',
+        description: 'Search descriptions'
     }
 });
 app.constant('TagConst', {
     strings:{
-        title:'My tags'
+        title:'Tags',
+        description: 'Tags descriptions'
     }
 });
 app.factory('AppConst', function($rootScope,
@@ -79696,11 +79708,13 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
         if (AppConst[item.name]!=undefined)
             navItem=AppConst[item.name];
 
-        if (navItem.title!=undefined)
+        if (navItem.title!=undefined){
             item.title=navItem.title;
+        }
 
-        if (navItem.strings!=undefined && navItem.strings.title!=undefined)
+        if (navItem.strings!=undefined && navItem.strings.title!=undefined){
             item.title=navItem.strings.title;
+        }
 
         if (navItem.url!=undefined){
             item.url=navItem.url;
@@ -79807,7 +79821,17 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-
+            if ($routeParams.postName!=undefined){
+                AppSvc.item.title=[service.item.title,AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppSvc.item.description){
+                    AppSvc.item.description=service.item.description;
+                }
+            }else{
+                AppSvc.item.title=[AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppConst.post.strings.description){
+                    AppSvc.item.description=AppConst.post.strings.description;
+                }
+            }
         });
     }
 
@@ -79959,7 +79983,7 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
     }
     return service;
   });
-app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc) {
+app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc, AppSvc, PropertiesSvc) {
     var service={};
 
     $rootScope.$on('project.delete',function(event, item){
@@ -79994,7 +80018,17 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-
+            if ($routeParams.projectName!=undefined){
+                AppSvc.item.title=[service.item.title,AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppSvc.item.description){
+                    AppSvc.item.description=service.item.description;
+                }
+            }else{
+                AppSvc.item.title=[AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppConst.project.strings.description){
+                    AppSvc.item.description=AppConst.project.strings.description;
+                }
+            }
         });
     }
 

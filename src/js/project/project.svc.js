@@ -1,4 +1,4 @@
-app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc) {
+app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc, AppSvc, PropertiesSvc) {
     var service={};
 
     $rootScope.$on('project.delete',function(event, item){
@@ -33,7 +33,17 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-
+            if ($routeParams.projectName!=undefined){
+                AppSvc.item.title=[service.item.title,AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppSvc.item.description){
+                    AppSvc.item.description=service.item.description;
+                }
+            }else{
+                AppSvc.item.title=[AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppConst.project.strings.description){
+                    AppSvc.item.description=AppConst.project.strings.description;
+                }
+            }
         });
     }
 

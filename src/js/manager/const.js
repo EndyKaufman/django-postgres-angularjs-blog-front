@@ -5,19 +5,23 @@ app.constant('ManagerConst', {
     },
     meta_tag:{
         title: 'Meta tags',
-        name: 'meta_tag'
+        name: 'meta_tag',
+        description: 'Meta tags'
     },
     tag:{
         title: 'Tags',
-        name: 'tag'
+        name: 'tag',
+        description: 'Tags'
     },
     public_link:{
         title: 'Public links',
-        name: 'public_link'
+        name: 'public_link',
+        description: 'Public links'
     },
     properties:{
         title: 'Properties',
-        name: 'properties'
+        name: 'properties',
+        description: 'Properties'
     },
     message:{
     }

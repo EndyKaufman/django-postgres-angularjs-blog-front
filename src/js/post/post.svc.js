@@ -33,7 +33,17 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-
+            if ($routeParams.postName!=undefined){
+                AppSvc.item.title=[service.item.title,AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppSvc.item.description){
+                    AppSvc.item.description=service.item.description;
+                }
+            }else{
+                AppSvc.item.title=[AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
+                if (AppConst.post.strings.description){
+                    AppSvc.item.description=AppConst.post.strings.description;
+                }
+            }
         });
     }
 

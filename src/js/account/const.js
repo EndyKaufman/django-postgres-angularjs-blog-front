@@ -1,23 +1,28 @@
 app.constant('AccountConst',{
     reg:{
         title: 'Reg',
-        name: 'reg'
+        name: 'reg',
+        description: 'Registration on site'
     },
     login:{
         title: 'Login',
-        name: 'login'
+        name: 'login',
+        description: 'Authorization on site'
     },
     logout:{
         title: 'Logout',
-        name: 'logout'
+        name: 'logout',
+        description: 'Logout from site'
     },
     profile:{
         title: 'Profile',
-        name: 'profile'
+        name: 'profile',
+        description: 'Profile of user'
     },
     recovery:{
         name: 'Recovery',
-        name: 'recovery'
+        name: 'recovery',
+        description: 'Recovery access to site'
     },
     message:{
         'account/exists':'User with email <strong>%s</strong> is exists!',

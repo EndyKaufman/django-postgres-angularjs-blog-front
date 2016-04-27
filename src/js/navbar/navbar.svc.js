@@ -15,11 +15,13 @@ app.factory('NavbarSvc', function ($routeParams, $rootScope, $route, $location, 
         if (AppConst[item.name]!=undefined)
             navItem=AppConst[item.name];
 
-        if (navItem.title!=undefined)
+        if (navItem.title!=undefined){
             item.title=navItem.title;
+        }
 
-        if (navItem.strings!=undefined && navItem.strings.title!=undefined)
+        if (navItem.strings!=undefined && navItem.strings.title!=undefined){
             item.title=navItem.strings.title;
+        }
 
         if (navItem.url!=undefined){
             item.url=navItem.url;

@@ -1,5 +1,6 @@
 app.constant('SearchConst', {
     strings:{
-        title:'Search'
+        title:'Search',
+        description: 'Search descriptions'
     }
 });
