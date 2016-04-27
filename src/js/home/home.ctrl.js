@@ -8,5 +8,5 @@ app.controller('HomeCtrl', function ($scope, $timeout, ProjectSvc, PostSvc, Acco
 	TagSvc.load();
 	ProjectSvc.load();
 	PostSvc.load();
-    NavbarSvc.init('home');
+    HomeSvc.init();
 });
