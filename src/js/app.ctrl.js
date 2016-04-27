@@ -7,5 +7,5 @@ app.controller('AppCtrl', function ($scope, AppSvc, AppConst, UtilsSvc, AccountS
 	$scope.MessageSvc=MessageSvc;
 	$scope.PropertiesSvc=PropertiesSvc;
 
-	PropertiesSvc.load();
+	AppSvc.init();
 });

@@ -572,6 +572,142 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Tag: <span ng-bind-html="TagSvc.tagText | unsafe"></span>\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="TagSvc.allListSumSize==0">\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0">\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <form name="projectForm">\n' +
@@ -1137,142 +1273,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//row-->\n' +
     '    </form>\n' +
     '</div><!--//masonry-->');
-	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        Tag: <span ng-bind-html="TagSvc.tagText | unsafe"></span>\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="TagSvc.allListSumSize==0">\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        Search result for text "<span ng-bind-html="SearchSvc.searchText | unsafe"></span>"\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0">\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/message/prompt.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
@@ -1349,76 +1349,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            </button>\n' +
     '        </div>\n' +
     '    </div>\n' +
-    '</div>');
-	a.put('views/home/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                    </h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-projects.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                    </h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-posts.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
-    '        <i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
-    '                                     ng-bind-html="tag.text | unsafe"></a></li>\n' +
-    '</ul>\n' +
-    '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i\n' +
-    '        class="fa fa-chevron-down"></i></a>\n' +
-    '');
-	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/home/content.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Page header</h1>\n' +
-    '    </div>\n' +
-    '    <p class="lead">Description of page <code>source code</code> and others text.</p>\n' +
-    '    <p>Text for link <a href="http://google.com">i am link</a> others text.</p>\n' +
     '</div>');
 	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
@@ -1611,6 +1541,76 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <li ng-if="$routeParams.subNavId!=\'properties\'"><i class="fa fa-link"></i> <a ng-href="/manager/properties">Properties</a></li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'users\'"><i class="fa fa-link"></i> <a ng-href="/manager/users">Users</a></li>\n' +
     '</ul>');
+	a.put('views/home/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                    </h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-projects.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                    </h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-posts.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
+    '        <i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
+    '                                     ng-bind-html="tag.text | unsafe"></a></li>\n' +
+    '</ul>\n' +
+    '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i\n' +
+    '        class="fa fa-chevron-down"></i></a>\n' +
+    '');
+	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/home/content.html', '<div class="container">\n' +
+    '    <div class="page-header">\n' +
+    '        <h1>Page header</h1>\n' +
+    '    </div>\n' +
+    '    <p class="lead">Description of page <code>source code</code> and others text.</p>\n' +
+    '    <p>Text for link <a href="http://google.com">i am link</a> others text.</p>\n' +
+    '</div>');
 	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="FileCtrl">\n' +
@@ -2284,11 +2284,15 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/header.html', '<!-- ******HEADER****** -->\n' +
     '<header class="header" ng-controller="NavbarCtrl">\n' +
     '    <div class="container">\n' +
-    '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left" ng-src="{{PropertiesSvc.listOfNames.SITE_LOGO.value}}"\n' +
-    '             alt="{{PropertiesSvc.listOfNames.SITE_TITLE.value}}" ng-if="PropertiesSvc.listOfNames.SITE_LOGO.value" ng-click="NavbarSvc.goHome()"/>\n' +
+    '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left"\n' +
+    '             ng-src="{{PropertiesSvc.listOfNames.SITE_LOGO.value}}"\n' +
+    '             alt="{{PropertiesSvc.listOfNames.SITE_TITLE.value}}" ng-if="PropertiesSvc.listOfNames.SITE_LOGO.value"\n' +
+    '             ng-click="NavbarSvc.goHome()"/>\n' +
     '        <div class="profile-content pull-left">\n' +
-    '            <h1 class="name cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_TITLE.value | unsafe" ng-click="NavbarSvc.goHome()"></h1>\n' +
-    '            <h2 class="desc cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_DESCRIPTION.value | unsafe" ng-click="NavbarSvc.goHome()"></h2>\n' +
+    '            <h1 class="name cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_TITLE.value | unsafe"\n' +
+    '                ng-click="NavbarSvc.goHome()"></h1>\n' +
+    '            <h2 class="desc cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_DESCRIPTION.value | unsafe"\n' +
+    '                ng-click="NavbarSvc.goHome()"></h2>\n' +
     '            <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">\n' +
     '                <li ng-class="$last ? \'last-item\' : \'\'"\n' +
     '                    ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_header">\n' +
