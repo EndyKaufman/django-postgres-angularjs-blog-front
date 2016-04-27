@@ -112,6 +112,19 @@ a.dotted-link {
     }
 }
 
+a.list-link {
+    color: @color;
+    .transition (all 0.4s ease-in-out);
+    &:hover {
+        text-decoration: underline;
+        color: darken(@color, 10%);
+        color: darken(@color, 10%);
+    }
+    &:focus {
+        text-decoration: none;
+    }
+}
+
 /*
 iframe {
 

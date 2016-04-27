@@ -17,7 +17,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
     });
 
     service.item={};
-    service.list=false;
+    service.list=[];
 
     service.countItemsOnRow=2;
     service.limitOnHome=3;
@@ -148,7 +148,7 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
         service.item.tags = [];
         service.item.images = [];
     }
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
         if ($routeParams.projectName!=undefined){
             if (service.item.name!==$routeParams.projectName)
@@ -166,7 +166,8 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
                     }
                 );
         }else{
-            if (service.list===false){
+            if (service.loaded!==true || reload===true){
+                service.loaded=true;
                 ProjectRes.getList().then(function (response) {
                     service.list=angular.copy(response.data.data);
                     deferred.resolve(service.list);

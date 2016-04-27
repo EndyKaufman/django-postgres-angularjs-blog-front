@@ -10,9 +10,9 @@
     <tbody>
     <tr ng-repeat="item in TagSvc.list | orderBy:'position'"
         ng-class="(TagSvc.item.id==item.id)?'bold':''">
-        <td ng-bind-html="item.id" ng-click="TagSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.text | unsafe" ng-click="TagSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.description | unsafe" ng-click="TagSvc.selectItem(item)"></td>
+        <td ng-bind="item.id" ng-click="TagSvc.selectItem(item)"></td>
+        <td ng-bind="item.text" ng-click="TagSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item.description" ng-click="TagSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="TagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'tag'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit

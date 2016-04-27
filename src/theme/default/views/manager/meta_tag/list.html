@@ -10,9 +10,9 @@
     <tbody>
     <tr ng-repeat="item in MetaTagSvc.list | orderBy:'position'"
         ng-class="(MetaTagSvc.item.id==item.id)?'bold':''">
-        <td ng-bind-html="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.name | unsafe" ng-click="MetaTagSvc.selectItem(item)"></td>
-        <td ng-bind-html="item.content | unsafe" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td ng-bind="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td ng-bind="item.name" ng-click="MetaTagSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item.content" ng-click="MetaTagSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="MetaTagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'meta_tag'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit

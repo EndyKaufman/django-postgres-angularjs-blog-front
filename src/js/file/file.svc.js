@@ -10,7 +10,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
     });
 
     service.item={};
-    service.list=false;
+    service.list=[];
 
     service.showList=function(item){
         service.initEmptyItem();
@@ -165,9 +165,10 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
          });
     }
     
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
-        if (service.list===false){
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
             FileRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 deferred.resolve(service.list);

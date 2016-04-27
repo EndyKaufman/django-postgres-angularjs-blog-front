@@ -1,7 +1,7 @@
 app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $modal) {
     var service={};
 
-    service.list=false;
+    service.list={};
     service.infoEnable=true;
     service.confirmEnable=true;
 
@@ -156,17 +156,19 @@ app.factory('MessageSvc', function (AppConst, $rootScope, $modalBox, $alert, $mo
 */
     }
 
-    service.init=function(){
-        service.list={};
-        for (var key in AppConst){
-            if (AppConst[key]['message']!==undefined){
-                angular.extend(service.list, AppConst[key]['message']);
+    service.load=function(reload){
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
+            service.list={};
+            for (var key in AppConst){
+                if (AppConst[key]['message']!==undefined){
+                    angular.extend(service.list, AppConst[key]['message']);
+                }
             }
         }
     }
 
-    if (service.list===false)
-        service.init();
+    service.load();
 
     return service;
   });

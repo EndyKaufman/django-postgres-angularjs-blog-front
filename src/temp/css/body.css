@@ -12,3 +12,6 @@ aside.tags .content {
 
 .cursor-pointer {
   cursor: pointer; }
+
+.break-word {
+  word-break: break-word; }

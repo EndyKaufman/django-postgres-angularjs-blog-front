@@ -2,7 +2,7 @@ app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modal
     var service={};
 
     service.item={};
-    service.list=false;
+    service.list=[];
 
     service.initEmptyItem=function(){
         service.item = {};
@@ -127,9 +127,10 @@ app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modal
          });
     }
     
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
-        if (service.list===false){
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
             MetaTagRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 deferred.resolve(service.list);

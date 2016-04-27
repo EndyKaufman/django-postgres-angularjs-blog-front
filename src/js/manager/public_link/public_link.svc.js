@@ -2,7 +2,7 @@ app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, 
     var service={};
 
     service.item={};
-    service.list=false;
+    service.list=[];
 
     service.initEmptyItem=function(){
         service.item = {};
@@ -131,9 +131,10 @@ app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, 
          });
     }
     
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
-        if (service.list===false){
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
             PublicLinkRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 deferred.resolve(service.list);

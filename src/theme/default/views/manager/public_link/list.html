@@ -13,14 +13,14 @@
     <tbody>
     <tr ng-repeat="item in PublicLinkSvc.list | orderBy:'position'"
         ng-class="(PublicLinkSvc.item.id==item.id)?'bold':''">
-        <td ng-bind-html="item.id" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind="item.id" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td ng-click="PublicLinkSvc.selectItem(item)">
             <i class="{{(item.icon=='')?'fa':item.icon}}"></i>
         </td>
-        <td ng-bind-html="item.title | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="(item.in_header==1)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="(item.in_contact)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
-        <td ng-bind-html="(item.in_footer)?'Yes':'No' | unsafe" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item.title" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind="(item.in_header==1)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind="(item.in_contact)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td ng-bind="(item.in_footer)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="PublicLinkSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'public_link'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit

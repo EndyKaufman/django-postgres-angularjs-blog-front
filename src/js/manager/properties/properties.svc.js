@@ -2,7 +2,7 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
     var service={};
 
     service.item={};
-    service.list=false;
+    service.list=[];
     service.listOfNames=false;
 
     service.initEmptyItem=function(){
@@ -134,9 +134,10 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
          });
     }
     
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
-        if (service.list===false){
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
             PropertiesRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 service.fillListOfNames();

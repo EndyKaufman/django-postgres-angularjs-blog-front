@@ -17,7 +17,7 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
     });
 
     service.item={};
-    service.list=false;
+    service.list=[];
 
     service.countItemsOnRow=2;
     service.limitOnHome=3;
@@ -148,7 +148,7 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
         service.item.tags = [];
         service.item.images = [];
     }
-    service.load=function(){
+    service.load=function(reload){
         var deferred = $q.defer();
         if ($routeParams.postName!=undefined){
             if (service.item.name!==$routeParams.postName)
@@ -166,7 +166,8 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
                     }
                 );
         }else{
-            if (service.list===false){
+            if (service.loaded!==true || reload===true){
+                service.loaded=true;
                 PostRes.getList().then(function (response) {
                     service.list=angular.copy(response.data.data);
                     deferred.resolve(service.list);

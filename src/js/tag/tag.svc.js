@@ -2,8 +2,8 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     var service={};
 
     service.item={};
-    service.list=false;
-    service.allList=false;
+    service.list=[];
+    service.allList=[];
 
     service.countItemsOnRow=3;
     service.limitOnHome=3;
@@ -188,7 +188,8 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
 
     service.load=function(reload){
         var deferred = $q.defer();
-        if (service.list===false || reload===true)
+        if (service.loaded!==true || reload===true){
+            service.loaded=true;
             TagRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
                 deferred.resolve(service.list);
@@ -200,7 +201,7 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
                     MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             })
-        else
+        } else
             deferred.resolve(service.list);
         return deferred.promise;
     }

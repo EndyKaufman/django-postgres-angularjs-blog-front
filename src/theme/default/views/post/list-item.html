@@ -5,22 +5,29 @@
 </a>
 <div class="desc col-xs-12" ng-class="item.images.length>0?'col-md-8 col-sm-8':'col-md-12 col-sm-12'">
     <div class="pull-right">
-        <a ng-click="PostSvc.doDelete(item)" class="btn btn-cta-red btn-xs"
-           id="postDelete" ng-if="AccountSvc.isAdmin()">
-            <i class="fa fa-trash"></i>
-            <span class="hidden-xs">Delete</span>
-        </a>
         <a ng-href="{{'/post/update/'+item.name}}"
            class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"
            id="{{'post'+$index+'Update'}}">
             <i class="fa fa-pencil-square-o"></i>
             <span class="hidden-xs">Edit</span>
         </a>
+        <a ng-click="PostSvc.doDelete(item)" class="btn btn-cta-red btn-xs"
+           id="postDelete" ng-if="AccountSvc.isAdmin()">
+            <i class="fa fa-trash"></i>
+            <span class="hidden-xs">Delete</span>
+        </a>
     </div>
     <h3 class="title">
         <a ng-href="{{'/post/'+item.name}}" ng-bind-html="item.title | unsafe"></a>
     </h3>
     <p ng-bind-html="item.description | unsafe"></p>
+    <p ng-if="item.tags.length>0">
+        <span ng-repeat="tag in item.tags">
+            <i class="fa fa-tag"></i>
+            <a class="list-link" ng-href="{{'/tag/'+tag.text}}"
+               ng-bind-html="tag.text | unsafe"></a>
+        </span>
+    </p>
     <p>
         <a class="more-link" ng-href="{{'/post/'+item.name}}" id="{{'post'+$index+'Detail'}}"><i
                 class="fa fa-link"></i> Detail...</a>

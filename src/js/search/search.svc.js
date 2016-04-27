@@ -1,7 +1,7 @@
 app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes) {
     var service={};
 
-    service.allList=false;
+    service.allList=[];
 
     service.countItemsOnRow=3;
     service.limitOnHome=3;
