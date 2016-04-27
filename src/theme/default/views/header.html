@@ -1,11 +1,11 @@
 <!-- ******HEADER****** -->
 <header class="header" ng-controller="NavbarCtrl">
     <div class="container">
-        <img class="profile-image cursor-pointer img-responsive img-circle pull-left" ng-src="{{AppConst.home.image}}"
-             alt="{{AppConst.home.title}}" ng-if="AppConst.home.image" ng-click="NavbarSvc.goHome()"/>
+        <img class="profile-image cursor-pointer img-responsive img-circle pull-left" ng-src="{{PropertiesSvc.listOfNames.SITE_LOGO.value}}"
+             alt="{{PropertiesSvc.listOfNames.SITE_TITLE.value}}" ng-if="PropertiesSvc.listOfNames.SITE_LOGO.value" ng-click="NavbarSvc.goHome()"/>
         <div class="profile-content pull-left">
-            <h1 class="name cursor-pointer" ng-bind-html="AppConst.home.title | unsafe" ng-click="NavbarSvc.goHome()"></h1>
-            <h2 class="desc cursor-pointer" ng-bind-html="AppConst.home.description | unsafe" ng-click="NavbarSvc.goHome()"></h2>
+            <h1 class="name cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_TITLE.value | unsafe" ng-click="NavbarSvc.goHome()"></h1>
+            <h2 class="desc cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_DESCRIPTION.value | unsafe" ng-click="NavbarSvc.goHome()"></h2>
             <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">
                 <li ng-class="$last ? 'last-item' : ''"
                     ng-repeat="item in PublicLinkSvc.list | orderBy:'position'" ng-if="item.in_header">

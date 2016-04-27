@@ -2271,11 +2271,11 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/header.html', '<!-- ******HEADER****** -->\n' +
     '<header class="header" ng-controller="NavbarCtrl">\n' +
     '    <div class="container">\n' +
-    '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left" ng-src="{{AppConst.home.image}}"\n' +
-    '             alt="{{AppConst.home.title}}" ng-if="AppConst.home.image" ng-click="NavbarSvc.goHome()"/>\n' +
+    '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left" ng-src="{{PropertiesSvc.listOfNames.SITE_LOGO.value}}"\n' +
+    '             alt="{{PropertiesSvc.listOfNames.SITE_TITLE.value}}" ng-if="PropertiesSvc.listOfNames.SITE_LOGO.value" ng-click="NavbarSvc.goHome()"/>\n' +
     '        <div class="profile-content pull-left">\n' +
-    '            <h1 class="name cursor-pointer" ng-bind-html="AppConst.home.title | unsafe" ng-click="NavbarSvc.goHome()"></h1>\n' +
-    '            <h2 class="desc cursor-pointer" ng-bind-html="AppConst.home.description | unsafe" ng-click="NavbarSvc.goHome()"></h2>\n' +
+    '            <h1 class="name cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_TITLE.value | unsafe" ng-click="NavbarSvc.goHome()"></h1>\n' +
+    '            <h2 class="desc cursor-pointer" ng-bind-html="PropertiesSvc.listOfNames.SITE_DESCRIPTION.value | unsafe" ng-click="NavbarSvc.goHome()"></h2>\n' +
     '            <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">\n' +
     '                <li ng-class="$last ? \'last-item\' : \'\'"\n' +
     '                    ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_header">\n' +
@@ -2321,7 +2321,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                </li>\n' +
     '            </ul>\n' +
     '        </small>\n' +
-    '        <small class="copyright"><i class="fa fa-copyright"></i> {{AppConst.home.title}}\n' +
+    '        <small class="copyright"><i class="fa fa-copyright"></i> {{PropertiesSvc.listOfNames.SITE_TITLE.value}}\n' +
     '        </small>\n' +
     '    </div><!--//container-->\n' +
     '</footer><!--//footer-->\n' +

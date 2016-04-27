@@ -3,6 +3,7 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
 
     service.item={};
     service.list=false;
+    service.listOfNames=false;
 
     service.initEmptyItem=function(){
         service.item = {};
@@ -61,9 +62,16 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
         $modalBox(boxOptions);
     }
 
+    service.fillListOfNames=function(){
+        service.listOfNames={};
+        for (var i=0;i<service.list.length;i++){
+            service.listOfNames[service.list[i].name]=service.list[i];
+        }
+    }
     service.updateItemOnList=function(item){
         for (var i=0;i<service.list.length;i++){
             if (item.id===service.list[i].id){
+                service.listOfNames[service.list[i].name]=service.list[i];
                 angular.extend(service.list[i],angular.copy(item));
             }
         }
@@ -131,10 +139,12 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
         if (service.list===false){
             PropertiesRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
+                service.fillListOfNames();
                 deferred.resolve(service.list);
                 $rootScope.$broadcast('properties.load', service.list);
             }, function (response) {
                 service.list=[];
+                service.fillListOfNames();
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
                     MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);

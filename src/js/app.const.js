@@ -1,11 +1,5 @@
 app.factory('AppConst', function($rootScope,
 HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst){
-    var home={
-        title: 'MY BLOG',
-        description: 'description of blog',
-        name: 'MY_BLOG',
-        image: 'https://avatars2.githubusercontent.com/u/4127109?v=3&s=460'
-    };
     var navbar={
         left:[
             {
@@ -52,7 +46,7 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
         ]
     };
     var service={
-        home: angular.extend({}, HomeConst, home),
+        home: HomeConst,
         navbar: angular.extend({}, NavbarConst, navbar),
         manager: ManagerConst,
         search: SearchConst,
