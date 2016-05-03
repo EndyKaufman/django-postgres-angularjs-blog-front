@@ -140,10 +140,11 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
         });
     }
     service.slugName=function(value){
-        service.item.name=getSlug(value, {
-            lang:'ru',
-            uric: true
-        });
+        if (service.item.id===undefined)
+            service.item.name=getSlug(value, {
+                lang:'ru',
+                uric: true
+            });
     }
     service.initEmptyItem=function(){
         service.item = {};
