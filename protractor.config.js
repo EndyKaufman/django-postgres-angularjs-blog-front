@@ -7,9 +7,9 @@ exports.config = {
     //seleniumAddress: 'http://localhost:4444/wd/hub',
     // Capabilities to be passed to the webdriver instance.
     capabilities: {
-        //'browserName': 'firefox'
+        'browserName': 'firefox'
         //'browserName': 'phantomjs'
-        'browserName': 'chrome'
+        //'browserName': 'chrome'
     },
     //directConnect: true,
 	getPageTimeout: 60000,
