@@ -11,7 +11,7 @@ exports.config = {
         //'browserName': 'phantomjs'
         'browserName': 'chrome'
     },
-    directConnect: true,
+    //directConnect: true,
 	getPageTimeout: 60000,
 	allScriptsTimeout: 120000,
 	//restartBrowserBetweenTests: true,
