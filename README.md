@@ -3,6 +3,7 @@
 
 https://django-postgres-angularjs-blog.herokuapp.com
 
+[![Requirements Status](https://requires.io/github/EndyKaufman/django-postgres-angularjs-blog-front/requirements.svg?branch=master)](https://requires.io/github/EndyKaufman/django-postgres-angularjs-blog-front/requirements/?branch=master)
 
 ## frontend tools
 ```
