@@ -227,8 +227,8 @@ gulp.task('scripts:test', function (done) {
                             function(data, isError){
                                 var testSpawn=this;
 
-                                if (data.indexOf('Finished \'test\' after')!=-1 || isError){
-                                    serverSpawn.showLog=isError;
+                                if (data.indexOf('Finished \'test\' after')!=-1 || (isError && data!=false && data!='')){
+                                    //serverSpawn.showLog=isError;
 
                                     testSpawn.killMe(function(err){
                                         serverSpawn.killMe(function(){
