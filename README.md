@@ -3,7 +3,8 @@
 
 https://django-postgres-angularjs-blog.herokuapp.com
 
-[![Requirements Status](https://requires.io/github/EndyKaufman/django-postgres-angularjs-blog-front/requirements.svg?branch=master)](https://requires.io/github/EndyKaufman/django-postgres-angularjs-blog-front/requirements/?branch=master)
+[![Dependency Status](https://david-dm.org/EndyKaufman/django-postgres-angularjs-blog-front.svg)](https://david-dm.org/EndyKaufman/django-postgres-angularjs-blog-front)
+[![devDependency Status](https://david-dm.org/EndyKaufman/django-postgres-angularjs-blog-front/dev-status.svg)](https://david-dm.org/EndyKaufman/django-postgres-angularjs-blog-front#info=devDependencies)
 
 ## frontend tools
 ```
