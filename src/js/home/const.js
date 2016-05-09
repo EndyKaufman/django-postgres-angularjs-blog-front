@@ -1,3 +1,3 @@
 app.constant('HomeConst', {
-    url:'/home'
+    url:'/'
 });

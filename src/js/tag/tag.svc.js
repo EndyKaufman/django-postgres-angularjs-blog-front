@@ -1,4 +1,4 @@
-app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, $routeParams, $route) {
+app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, AppSvc) {
     var service={};
 
     service.item={};
@@ -6,14 +6,12 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     service.allList=[];
 
     service.countItemsOnRow=3;
-    service.limitOnHome=3;
+    service.limitOnHome=5;
     service.limit=10;
     service.begin=0;
 
-    service.title=AppConst.tag.strings.title;
-
-    $rootScope.$on('navbar.change',function(event, eventRoute, current, previous){
-        if (current.params!=undefined && current.params.navId!='tag'){
+    $rootScope.$on('$routeChangeStart',function(event, current, previous){
+        if (current.params!=undefined && $routeParams.navId!='tag'){
             service.tagText='';
         }
     });
@@ -143,8 +141,14 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     service.init=function(reload){
         service.tagText=$routeParams.tagText;
 
+        service.title=vsprintf(AppConst.tag.strings.title,[service.tagText]);
+        service.description=vsprintf(AppConst.tag.strings.description,[service.tagText]);
+
+        AppSvc.setTitle([service.title]);
+        AppSvc.setDescription(service.description);
+        AppSvc.setUrl('tag/'+service.tagText);
+
         if ($routeParams.tagText!=undefined){
-            NavbarSvc.init('tag');
             service.allList=[];
             service.allListSumSize=0;
             $q.all([
@@ -168,7 +172,6 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
                 }
             });
         }else{
-            NavbarSvc.init($routeParams.navId);
             $q.all([
                 service.load()
             ]).then(function(responseList) {

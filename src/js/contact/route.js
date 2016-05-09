@@ -3,6 +3,8 @@ app.config(function ($routeProvider, $locationProvider) {
       .when('/contact', {
         templateUrl: 'views/contact/list.html',
         controller: 'ContactCtrl',
-        navId: 'contact'
+        params:{
+            navId: 'contact'
+        }
       });
 });

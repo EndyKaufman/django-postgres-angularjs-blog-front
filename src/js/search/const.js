@@ -1,6 +1,6 @@
 app.constant('SearchConst', {
     strings:{
         title:'Search',
-        description: 'Search descriptions'
+        description: 'Search result for text "%s"'
     }
 });

@@ -27,22 +27,21 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
     service.title=AppConst.project.strings.title;
 
     service.init=function(reload){
-        NavbarSvc.init('project');
-
+        service.projectName=$routeParams.projectName;
         $q.all([
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-            if ($routeParams.projectName!=undefined){
-                AppSvc.item.title=[service.item.title,AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
-                if (AppSvc.item.description){
-                    AppSvc.item.description=service.item.description;
-                }
+            if (service.projectName!=undefined){
+                AppSvc.setTitle([service.item.title,service.title]);
+                AppSvc.setDescription(service.item.description);
+                AppSvc.setUrl('project/'+service.projectName);
+                if (service.item.images.length>0)
+                    AppSvc.setImage(service.item.images[0].src_url);
             }else{
-                AppSvc.item.title=[AppConst.project.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
-                if (AppConst.project.strings.description){
-                    AppSvc.item.description=AppConst.project.strings.description;
-                }
+                AppSvc.setTitle([service.title]);
+                AppSvc.setDescription(AppConst.project.strings.description);
+                AppSvc.setUrl('project');
             }
         });
     }
@@ -161,9 +160,9 @@ app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $loc
     }
     service.load=function(reload){
         var deferred = $q.defer();
-        if ($routeParams.projectName!=undefined){
-            if (service.item.name!==$routeParams.projectName)
-                ProjectRes.getItem($routeParams.projectName).then(
+        if (service.projectName!=undefined){
+            if (service.item.name!==service.projectName)
+                ProjectRes.getItem(service.projectName).then(
                     function (response) {
                         service.item=angular.copy(response.data.data[0]);
                         deferred.resolve(service.item);

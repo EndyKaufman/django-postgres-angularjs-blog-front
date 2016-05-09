@@ -3,31 +3,43 @@ app.config(function ($routeProvider, $locationProvider) {
       .when('/reg', {
         templateUrl: 'views/account/reg.html',
         controller: 'AccountCtrl',
-        navId: 'reg'
+        params:{
+            navId: 'reg'
+        }
       })
       .when('/recovery', {
         templateUrl: 'views/account/recovery.html',
         controller: 'AccountCtrl',
-        navId: 'recovery'
+        params:{
+            navId: 'recovery'
+        }
       })
-      .when('/resetpassword/:code', {
-        templateUrl: 'views/account/resetpassword.html',
+      .when('/reset_password/:code', {
+        templateUrl: 'views/account/reset_password.html',
         controller: 'AccountCtrl',
-        navId: 'resetpassword'
+        params:{
+            navId: 'reset_password'
+        }
       })
-      .when('/resetpassword', {
-        templateUrl: 'views/account/resetpassword.html',
+      .when('/reset_password', {
+        templateUrl: 'views/account/reset_password.html',
         controller: 'AccountCtrl',
-        navId: 'resetpassword'
+        params:{
+            navId: 'reset_password'
+        }
       })
       .when('/login', {
         templateUrl: 'views/account/login.html',
         controller: 'AccountCtrl',
-        navId: 'login'
+        params:{
+            navId: 'login'
+        }
       })
       .when('/profile', {
         templateUrl: 'views/account/profile.html',
         controller: 'AccountCtrl',
-        navId: 'profile'
+        params:{
+            navId: 'profile'
+        }
       });
 });

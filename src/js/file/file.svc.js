@@ -32,7 +32,7 @@ app.factory('FileSvc', function (AppConst, FileRes, $rootScope, $q, $modalBox, $
                     if (item.src!==service.item.src){
                         delete item.id;
                         item.src=service.item.src;
-                        item.srcStatic=service.item.srcStatic;
+                        item.src_url=service.item.src_url;
                     }
                 },
                 afterCancel: function(){

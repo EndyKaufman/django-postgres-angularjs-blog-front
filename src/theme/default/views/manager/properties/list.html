@@ -2,17 +2,15 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>Comment</th>
         <th>Name</th>
         <th>Value</th>
-        <th class="text-right">Actions</th>
+        <th class="text-right" style="width:200px">Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="item in PropertiesSvc.list | orderBy:'position'"
         ng-class="(PropertiesSvc.item.id==item.id)?'bold':''">
         <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>
-        <td ng-bind="item.comment" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td class="break-word" ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td class="text-right">

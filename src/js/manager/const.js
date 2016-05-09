@@ -23,6 +23,11 @@ app.constant('ManagerConst', {
         name: 'properties',
         description: 'Properties'
     },
+    users:{
+        title: 'Users',
+        name: 'users',
+        description: 'Site users'
+    },
     message:{
     }
 });

@@ -1,4 +1,4 @@
-app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes) {
+app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc) {
     var service={};
 
     service.allList=[];
@@ -8,11 +8,10 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
     service.limit=10;
     service.begin=0;
 
-    service.title=AppConst.search.strings.title;
     service.searchText='';
 
-    $rootScope.$on('navbar.change',function(event, eventRoute, current, previous){
-        if (current.params!=undefined && current.params.navId!='search'){
+    $rootScope.$on('$routeChangeStart',function(event, current, previous){
+        if ($routeParams.navId!='search'){
             service.searchText='';
         }
     });
@@ -22,9 +21,14 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
     }
 
     service.init=function(reload){
-        NavbarSvc.init('search');
-
         service.searchText=$routeParams.searchText;
+
+        service.title=vsprintf(AppConst.search.strings.title,[service.searchText]);
+        service.description=vsprintf(AppConst.search.strings.description,[service.searchText]);
+
+        AppSvc.setTitle([service.title]);
+        AppSvc.setDescription(service.description);
+        AppSvc.setUrl('search/'+service.searchText);
 
         if ($routeParams.searchText!=undefined){
             service.allList=[];

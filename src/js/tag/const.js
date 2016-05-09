@@ -1,6 +1,6 @@
 app.constant('TagConst', {
     strings:{
         title:'Tags',
-        description: 'Tags descriptions'
+        description: 'Tag: %s'
     }
 });

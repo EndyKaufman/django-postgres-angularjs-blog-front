@@ -1,4 +1,4 @@
-app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, NavbarSvc, MessageSvc, $routeParams, $route) {
+app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
     var service={};
 
     service.item={};
@@ -147,7 +147,7 @@ app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modal
     }
 
     service.init=function(reload){
-        NavbarSvc.init($routeParams.navId);
+        ManagerSvc.init();
 
         $q.all([
             service.load()

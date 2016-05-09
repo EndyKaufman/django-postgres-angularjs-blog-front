@@ -3,31 +3,41 @@ app.config(function ($routeProvider, $locationProvider) {
       .when('/manager', {
         templateUrl: 'views/manager/meta_tag.html',
         controller: 'MetaTagCtrl',
-        navId: 'manager',
-        subNavId: 'meta_tag'
+        params:{
+            navId: 'manager',
+            subNavId: 'meta_tag'
+        }
       })
       .when('/manager/meta_tag', {
         templateUrl: 'views/manager/meta_tag.html',
         controller: 'MetaTagCtrl',
-        navId: 'manager',
-        subNavId: 'meta_tag'
+        params:{
+            navId: 'manager',
+            subNavId: 'meta_tag'
+        }
       })
       .when('/manager/public_link', {
         templateUrl: 'views/manager/public_link.html',
         controller: 'PublicLinkCtrl',
-        navId: 'manager',
-        subNavId: 'public_link'
+        params:{
+            navId: 'manager',
+            subNavId: 'public_link'
+        }
       })
       .when('/manager/properties', {
         templateUrl: 'views/manager/properties.html',
         controller: 'PropertiesCtrl',
-        navId: 'manager',
-        subNavId: 'properties'
+        params:{
+            navId: 'manager',
+            subNavId: 'properties'
+        }
       })
       .when('/manager/tag', {
         templateUrl: 'views/manager/tag.html',
         controller: 'TagCtrl',
-        navId: 'manager',
-        subNavId: 'tag'
+        params:{
+            navId: 'manager',
+            subNavId: 'tag'
+        }
       });
 });

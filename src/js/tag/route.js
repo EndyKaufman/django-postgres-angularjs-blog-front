@@ -2,6 +2,9 @@ app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/tag/:tagText', {
         templateUrl: 'views/tag/list.html',
-        controller: 'TagCtrl'
+        controller: 'TagCtrl',
+        params:{
+            navId: 'tag'
+        }
       });
 });

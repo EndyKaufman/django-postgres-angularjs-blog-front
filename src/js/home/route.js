@@ -1,7 +1,10 @@
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/home', {
+      .when('/', {
         templateUrl: 'views/home/list.html',
-        controller: 'HomeCtrl'
+        controller: 'HomeCtrl',
+        params:{
+            navId: 'home'
+        }
       });
 });

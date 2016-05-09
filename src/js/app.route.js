@@ -6,7 +6,7 @@ app.config(['$resourceProvider','$httpProvider', function($resourceProvider,$htt
 .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .otherwise({
-        redirectTo: '/home'
+        redirectTo: '/'
       });
 
     $locationProvider.html5Mode({

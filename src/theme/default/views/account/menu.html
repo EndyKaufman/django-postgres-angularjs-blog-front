@@ -1,0 +1,13 @@
+<ul class="list-unstyled">
+    <li ng-if="$routeParams.navId!='login'">
+        <i class="fa fa-link"></i>
+        <a ng-href="/login" ng-bind="AppConst.account.login.title"></a>
+    </li>
+    <li ng-if="$routeParams.navId!='reg'">
+        <i class="fa fa-link"></i>
+        <a ng-href="/reg" ng-bind="AppConst.account.reg.title"></a>
+    </li>
+    <li ng-if="$routeParams.navId!='recovery'">
+        <i class="fa fa-link"></i>
+        <a ng-href="/recovery" ng-bind="AppConst.account.recovery.title"></a></li>
+</ul>

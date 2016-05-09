@@ -1,5 +1,5 @@
 app.factory('AppConst', function($rootScope,
-HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst){
+HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst){
     var navbar={
         left:[
             {
@@ -36,7 +36,7 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
             {
                 name:'logout',
                 parent:'account',
-                click:function(){
+                click:function(){console.log('hoi');
                     $rootScope.$broadcast('account.doLogout', true);
                 },
                 hiddenHandler: function(){
@@ -52,8 +52,6 @@ HomeConst, AccountConst, TagConst, NoteConst, BookmarkConst, ProjectConst, PostC
         search: SearchConst,
         account: AccountConst,
         tag: TagConst,
-        note: NoteConst,
-        bookmark: BookmarkConst,
         project: ProjectConst,
         post: PostConst,
         contact: ContactConst

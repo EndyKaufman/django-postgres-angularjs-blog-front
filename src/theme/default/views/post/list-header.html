@@ -1,3 +1,3 @@
-<span ng-bind-html="AppConst.post.strings.title | unsafe"></span>
+<span ng-bind-html="PostSvc.title | unsafe"></span>
 <a ng-href="/post/create"
    class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postCreate"><i class="fa fa-plus"></i>  Create</a>

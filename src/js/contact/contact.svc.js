@@ -1,4 +1,4 @@
-app.factory('ContactSvc', function ($q, $location, AppConst, ContactRes, MessageSvc, $rootScope, $routeParams, NavbarSvc, TagSvc) {
+app.factory('ContactSvc', function ($q, $location, AppConst, ContactRes, MessageSvc, $rootScope, NavbarSvc, AppSvc) {
     var service={};
 
     $rootScope.$on('contact.send',function(event, item){
@@ -8,16 +8,13 @@ app.factory('ContactSvc', function ($q, $location, AppConst, ContactRes, Message
 
     service.item={};
 
-    service.title=AppConst.post.strings.title;
+    service.title=AppConst.contact.strings.title;
+    service.description=AppConst.contact.strings.description;
 
     service.init=function(reload){
-        NavbarSvc.init('contact');
-
-        $q.all([
-            TagSvc.load()
-        ]).then(function(responseList) {
-
-        });
+        AppSvc.setTitle([service.title]);
+        AppSvc.setDescription(service.description);
+        AppSvc.setUrl('contact');
     }
     service.doSend=function(item){
 	    $rootScope.$broadcast('show-errors-check-validity');

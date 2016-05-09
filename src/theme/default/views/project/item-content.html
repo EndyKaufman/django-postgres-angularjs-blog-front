@@ -1,7 +1,7 @@
 <div ng-if="ProjectSvc.item.images.length>0">
     <div class="desc col-md-12 col-sm-12 col-xs-12">
         <div ng-if="ProjectSvc.item.images.length==1">
-            <img ng-src="{{AppConfig.static_url+ProjectSvc.item.images[0].srcStatic}}"
+            <img ng-src="{{ProjectSvc.item.images[0].src_url}}"
                  class="img-responsive"/>
         </div>
         <div ng-if="ProjectSvc.item.images.length>1">
@@ -9,7 +9,7 @@
                 <div data-carousel-item="" ng-repeat="image in ProjectSvc.item.images">
                     <!--h3 class="carousel-title" nf-if="image.title!=''"
                         ng-bind-html="image.title | unsafe"></h3-->
-                    <img ng-src="{{AppConfig.static_url+image.srcStatic}}">
+                    <img ng-src="{{image.src_url}}">
                     <div class="carousel-caption" nf-if="image.description!=''">
                         <h4 ng-bind-html="image.description | unsafe"></h4>
                     </div>

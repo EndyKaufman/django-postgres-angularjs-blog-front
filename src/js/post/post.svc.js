@@ -27,22 +27,21 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
     service.title=AppConst.post.strings.title;
 
     service.init=function(reload){
-        NavbarSvc.init('post');
-
+        service.postName=$routeParams.postName;
         $q.all([
             TagSvc.load(),
             service.load()
         ]).then(function(responseList) {
-            if ($routeParams.postName!=undefined){
-                AppSvc.item.title=[service.item.title,AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
-                if (AppSvc.item.description){
-                    AppSvc.item.description=service.item.description;
-                }
+            if (service.postName!=undefined){
+                AppSvc.setTitle([service.item.title,service.title]);
+                AppSvc.setDescription(service.item.description);
+                AppSvc.setUrl('post/'+service.postName);
+                if (service.item.images.length>0)
+                    AppSvc.setImage(service.item.images[0].src_url);
             }else{
-                AppSvc.item.title=[AppConst.post.strings.title,PropertiesSvc.listOfNames.SITE_TITLE.value].join(' - ');
-                if (AppConst.post.strings.description){
-                    AppSvc.item.description=AppConst.post.strings.description;
-                }
+                AppSvc.setTitle([service.title]);
+                AppSvc.setDescription(AppConst.post.strings.description);
+                AppSvc.setUrl('post');
             }
         });
     }
@@ -161,9 +160,9 @@ app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $locati
     }
     service.load=function(reload){
         var deferred = $q.defer();
-        if ($routeParams.postName!=undefined){
-            if (service.item.name!==$routeParams.postName)
-                PostRes.getItem($routeParams.postName).then(
+        if (service.postName!=undefined){
+            if (service.item.name!==service.postName)
+                PostRes.getItem(service.postName).then(
                     function (response) {
                         service.item=angular.copy(response.data.data[0]);
                         deferred.resolve(service.item);

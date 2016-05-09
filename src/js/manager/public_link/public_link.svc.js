@@ -1,4 +1,4 @@
-app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, $modalBox, $modal, NavbarSvc, MessageSvc, $routeParams, $route) {
+app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
     var service={};
 
     service.item={};
@@ -151,7 +151,7 @@ app.factory('PublicLinkSvc', function (AppConst, PublicLinkRes, $rootScope, $q, 
     }
 
     service.init=function(reload){
-        NavbarSvc.init($routeParams.navId);
+        ManagerSvc.init();
 
         $q.all([
             service.load()

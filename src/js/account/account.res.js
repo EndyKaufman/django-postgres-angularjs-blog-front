@@ -22,8 +22,8 @@ app.factory('AccountRes', function (AppConst, AppRes) {
         });
     }
 
-    service.actionResetpassword=function(code, password){
-        return AppRes.post('/api/v1/account/resetpassword', {
+    service.actionResetPassword=function(code, password){
+        return AppRes.post('/api/v1/account/reset_password', {
             code: code,
             password: password
         });

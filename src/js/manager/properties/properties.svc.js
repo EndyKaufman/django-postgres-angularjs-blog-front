@@ -1,9 +1,8 @@
-app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, $modalBox, $modal, NavbarSvc, MessageSvc, $routeParams, $route) {
+app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
     var service={};
 
     service.item={};
     service.list=[];
-    service.listOfNames=false;
 
     service.initEmptyItem=function(){
         service.item = {};
@@ -62,16 +61,10 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
         $modalBox(boxOptions);
     }
 
-    service.fillListOfNames=function(){
-        service.listOfNames={};
-        for (var i=0;i<service.list.length;i++){
-            service.listOfNames[service.list[i].name]=service.list[i];
-        }
-    }
     service.updateItemOnList=function(item){
         for (var i=0;i<service.list.length;i++){
             if (item.id===service.list[i].id){
-                service.listOfNames[service.list[i].name]=service.list[i];
+                AppSvc.updateProperty(service.list[i].name,service.list[i].value);
                 angular.extend(service.list[i],angular.copy(item));
             }
         }
@@ -84,6 +77,7 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
                     service.list.push(service.item);
+                    service.updateItemOnList(service.item);
                     $rootScope.$broadcast('properties.create', service.item);
                 }
             },
@@ -140,12 +134,14 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
             service.loaded=true;
             PropertiesRes.getList().then(function (response) {
                 service.list=angular.copy(response.data.data);
-                service.fillListOfNames();
+                AppSvc.fillProperties(service.list);
+
                 deferred.resolve(service.list);
                 $rootScope.$broadcast('properties.load', service.list);
             }, function (response) {
                 service.list=[];
-                service.fillListOfNames();
+                AppSvc.fillProperties(service.list);
+
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
                     MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
@@ -156,7 +152,7 @@ app.factory('PropertiesSvc', function (AppConst, PropertiesRes, $rootScope, $q, 
     }
 
     service.init=function(reload){
-        NavbarSvc.init($routeParams.navId);
+        ManagerSvc.init();
 
         $q.all([
             service.load()

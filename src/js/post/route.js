@@ -3,21 +3,33 @@ app.config(function ($routeProvider, $locationProvider) {
       .when('/post/update/:postName', {
         templateUrl: 'views/post/update.html',
         controller: 'PostCtrl',
-        update: true
+        params:{
+            navId: 'post',
+            update: true
+        }
       })
       .when('/post/create', {
         templateUrl: 'views/post/create.html',
         controller: 'PostCtrl',
-        create: true
+        params:{
+            navId: 'post',
+            create: true
+        }
       })
       .when('/post/:postName', {
         templateUrl: 'views/post/item.html',
         controller: 'PostCtrl',
-        item: true
+        params:{
+            navId: 'post',
+            item: true
+        }
       })
       .when('/post', {
         templateUrl: 'views/post/list.html',
         controller: 'PostCtrl',
-        list: true
+        params:{
+            navId: 'post',
+            list: true
+        }
       });
 });

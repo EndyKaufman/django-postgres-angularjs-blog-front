@@ -1,8 +1,9 @@
-app.controller('NavbarCtrl', function ($scope, NavbarSvc, SearchSvc, PublicLinkSvc) {
+app.controller('NavbarCtrl', function ($scope, NavbarSvc, SearchSvc, PublicLinkSvc, $routeParams) {
 	$scope.NavbarSvc=NavbarSvc;
 	$scope.SearchSvc=SearchSvc;
 	$scope.PublicLinkSvc=PublicLinkSvc;
+	$scope.$routeParams=$routeParams;
 
-    PublicLinkSvc.load();
     NavbarSvc.init();
+    PublicLinkSvc.load();
 });
