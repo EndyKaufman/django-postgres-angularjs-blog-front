@@ -78754,14 +78754,6 @@ app.constant('AccountConst',{
         'account/delete/confirm':'Do you really want to delete account?'
     }
 });
-app.constant('ContactConst',{
-    strings:{
-        title: 'Contact us',
-        description: 'Contact us'
-    }
-});
-app.constant('FileConst', {
-});
 app.constant('HomeConst', {
     url:'/'
 });
@@ -78797,8 +78789,6 @@ app.constant('ManagerConst', {
     },
     message:{
     }
-});
-app.constant('MessageConst', {
 });
 app.constant('NavbarConst', {
     left:[
@@ -78850,6 +78840,16 @@ app.constant('TagConst', {
         title:'Tags',
         description: 'Tag: %s'
     }
+});
+app.constant('MessageConst', {
+});
+app.constant('ContactConst',{
+    strings:{
+        title: 'Contact us',
+        description: 'Contact us'
+    }
+});
+app.constant('FileConst', {
 });
 app.factory('AppConst', function($rootScope,
 HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst){
@@ -78954,16 +78954,6 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'AccountCtrl',
         params:{
             navId: 'profile'
-        }
-      });
-});
-app.config(function ($routeProvider, $locationProvider) {
-    $routeProvider
-      .when('/contact', {
-        templateUrl: 'views/contact/list.html',
-        controller: 'ContactCtrl',
-        params:{
-            navId: 'contact'
         }
       });
 });
@@ -79110,6 +79100,16 @@ app.config(function ($routeProvider, $locationProvider) {
         }
       });
 });
+app.config(function ($routeProvider, $locationProvider) {
+    $routeProvider
+      .when('/contact', {
+        templateUrl: 'views/contact/list.html',
+        controller: 'ContactCtrl',
+        params:{
+            navId: 'contact'
+        }
+      });
+});
 app.config(['$resourceProvider','$httpProvider', function($resourceProvider,$httpProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -79126,73 +79126,73 @@ app.config(['$resourceProvider','$httpProvider', function($resourceProvider,$htt
         requireBase: false
     });
 });
-angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
+angular.module("app").run(['$templateCache', function(a) { a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="ItemName">Name</label>\n' +
-    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="PostSvc.item.name" required>\n' +
-    '    <span ng-show="postForm.$submitted || postForm.ItemName.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!postForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="ProjectSvc.item.name" required>\n' +
+    '    <span ng-show="projectForm.$submitted || projectForm.ItemName.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!projectForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '          aria-hidden="true"></span>\n' +
     '</div>\n' +
     '<div class="form-group has-feedback">\n' +
     '    <label for="ItemType">Type</label>\n' +
-    '    <select class="form-control" id="ItemType" ng-model="PostSvc.item.type">\n' +
-    '        <option ng-repeat="type in AppConst.post.types"\n' +
+    '    <select class="form-control" id="ItemType" ng-model="ProjectSvc.item.type">\n' +
+    '        <option ng-repeat="type in AppConst.project.types"\n' +
     '                ng-value="type.id"\n' +
     '                ng-bind-html="type.title | unsafe"\n' +
-    '                ng-selected="PostSvc.item.type==type.id"></option>\n' +
+    '                ng-selected="ProjectSvc.item.type==type.id"></option>\n' +
     '    </select>\n' +
     '</div>\n' +
     '<div class="form-group has-feedback">\n' +
     '    <label for="ItemTags">Tags</label>\n' +
-    '    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="Add tag" min-length="1">\n' +
+    '    <tags-input id="ItemTags" ng-model="ProjectSvc.item.tags" placeholder="Add tag" min-length="1">\n' +
     '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
     '    </tags-input>\n' +
     '</div>\n' +
     '<div class="form-group">\n' +
     '    <label for="ItemDescription">Description</label>\n' +
     '                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"\n' +
-    '                          ng-model="PostSvc.item.description" required></textarea>\n' +
+    '                          ng-model="ProjectSvc.item.description" required></textarea>\n' +
     '</div>');
-	a.put('views/post/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
+	a.put('views/project/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="ItemTitle">Title</label>\n' +
-    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="PostSvc.item.title"\n' +
-    '           ng-change="PostSvc.slugName(PostSvc.item.title)" required>\n' +
-    '    <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="ProjectSvc.item.title"\n' +
+    '           ng-change="ProjectSvc.slugName(ProjectSvc.item.title)" required>\n' +
+    '    <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '          aria-hidden="true"></span>\n' +
     '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
+    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
     '    <label for="ItemText">Text</label>\n' +
     '                <textarea type="text" class="form-control" id="ItemText"\n' +
-    '                          ng-model="PostSvc.item.text" rows="15"></textarea>\n' +
+    '                          ng-model="ProjectSvc.item.text" rows="15"></textarea>\n' +
     '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
+    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
     '    <label for="ItemHtml">Html</label>\n' +
     '                <textarea type="text" class="form-control" id="ItemHtml"\n' +
-    '                          ng-model="PostSvc.item.html" rows="15"></textarea>\n' +
+    '                          ng-model="ProjectSvc.item.html" rows="15"></textarea>\n' +
     '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
+    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
     '    <label for="ItemUrl">Url</label>\n' +
     '                <textarea type="text" class="form-control" id="ItemUrl"\n' +
-    '                          ng-model="PostSvc.item.url" rows="15"></textarea>\n' +
+    '                          ng-model="ProjectSvc.item.url" rows="15"></textarea>\n' +
     '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
+    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
     '    <label for="ItemMarkdown">Markdown</label>\n' +
     '                <textarea type="text" class="form-control" id="ItemMarkdown"\n' +
-    '                          ng-model="PostSvc.item.markdown" rows="15"></textarea>\n' +
+    '                          ng-model="ProjectSvc.item.markdown" rows="15"></textarea>\n' +
     '</div>\n' +
-    '<div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">\n' +
+    '<div class="form-group" ng-repeat="image in ProjectSvc.item.images track by image.id">\n' +
     '    <label for="{{\'ItemImage\'+($index+1)}}" ng-bind-html="\'Image \'+($index+1) | unsafe"></label>\n' +
     '    <div class="input-group has-feedback">\n' +
     '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
     '               ng-model="image.src">\n' +
     '                        <span class="input-group-btn">\n' +
     '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
-    '                                    type="button" id="{{\'postSelect\'+$index+\'Image\'}}">\n' +
+    '                                    type="button" id="{{\'projectSelect\'+$index+\'Image\'}}">\n' +
     '                                <i class="fa fa-check"></i> Select\n' +
     '                            </button>\n' +
-    '                            <button ng-click="PostSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
-    '                                    type="button" id="{{\'postDelete\'+$index+\'Image\'}}">\n' +
+    '                            <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
+    '                                    type="button" id="{{\'projectDelete\'+$index+\'Image\'}}">\n' +
     '                                <i class="fa fa-trash"></i> Delete image\n' +
     '                            </button>\n' +
     '                        </span>\n' +
@@ -79525,6 +79525,78 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inp
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/post/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="ItemName">Name</label>\n' +
+    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="PostSvc.item.name" required>\n' +
+    '    <span ng-show="postForm.$submitted || postForm.ItemName.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!postForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '          aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemType">Type</label>\n' +
+    '    <select class="form-control" id="ItemType" ng-model="PostSvc.item.type">\n' +
+    '        <option ng-repeat="type in AppConst.post.types"\n' +
+    '                ng-value="type.id"\n' +
+    '                ng-bind-html="type.title | unsafe"\n' +
+    '                ng-selected="PostSvc.item.type==type.id"></option>\n' +
+    '    </select>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemTags">Tags</label>\n' +
+    '    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="Add tag" min-length="1">\n' +
+    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
+    '    </tags-input>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="ItemDescription">Description</label>\n' +
+    '                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"\n' +
+    '                          ng-model="PostSvc.item.description" required></textarea>\n' +
+    '</div>');
+	a.put('views/post/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="ItemTitle">Title</label>\n' +
+    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="PostSvc.item.title"\n' +
+    '           ng-change="PostSvc.slugName(PostSvc.item.title)" required>\n' +
+    '    <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '          aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
+    '    <label for="ItemText">Text</label>\n' +
+    '                <textarea type="text" class="form-control" id="ItemText"\n' +
+    '                          ng-model="PostSvc.item.text" rows="15"></textarea>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
+    '    <label for="ItemHtml">Html</label>\n' +
+    '                <textarea type="text" class="form-control" id="ItemHtml"\n' +
+    '                          ng-model="PostSvc.item.html" rows="15"></textarea>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
+    '    <label for="ItemUrl">Url</label>\n' +
+    '                <textarea type="text" class="form-control" id="ItemUrl"\n' +
+    '                          ng-model="PostSvc.item.url" rows="15"></textarea>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
+    '    <label for="ItemMarkdown">Markdown</label>\n' +
+    '                <textarea type="text" class="form-control" id="ItemMarkdown"\n' +
+    '                          ng-model="PostSvc.item.markdown" rows="15"></textarea>\n' +
+    '</div>\n' +
+    '<div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">\n' +
+    '    <label for="{{\'ItemImage\'+($index+1)}}" ng-bind-html="\'Image \'+($index+1) | unsafe"></label>\n' +
+    '    <div class="input-group has-feedback">\n' +
+    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
+    '               ng-model="image.src">\n' +
+    '                        <span class="input-group-btn">\n' +
+    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
+    '                                    type="button" id="{{\'postSelect\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-check"></i> Select\n' +
+    '                            </button>\n' +
+    '                            <button ng-click="PostSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
+    '                                    type="button" id="{{\'postDelete\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-trash"></i> Delete image\n' +
+    '                            </button>\n' +
+    '                        </span>\n' +
+    '    </div>\n' +
+    '</div>');
 	a.put('views/manager/meta_tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
@@ -79626,360 +79698,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inp
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemName">Name</label>\n' +
-    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="ProjectSvc.item.name" required>\n' +
-    '    <span ng-show="projectForm.$submitted || projectForm.ItemName.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!projectForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemType">Type</label>\n' +
-    '    <select class="form-control" id="ItemType" ng-model="ProjectSvc.item.type">\n' +
-    '        <option ng-repeat="type in AppConst.project.types"\n' +
-    '                ng-value="type.id"\n' +
-    '                ng-bind-html="type.title | unsafe"\n' +
-    '                ng-selected="ProjectSvc.item.type==type.id"></option>\n' +
-    '    </select>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemTags">Tags</label>\n' +
-    '    <tags-input id="ItemTags" ng-model="ProjectSvc.item.tags" placeholder="Add tag" min-length="1">\n' +
-    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
-    '    </tags-input>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="ItemDescription">Description</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"\n' +
-    '                          ng-model="ProjectSvc.item.description" required></textarea>\n' +
-    '</div>');
-	a.put('views/project/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemTitle">Title</label>\n' +
-    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="ProjectSvc.item.title"\n' +
-    '           ng-change="ProjectSvc.slugName(ProjectSvc.item.title)" required>\n' +
-    '    <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
-    '    <label for="ItemText">Text</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemText"\n' +
-    '                          ng-model="ProjectSvc.item.text" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
-    '    <label for="ItemHtml">Html</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemHtml"\n' +
-    '                          ng-model="ProjectSvc.item.html" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
-    '    <label for="ItemUrl">Url</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemUrl"\n' +
-    '                          ng-model="ProjectSvc.item.url" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
-    '    <label for="ItemMarkdown">Markdown</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemMarkdown"\n' +
-    '                          ng-model="ProjectSvc.item.markdown" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group" ng-repeat="image in ProjectSvc.item.images track by image.id">\n' +
-    '    <label for="{{\'ItemImage\'+($index+1)}}" ng-bind-html="\'Image \'+($index+1) | unsafe"></label>\n' +
-    '    <div class="input-group has-feedback">\n' +
-    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
-    '               ng-model="image.src">\n' +
-    '                        <span class="input-group-btn">\n' +
-    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
-    '                                    type="button" id="{{\'projectSelect\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-check"></i> Select\n' +
-    '                            </button>\n' +
-    '                            <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
-    '                                    type="button" id="{{\'projectDelete\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-trash"></i> Delete image\n' +
-    '                            </button>\n' +
-    '                        </span>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/post/update.html', '<div class="container sections-wrapper">\n' +
-    '    <form name="postForm">\n' +
-    '        <div class="row">\n' +
-    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '                <section class="latest section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h1 class="heading">\n' +
-    '                            <span>Edit post</span>\n' +
-    '                            <a ng-href="{{\'/post/\'+PostSvc.item.name}}"\n' +
-    '                               class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
-    '                               id="postUpdate"><i class="fa fa-pencil-square-o"></i> View</a>\n' +
-    '                        </h1>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/post/inputs/central.html\'"></div>\n' +
-    '                            <div>\n' +
-    '                                <button ng-click="PostSvc.doUpdate(PostSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                        ng-disabled="!postForm.$valid" id="postSave">\n' +
-    '                                    <i class="fa fa-floppy-o"></i> Save\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"\n' +
-    '                                        id="postDelete">\n' +
-    '                                    <i class="fa fa-trash"></i> Delete post\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
-    '                                        id="postAddImage">\n' +
-    '                                    <i class="fa fa-plus"></i> Add image\n' +
-    '                                </button>\n' +
-    '                            </div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '\n' +
-    '            </div><!--//primary-->\n' +
-    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '\n' +
-    '                <aside class="list tags aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading">Additionally</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/post/inputs/right.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//section-->\n' +
-    '\n' +
-    '                <aside class="info aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading sr-only">Search</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/search.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//aside-->\n' +
-    '\n' +
-    '            </div><!--//secondary-->\n' +
-    '        </div><!--//row-->\n' +
-    '    </form>\n' +
-    '</div><!--//masonry-->');
-	a.put('views/post/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div class="item row"\n' +
-    '                             ng-repeat="item in PostSvc.list | limitTo:PostSvc.limit:PostSvc.begin">\n' +
-    '                            <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '                        </div><!--//item-->\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
-    '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_url}}"\n' +
-    '         ng-if="item.images.length>0"\n' +
-    '         alt="{{item.title}}"/>\n' +
-    '</a>\n' +
-    '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
-    '    <div class="pull-right">\n' +
-    '        <a ng-href="{{\'/post/update/\'+item.name}}"\n' +
-    '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
-    '           id="{{\'post\'+$index+\'Update\'}}">\n' +
-    '            <i class="fa fa-pencil-square-o"></i>\n' +
-    '            <span class="hidden-xs">Edit</span>\n' +
-    '        </a>\n' +
-    '        <a ng-click="PostSvc.doDelete(item)" class="btn btn-cta-red btn-xs"\n' +
-    '           id="postDelete" ng-if="AccountSvc.isAdmin()">\n' +
-    '            <i class="fa fa-trash"></i>\n' +
-    '            <span class="hidden-xs">Delete</span>\n' +
-    '        </a>\n' +
-    '    </div>\n' +
-    '    <h3 class="title">\n' +
-    '        <a ng-href="{{\'/post/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
-    '    </h3>\n' +
-    '    <p ng-bind-html="item.description | unsafe"></p>\n' +
-    '    <p ng-if="item.tags.length>0">\n' +
-    '        <span ng-repeat="tag in item.tags">\n' +
-    '            <i class="fa fa-tag"></i>\n' +
-    '            <a class="list-link" ng-href="{{\'/tag/\'+tag.text}}"\n' +
-    '               ng-bind="tag.text"></a>\n' +
-    '        </span>\n' +
-    '    </p>\n' +
-    '    <p>\n' +
-    '        <a class="more-link" ng-href="{{\'/post/\'+item.name}}" id="{{\'post\'+$index+\'Detail\'}}"><i\n' +
-    '                class="fa fa-link"></i> Detail...</a>\n' +
-    '    </p>\n' +
-    '</div><!--//desc-->\n' +
-    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <hr class="divider" ng-if="!$last"/>\n' +
-    '</div><!--//desc-->');
-	a.put('views/post/list-header.html', '<span ng-bind-html="PostSvc.title | unsafe"></span>\n' +
-    '<a ng-href="/post/create"\n' +
-    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postCreate"><i class="fa fa-plus"></i>  Create</a>');
-	a.put('views/post/item.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>\n' +
-    '                        <a ng-href="{{\'/post/update/\'+PostSvc.item.name}}"\n' +
-    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div class="item row">\n' +
-    '                            <div ng-include="\'views/post/item-content.html\'"></div>\n' +
-    '                        </div><!--//item-->\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list description aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Description</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <span ng-bind-html="PostSvc.item.description | unsafe"></span>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section" ng-if="PostSvc.item.tags.length>0">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/post/item-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/post/item-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in PostSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}"\n' +
-    '                                                                             ng-bind="tag.text"></a></li>\n' +
-    '</ul>');
-	a.put('views/post/item-content.html', '<div ng-if="PostSvc.item.images.length>0">\n' +
-    '    <div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '        <div ng-if="PostSvc.item.images.length==1">\n' +
-    '            <img ng-src="{{PostSvc.item.images[0].src_url}}"\n' +
-    '                 class="img-responsive"/>\n' +
-    '        </div>\n' +
-    '        <div ng-if="PostSvc.item.images.length>1">\n' +
-    '            <div data-nq-carousel="">\n' +
-    '                <div data-carousel-item="" ng-repeat="image in PostSvc.item.images">\n' +
-    '                    <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
-    '                        ng-bind-html="image.title | unsafe"></h3-->\n' +
-    '                    <img ng-src="{{image.src_url}}">\n' +
-    '                    <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
-    '                        <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '        <hr class="divider"/>\n' +
-    '    </div>\n' +
-    '</div>\n' +
-    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <div ng-if="PostSvc.item.type==1 && PostSvc.item.text">\n' +
-    '        <p ng-bind-html="PostSvc.item.text | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="PostSvc.item.type==2 && PostSvc.item.html">\n' +
-    '        <p ng-bind-html="PostSvc.item.html | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="PostSvc.item.type==3 && PostSvc.item.url">\n' +
-    '        <p ng-bind-html="PostSvc.item.url | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="PostSvc.item.type==4 && PostSvc.item.markdown">\n' +
-    '        <markdown extensions="github, table, twitter" strip="true" allow-html="true"\n' +
-    '                  ng-model="PostSvc.item.markdown">\n' +
-    '        </markdown>\n' +
-    '    </div>\n' +
-    '</div><!--//desc-->');
-	a.put('views/post/create.html', '<div class="container sections-wrapper" ng-init="PostSvc.initEmptyItem()">\n' +
-    '    <form name="postForm">\n' +
-    '        <div class="row">\n' +
-    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '                <section class="latest section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h1 class="heading">\n' +
-    '                            <span>Create post</span>\n' +
-    '                        </h1>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/post/inputs/central.html\'"></div>\n' +
-    '                            <div>\n' +
-    '                                <button ng-click="PostSvc.doCreate(PostSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                        ng-disabled="!postForm.$valid" id="postCreate">\n' +
-    '                                    <i class="fa fa-check"></i> Create\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"\n' +
-    '                                        id="postDelete">\n' +
-    '                                    <i class="fa fa-trash"></i> Delete post\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
-    '                                        id="postAddImage">\n' +
-    '                                    <i class="fa fa-plus"></i> Add image\n' +
-    '                                </button>\n' +
-    '                            </div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '\n' +
-    '            </div><!--//primary-->\n' +
-    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '\n' +
-    '                <aside class="list tags aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading">Additionally</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/post/inputs/right.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//section-->\n' +
-    '\n' +
-    '                <aside class="info aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading sr-only">Search</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/search.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//aside-->\n' +
-    '\n' +
-    '            </div><!--//secondary-->\n' +
-    '        </div><!--//row-->\n' +
-    '    </form>\n' +
-    '</div><!--//masonry-->');
 	a.put('views/message/prompt.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
@@ -80057,350 +79775,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inp
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/tag/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/tag/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list manager-menu aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Menu</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/public_link.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/public_link/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/public_link/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list manager-menu aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Menu</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/properties.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/properties/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/properties/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list manager-menu aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Menu</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/meta_tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/meta_tag/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/meta_tag/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list manager-menu aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Menu</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/menu.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'meta_tag\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/meta_tag"\n' +
-    '           ng-bind="AppConst.manager.meta_tag.title"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'tag\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/tag"\n' +
-    '           ng-bind="AppConst.manager.tag.title"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'public_link\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/public_link"\n' +
-    '           ng-bind="AppConst.manager.public_link.title"></a></li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'properties\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/properties"\n' +
-    '           ng-bind="AppConst.manager.properties.title"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'users\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/users"\n' +
-    '           ng-bind="AppConst.manager.users.title"></a>\n' +
-    '    </li>\n' +
-    '</ul>');
-	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="TagSvc.allListSumSize==0">\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0">\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\'" ng-if="allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\'" ng-if="allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <form name="projectForm">\n' +
@@ -80684,6 +80058,840 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inp
     '        </div><!--//row-->\n' +
     '    </form>\n' +
     '</div><!--//masonry-->');
+	a.put('views/post/update.html', '<div class="container sections-wrapper">\n' +
+    '    <form name="postForm">\n' +
+    '        <div class="row">\n' +
+    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '                <section class="latest section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h1 class="heading">\n' +
+    '                            <span>Edit post</span>\n' +
+    '                            <a ng-href="{{\'/post/\'+PostSvc.item.name}}"\n' +
+    '                               class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '                               id="postUpdate"><i class="fa fa-pencil-square-o"></i> View</a>\n' +
+    '                        </h1>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/post/inputs/central.html\'"></div>\n' +
+    '                            <div>\n' +
+    '                                <button ng-click="PostSvc.doUpdate(PostSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                        ng-disabled="!postForm.$valid" id="postSave">\n' +
+    '                                    <i class="fa fa-floppy-o"></i> Save\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"\n' +
+    '                                        id="postDelete">\n' +
+    '                                    <i class="fa fa-trash"></i> Delete post\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
+    '                                        id="postAddImage">\n' +
+    '                                    <i class="fa fa-plus"></i> Add image\n' +
+    '                                </button>\n' +
+    '                            </div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
+    '            </div><!--//primary-->\n' +
+    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '\n' +
+    '                <aside class="list tags aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading">Additionally</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/post/inputs/right.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//section-->\n' +
+    '\n' +
+    '                <aside class="info aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading sr-only">Search</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/search.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//aside-->\n' +
+    '\n' +
+    '            </div><!--//secondary-->\n' +
+    '        </div><!--//row-->\n' +
+    '    </form>\n' +
+    '</div><!--//masonry-->');
+	a.put('views/post/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div class="item row"\n' +
+    '                             ng-repeat="item in PostSvc.list | limitTo:PostSvc.limit:PostSvc.begin">\n' +
+    '                            <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '                        </div><!--//item-->\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
+    '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_url}}"\n' +
+    '         ng-if="item.images.length>0"\n' +
+    '         alt="{{item.title}}"/>\n' +
+    '</a>\n' +
+    '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
+    '    <div class="pull-right">\n' +
+    '        <a ng-href="{{\'/post/update/\'+item.name}}"\n' +
+    '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '           id="{{\'post\'+$index+\'Update\'}}">\n' +
+    '            <i class="fa fa-pencil-square-o"></i>\n' +
+    '            <span class="hidden-xs">Edit</span>\n' +
+    '        </a>\n' +
+    '        <a ng-click="PostSvc.doDelete(item)" class="btn btn-cta-red btn-xs"\n' +
+    '           id="postDelete" ng-if="AccountSvc.isAdmin()">\n' +
+    '            <i class="fa fa-trash"></i>\n' +
+    '            <span class="hidden-xs">Delete</span>\n' +
+    '        </a>\n' +
+    '    </div>\n' +
+    '    <h3 class="title">\n' +
+    '        <a ng-href="{{\'/post/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
+    '    </h3>\n' +
+    '    <p ng-bind-html="item.description | unsafe"></p>\n' +
+    '    <p ng-if="item.tags.length>0">\n' +
+    '        <span ng-repeat="tag in item.tags">\n' +
+    '            <i class="fa fa-tag"></i>\n' +
+    '            <a class="list-link" ng-href="{{\'/tag/\'+tag.text}}"\n' +
+    '               ng-bind="tag.text"></a>\n' +
+    '        </span>\n' +
+    '    </p>\n' +
+    '    <p>\n' +
+    '        <a class="more-link" ng-href="{{\'/post/\'+item.name}}" id="{{\'post\'+$index+\'Detail\'}}"><i\n' +
+    '                class="fa fa-link"></i> Detail...</a>\n' +
+    '    </p>\n' +
+    '</div><!--//desc-->\n' +
+    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '    <hr class="divider" ng-if="!$last"/>\n' +
+    '</div><!--//desc-->');
+	a.put('views/post/list-header.html', '<span ng-bind-html="PostSvc.title | unsafe"></span>\n' +
+    '<a ng-href="/post/create"\n' +
+    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postCreate"><i class="fa fa-plus"></i>  Create</a>');
+	a.put('views/post/item.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>\n' +
+    '                        <a ng-href="{{\'/post/update/\'+PostSvc.item.name}}"\n' +
+    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div class="item row">\n' +
+    '                            <div ng-include="\'views/post/item-content.html\'"></div>\n' +
+    '                        </div><!--//item-->\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Description</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <span ng-bind-html="PostSvc.item.description | unsafe"></span>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section" ng-if="PostSvc.item.tags.length>0">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/post/item-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/post/item-tags.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="tag in PostSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}"\n' +
+    '                                                                             ng-bind="tag.text"></a></li>\n' +
+    '</ul>');
+	a.put('views/post/item-content.html', '<div ng-if="PostSvc.item.images.length>0">\n' +
+    '    <div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '        <div ng-if="PostSvc.item.images.length==1">\n' +
+    '            <img ng-src="{{PostSvc.item.images[0].src_url}}"\n' +
+    '                 class="img-responsive"/>\n' +
+    '        </div>\n' +
+    '        <div ng-if="PostSvc.item.images.length>1">\n' +
+    '            <div data-nq-carousel="">\n' +
+    '                <div data-carousel-item="" ng-repeat="image in PostSvc.item.images">\n' +
+    '                    <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
+    '                        ng-bind-html="image.title | unsafe"></h3-->\n' +
+    '                    <img ng-src="{{image.src_url}}">\n' +
+    '                    <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
+    '                        <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '        </div>\n' +
+    '        <hr class="divider"/>\n' +
+    '    </div>\n' +
+    '</div>\n' +
+    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '    <div ng-if="PostSvc.item.type==1 && PostSvc.item.text">\n' +
+    '        <p ng-bind-html="PostSvc.item.text | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="PostSvc.item.type==2 && PostSvc.item.html">\n' +
+    '        <p ng-bind-html="PostSvc.item.html | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="PostSvc.item.type==3 && PostSvc.item.url">\n' +
+    '        <p ng-bind-html="PostSvc.item.url | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="PostSvc.item.type==4 && PostSvc.item.markdown">\n' +
+    '        <markdown extensions="github, table, twitter" strip="true" allow-html="true"\n' +
+    '                  ng-model="PostSvc.item.markdown">\n' +
+    '        </markdown>\n' +
+    '    </div>\n' +
+    '</div><!--//desc-->');
+	a.put('views/post/create.html', '<div class="container sections-wrapper" ng-init="PostSvc.initEmptyItem()">\n' +
+    '    <form name="postForm">\n' +
+    '        <div class="row">\n' +
+    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '                <section class="latest section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h1 class="heading">\n' +
+    '                            <span>Create post</span>\n' +
+    '                        </h1>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/post/inputs/central.html\'"></div>\n' +
+    '                            <div>\n' +
+    '                                <button ng-click="PostSvc.doCreate(PostSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                        ng-disabled="!postForm.$valid" id="postCreate">\n' +
+    '                                    <i class="fa fa-check"></i> Create\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"\n' +
+    '                                        id="postDelete">\n' +
+    '                                    <i class="fa fa-trash"></i> Delete post\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
+    '                                        id="postAddImage">\n' +
+    '                                    <i class="fa fa-plus"></i> Add image\n' +
+    '                                </button>\n' +
+    '                            </div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
+    '            </div><!--//primary-->\n' +
+    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '\n' +
+    '                <aside class="list tags aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading">Additionally</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/post/inputs/right.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//section-->\n' +
+    '\n' +
+    '                <aside class="info aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading sr-only">Search</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/search.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//aside-->\n' +
+    '\n' +
+    '            </div><!--//secondary-->\n' +
+    '        </div><!--//row-->\n' +
+    '    </form>\n' +
+    '</div><!--//masonry-->');
+	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="TagSvc.allListSumSize==0">\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0">\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/home/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                    </h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-projects.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                    </h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-posts.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
+    '        <i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
+    '                                     ng-bind="tag.text"></a></li>\n' +
+    '</ul>\n' +
+    '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i\n' +
+    '        class="fa fa-chevron-down"></i></a>\n' +
+    '');
+	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/home/content.html', '<div class="container">\n' +
+    '    <div class="page-header">\n' +
+    '        <h1>Page header</h1>\n' +
+    '    </div>\n' +
+    '    <p class="lead">Description of page <code>source code</code> and others text.</p>\n' +
+    '    <p>Text for link <a href="http://google.com">i am link</a> others text.</p>\n' +
+    '</div>');
+	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
+    '            <form name="fileForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileUpdateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!fileForm.$valid" id="fileUpdateConfirm">\n' +
+    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/file/list.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content">\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '            <div class="modal-body">\n' +
+    '                <div class="modal-body-inner">\n' +
+    '                    <div ng-controller="FileCtrl">\n' +
+    '                        <div ng-include="\'views/file/list.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '            <div class="modal-footer">\n' +
+    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileListCancel"><i\n' +
+    '                        class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                </button>\n' +
+    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()" id="fileListConfirm"><i\n' +
+    '                        class="fa fa-check"></i> {{confirmText}}\n' +
+    '                </button>\n' +
+    '            </div>\n' +
+    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                <i class="fa fa-times"></i>\n' +
+    '            </button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/file/list.html', '<div class="row">\n' +
+    '    <div class="col-md-3">\n' +
+    '        <button ng-click="FileSvc.showCreate()" class="btn btn-cta-default" type="button" id="fileCreate">\n' +
+    '            <i class="fa fa-plus"></i> Add file\n' +
+    '        </button>\n' +
+    '    </div>\n' +
+    '    <div class="col-md-9">\n' +
+    '        <div class="input-group">\n' +
+    '            <input type="text" class="form-control search-query"\n' +
+    '                   ng-model="FileSvc.searchText"\n' +
+    '                   ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>\n' +
+    '                                        <span class="input-group-btn">\n' +
+    '                                            <button ng-click="FileSvc.doSearch(FileSvc.searchText)"\n' +
+    '                                                    class="btn btn-cta-secondary"\n' +
+    '                                                    type="button" id="fileSearch">\n' +
+    '                                                Search\n' +
+    '                                            </button>\n' +
+    '                                        </span>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>\n' +
+    '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <th>#</th>\n' +
+    '        <th>Url</th>\n' +
+    '        <th>Comment</th>\n' +
+    '        <th class="text-right">Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in FileSvc.list"\n' +
+    '        ng-class="(FileSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td ng-bind="item.id" ng-click="FileSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item.src" ng-click="FileSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.comment" ng-click="FileSvc.selectItem(item)"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
+    '                    id="{{\'file\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
+    '            </button>\n' +
+    '            <button ng-click="FileSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
+    '                    id="{{\'file\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> Delete\n' +
+    '            </button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/file/inputs.html', '<div class="form-group" ng-if="FileSvc.mode==\'create\'">\n' +
+    '    <label for="FileUpload">File</label>\n' +
+    '    <input class="form-control" type="file" id="FileUpload"/>\n' +
+    '</div>\n' +
+    '<div class="form-group" ng-if="FileSvc.mode==\'update\'">\n' +
+    '    <label for="FileUpload">File</label>\n' +
+    '    <input class="form-control" type="text" id="FileUpload"\n' +
+    '                  ng-model="FileSvc.item.src" disabled/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="FileComment">Comment</label>\n' +
+    '        <textarea type="text" class="form-control" id="FileComment"\n' +
+    '                  ng-model="FileSvc.item.comment"></textarea>\n' +
+    '</div>');
+	a.put('views/file/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
+    '            <form name="fileForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileCreateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!fileForm.$valid" id="fileCreateConfirm">\n' +
+    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/tag/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/tag/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list manager-menu aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Menu</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/public_link.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/public_link/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/public_link/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list manager-menu aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Menu</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/properties.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/properties/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/properties/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list manager-menu aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Menu</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/meta_tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/meta_tag/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/meta_tag/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list manager-menu aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Menu</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only">Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading">Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/menu.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'meta_tag\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/meta_tag"\n' +
+    '           ng-bind="AppConst.manager.meta_tag.title"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'tag\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/tag"\n' +
+    '           ng-bind="AppConst.manager.tag.title"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'public_link\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/public_link"\n' +
+    '           ng-bind="AppConst.manager.public_link.title"></a></li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'properties\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/properties"\n' +
+    '           ng-bind="AppConst.manager.properties.title"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'users\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/users"\n' +
+    '           ng-bind="AppConst.manager.users.title"></a>\n' +
+    '    </li>\n' +
+    '</ul>');
 	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -81136,214 +81344,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/post/inp
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/home/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                    </h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-projects.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                    </h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-posts.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only">Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading">Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
-    '        <i class="fa fa-tag"></i> <a ng-href="{{\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
-    '                                     ng-bind="tag.text"></a></li>\n' +
-    '</ul>\n' +
-    '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i\n' +
-    '        class="fa fa-chevron-down"></i></a>\n' +
-    '');
-	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/project">All projects <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/home/content.html', '<div class="container">\n' +
-    '    <div class="page-header">\n' +
-    '        <h1>Page header</h1>\n' +
-    '    </div>\n' +
-    '    <p class="lead">Description of page <code>source code</code> and others text.</p>\n' +
-    '    <p>Text for link <a href="http://google.com">i am link</a> others text.</p>\n' +
-    '</div>');
-	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
-    '            <form name="fileForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileUpdateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!fileForm.$valid" id="fileUpdateConfirm">\n' +
-    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/file/list.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '            <div class="modal-body">\n' +
-    '                <div class="modal-body-inner">\n' +
-    '                    <div ng-controller="FileCtrl">\n' +
-    '                        <div ng-include="\'views/file/list.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileListCancel"><i\n' +
-    '                        class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                </button>\n' +
-    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()" id="fileListConfirm"><i\n' +
-    '                        class="fa fa-check"></i> {{confirmText}}\n' +
-    '                </button>\n' +
-    '            </div>\n' +
-    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                <i class="fa fa-times"></i>\n' +
-    '            </button>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/file/list.html', '<div class="row">\n' +
-    '    <div class="col-md-3">\n' +
-    '        <button ng-click="FileSvc.showCreate()" class="btn btn-cta-default" type="button" id="fileCreate">\n' +
-    '            <i class="fa fa-plus"></i> Add file\n' +
-    '        </button>\n' +
-    '    </div>\n' +
-    '    <div class="col-md-9">\n' +
-    '        <div class="input-group">\n' +
-    '            <input type="text" class="form-control search-query"\n' +
-    '                   ng-model="FileSvc.searchText"\n' +
-    '                   ng-enter="FileSvc.doSearch(FileSvc.searchText)" required/>\n' +
-    '                                        <span class="input-group-btn">\n' +
-    '                                            <button ng-click="FileSvc.doSearch(FileSvc.searchText)"\n' +
-    '                                                    class="btn btn-cta-secondary"\n' +
-    '                                                    type="button" id="fileSearch">\n' +
-    '                                                Search\n' +
-    '                                            </button>\n' +
-    '                                        </span>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>\n' +
-    '<table class="table table-hover">\n' +
-    '    <thead>\n' +
-    '    <tr>\n' +
-    '        <th>#</th>\n' +
-    '        <th>Url</th>\n' +
-    '        <th>Comment</th>\n' +
-    '        <th class="text-right">Actions</th>\n' +
-    '    </tr>\n' +
-    '    </thead>\n' +
-    '    <tbody>\n' +
-    '    <tr ng-repeat="item in FileSvc.list"\n' +
-    '        ng-class="(FileSvc.item.id==item.id)?\'bold\':\'\'">\n' +
-    '        <td ng-bind="item.id" ng-click="FileSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item.src" ng-click="FileSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.comment" ng-click="FileSvc.selectItem(item)"></td>\n' +
-    '        <td class="text-right">\n' +
-    '            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
-    '                    id="{{\'file\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
-    '            </button>\n' +
-    '            <button ng-click="FileSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
-    '                    id="{{\'file\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> Delete\n' +
-    '            </button>\n' +
-    '        </td>\n' +
-    '    </tr>\n' +
-    '    </tbody>\n' +
-    '</table>');
-	a.put('views/file/inputs.html', '<div class="form-group" ng-if="FileSvc.mode==\'create\'">\n' +
-    '    <label for="FileUpload">File</label>\n' +
-    '    <input class="form-control" type="file" id="FileUpload"/>\n' +
-    '</div>\n' +
-    '<div class="form-group" ng-if="FileSvc.mode==\'update\'">\n' +
-    '    <label for="FileUpload">File</label>\n' +
-    '    <input class="form-control" type="text" id="FileUpload"\n' +
-    '                  ng-model="FileSvc.item.src" disabled/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="FileComment">Comment</label>\n' +
-    '        <textarea type="text" class="form-control" id="FileComment"\n' +
-    '                  ng-model="FileSvc.item.comment"></textarea>\n' +
-    '</div>');
-	a.put('views/file/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="FileCtrl">\n' +
-    '            <form name="fileForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/file/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="fileCreateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!fileForm.$valid" id="fileCreateConfirm">\n' +
-    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
 	a.put('views/search.html', '<div class="form-search search-only" ng-controller="NavbarCtrl" ng-if="!NavbarSvc.items.search.hidden">\n' +
     '    <div class="input-group">\n' +
     '        <input type="text" class="form-control search-query"\n' +

@@ -12,7 +12,7 @@
             </section><!--//section-->
 
             <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">
-                <section class="latest section" ng-if="allItem.name=='project'" ng-if="allItem.list.length>0">
+                <section class="latest section" ng-if="allItem.name=='project' && allItem.list.length>0">
                     <div class="section-inner">
                         <h2 class="heading" ng-include="'views/project/list-header.html'">
                         </h2>
@@ -21,7 +21,7 @@
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </section><!--//section-->
-                <section class="latest section" ng-if="allItem.name=='post'" ng-if="allItem.list.length>0">
+                <section class="latest section" ng-if="allItem.name=='post' && allItem.list.length>0">
                     <div class="section-inner">
                         <h2 class="heading" ng-include="'views/post/list-header.html'">
                         </h2>
