@@ -1,4 +1,4 @@
-app.factory('PostSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, PostRes, TagSvc, NavbarSvc, MessageSvc, AppSvc, PropertiesSvc) {
+app.factory('PostSvc', function ($routeParams, $rootScope, $q, $location, AppConst, PostRes, TagSvc, MessageSvc, AppSvc) {
     var service={};
 
     $rootScope.$on('post.delete',function(event, item){

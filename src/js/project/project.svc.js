@@ -1,4 +1,5 @@
-app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $timeout, $location, AppConst, ProjectRes, TagSvc, NavbarSvc, MessageSvc, AppSvc, PropertiesSvc) {
+app.factory('ProjectSvc', function ($routeParams, $rootScope, $q, $location, AppConst,
+ProjectRes, TagSvc, MessageSvc, AppSvc) {
     var service={};
 
     $rootScope.$on('project.delete',function(event, item){

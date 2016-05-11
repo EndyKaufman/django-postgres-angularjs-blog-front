@@ -1,4 +1,4 @@
-app.controller('ProjectCtrl', function ($scope, $timeout, ProjectSvc, AccountSvc, TagSvc, FileSvc) {
+app.controller('ProjectCtrl', function ($scope, ProjectSvc, AccountSvc, TagSvc, FileSvc) {
     $scope.AccountSvc=AccountSvc;
 	$scope.ProjectSvc=ProjectSvc;
 	$scope.TagSvc=TagSvc;
