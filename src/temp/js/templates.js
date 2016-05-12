@@ -802,7 +802,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
-    '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_url}}"\n' +
+    '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
     '         alt="{{item.title}}"/>\n' +
     '</a>\n' +
@@ -1084,7 +1084,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
-    '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_url}}"\n' +
+    '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
     '         alt="{{item.title}}"/>\n' +
     '</a>\n' +
