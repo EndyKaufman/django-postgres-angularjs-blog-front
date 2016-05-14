@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Client ID</th>
+        <th class="text-right" style="width:200px">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in UserAppSvc.list | orderBy:'position'"
+        ng-class="(UserAppSvc.item.id==item.id)?'bold':''">
+        <td ng-bind="item.id" ng-click="UserAppSvc.selectItem(item)"></td>
+        <td ng-bind="item.name" ng-click="UserAppSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item.client_id" ng-click="UserAppSvc.selectItem(item)"></td>
+        <td class="text-right">
+            <button ng-click="UserAppSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
+                    id="{{'user_app'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> Edit
+            </button>
+            <button ng-click="UserAppSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"
+                    id="{{'user_app'+item.id+'Delete'}}"><i class="fa fa-trash"></i> Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

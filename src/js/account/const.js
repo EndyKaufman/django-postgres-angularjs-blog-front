@@ -19,6 +19,11 @@ app.constant('AccountConst',{
         name: 'profile',
         description: 'Profile of user'
     },
+    user_app:{
+        title: 'User app',
+        name: 'user_app',
+        description: 'User app of user'
+    },
     recovery:{
         title: 'Recovery access',
         name: 'recovery',

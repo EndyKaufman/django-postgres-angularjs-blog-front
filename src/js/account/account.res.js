@@ -29,13 +29,5 @@ app.factory('AccountRes', function (AppConst, AppRes) {
         });
     };
 
-    service.actionDelete=function(){
-        return AppRes.post('/api/v1/account/delete');
-    }
-
-    service.actionUpdate=function(item){
-        return AppRes.post('/api/v1/account/update', item);
-    }
-
     return service;
   });

@@ -1,4 +1,5 @@
-<div class="container sections-wrapper">
+<div ng-include="'views/not-access.html'" ng-if="!AccountSvc.isLogged()"></div>
+<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">
     <div class="row">
         <div class="primary col-md-8 col-sm-12 col-xs-12">
             <section class="latest section">
@@ -7,56 +8,12 @@
                     </h1>
                     <div class="content">
                         <form name="accountForm">
-                            <div class="form-group has-feedback" show-errors>
-                                <label for="firstname">First name</label>
-                                <input type="text" class="form-control" name="firstname" id="firstname"
-                                       ng-model="AccountSvc.item.firstname">
-                    <span ng-show="accountForm.$submitted || accountForm.firstname.$touched"
-                          class="form-control-feedback"
-                          ng-class="!accountForm.firstname.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-                          aria-hidden="true"></span>
-                            </div>
-                            <div class="form-group has-feedback" show-errors>
-                                <label for="lastname">Last name</label>
-                                <input type="text" class="form-control" name="lastname" id="lastname"
-                                       ng-model="AccountSvc.item.lastname">
-                    <span ng-show="accountForm.$submitted || accountForm.lastname.$touched"
-                          class="form-control-feedback"
-                          ng-class="!accountForm.lastname.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-                          aria-hidden="true"></span>
-                            </div>
-                            <div class="form-group has-feedback" show-errors>
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" id="username"
-                                       ng-model="AccountSvc.item.username" required>
-                    <span ng-show="accountForm.$submitted || accountForm.username.$touched"
-                          class="form-control-feedback"
-                          ng-class="!accountForm.username.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-                          aria-hidden="true"></span>
-                            </div>
-                            <div class="form-group has-feedback" show-errors>
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                       ng-model="AccountSvc.item.email" required>
-                    <span ng-show="accountForm.$submitted || accountForm.email.$touched" class="form-control-feedback"
-                          ng-class="!accountForm.email.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-                          aria-hidden="true"></span>
-                            </div>
-                            <div class="form-group has-feedback" show-errors>
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       ng-model="AccountSvc.item.password"
-                                       placeholder="if empty, the password will not be changed">
-                    <span ng-show="accountForm.$submitted || accountForm.password.$touched"
-                          class="form-control-feedback"
-                          ng-class="!accountForm.password.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-                          aria-hidden="true"></span>
-                            </div>
-                            <button ng-click="AccountSvc.doUpdate(AccountSvc.item)" class="btn btn-cta-secondary"
+                            <div ng-include="'views/account/profile/inputs.html'"></div>
+                            <button ng-click="ProfileSvc.doUpdate(ProfileSvc.item)" class="btn btn-cta-secondary"
                                     ng-disabled="!accountForm.$valid" id="accountSave">
                                 <i class="fa fa-floppy-o"></i> Save
                             </button>
-                            <button ng-click="AccountSvc.doDelete()" class="btn btn-cta-red" id="accountDelete"><i
+                            <button ng-click="ProfileSvc.doDelete()" class="btn btn-cta-red" id="accountDelete"><i
                                     class="fa fa-trash"></i> Delete
                                 account
                             </button>
@@ -67,24 +24,7 @@
 
         </div><!--//primary-->
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
-            <aside class="info aside section">
-                <div class="section-inner">
-                    <h2 class="heading sr-only">Search</h2>
-                    <div class="content">
-                        <div ng-include="'views/search.html'"></div>
-                    </div><!--//content-->
-                </div><!--//section-inner-->
-            </aside><!--//aside-->
-
-            <aside class="list tags aside section">
-                <div class="section-inner">
-                    <h2 class="heading">Tags</h2>
-                    <div class="content">
-                        <div ng-include="'views/home/list-tags.html'"></div>
-                    </div><!--//content-->
-                </div><!--//section-inner-->
-            </aside><!--//section-->
-
+            <div ng-include="'views/account/sidebar.html'" ng-controller="AccountSidebarCtrl"></div>
         </div><!--//secondary-->
     </div><!--//row-->
 </div><!--//masonry-->

@@ -54,24 +54,13 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         AppSvc.setDescription(service.description);
         AppSvc.setUrl($routeParams.navId);
 
-        if ($routeParams.navId=='login' || $routeParams.navId=='reg' || $routeParams.navId=='reset_password' || $routeParams.navId=='recovery'){
-            if (service.isLogged()){
-                NavbarSvc.goHome();
-            }else{
-                if ($routeParams.navId=='reset_password'){
-                    if ($routeParams.code!==undefined)
-                        service.reset_passwordCode=$routeParams.code;
-                    else
-                        service.reset_passwordCode='';
-                }
-            }
-            return;
+        if ($routeParams.navId=='reset_password'){
+            if ($routeParams.code!==undefined)
+                service.item.code=$routeParams.code;
+            else
+                service.item.code='';
         }
-        if ($routeParams.navId=='profile'){
-            if (!service.isLogged()){
-                NavbarSvc.goHome();
-            }
-        }
+
         $q.all([
             service.load()
         ]).then(function(responseList) {
@@ -86,9 +75,9 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         return deferred.promise;
     }
 
-	service.doReg=function(item){
+	service.doReg=function(){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionReg(item).then(
+		 AccountRes.actionReg(service.item).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
@@ -102,9 +91,9 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         );
     }
 
-	service.doRecovery=function(email){
+	service.doRecovery=function(){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionRecovery(email).then(
+		 AccountRes.actionRecovery(service.item.email).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     $rootScope.$broadcast('account.recovery', {email:email});
@@ -117,9 +106,9 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         );
     }
 
-	service.doResetPassword=function(code, password){
+	service.doResetPassword=function(){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionResetPassword(code, password).then(
+		 AccountRes.actionResetPassword(service.item.code, service.item.password).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
@@ -134,24 +123,8 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         );
     }
 
-	service.doUpdate=function(item){
-	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionUpdate(item).then(
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                    service.item=angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.update', service.item);
-                }
-            },
-            function (response) {
-                if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                    MessageSvc.error(response.data.code, response.data);
-            }
-        );
-    }
-
-	service.doLogin=function(email, password){
-	    AccountRes.actionLogin(email,password).then(
+	service.doLogin=function(){
+	    AccountRes.actionLogin(service.item.email,service.item.password).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
@@ -172,23 +145,6 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
                     if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                         service.item={}
                         $rootScope.$broadcast('account.logout', service.item);
-                    }
-                },
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined)
-                        MessageSvc.error(response.data.code, response.data);
-                }
-            );
-        });
-    }
-	service.doDelete=function(){
-         MessageSvc.confirm('account/delete/confirm', {},
-         function(){
-             AccountRes.actionDelete().then(
-                function (response) {
-                    if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
-                        service.item={}
-                        $rootScope.$broadcast('account.delete', service.item);
                     }
                 },
                 function (response) {

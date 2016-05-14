@@ -1,5 +1,19 @@
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
+      .when('/profile', {
+        templateUrl: 'views/account/profile.html',
+        controller: 'ProfileCtrl',
+        params:{
+            navId: 'profile'
+        }
+      })
+      .when('/user_app', {
+        templateUrl: 'views/account/user_app.html',
+        controller: 'UserAppCtrl',
+        params:{
+            navId: 'user_app'
+        }
+      })
       .when('/reg', {
         templateUrl: 'views/account/reg.html',
         controller: 'AccountCtrl',
@@ -33,13 +47,6 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'AccountCtrl',
         params:{
             navId: 'login'
-        }
-      })
-      .when('/profile', {
-        templateUrl: 'views/account/profile.html',
-        controller: 'AccountCtrl',
-        params:{
-            navId: 'profile'
         }
       });
 });

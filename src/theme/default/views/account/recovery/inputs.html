@@ -1,0 +1,9 @@
+<div class="form-group has-feedback" show-errors>
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" name="email" id="email" placeholder="email"
+           ng-model="AccountSvc.item.email" required>
+                            <span ng-show="accountForm.$submitted || accountForm.email.$touched"
+                                  class="form-control-feedback"
+                                  ng-class="!accountForm.email.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                  aria-hidden="true"></span>
+</div>

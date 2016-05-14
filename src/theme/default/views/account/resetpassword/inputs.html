@@ -1,0 +1,20 @@
+<div class="form-group has-feedback" show-errors>
+    <label for="code">Code:</label>
+    <input type="text" class="form-control" name="code" id="code"
+           placeholder="code from email"
+           ng-model="AccountSvc.item.code" required>
+                                <span ng-show="accountForm.$submitted || accountForm.code.$touched"
+                                      class="form-control-feedback"
+                                      ng-class="!accountForm.code.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                      aria-hidden="true"></span>
+</div>
+<div class="form-group has-feedback" show-errors>
+    <label for="password">New password:</label>
+    <input type="password" class="form-control" name="password" id="password"
+           placeholder="new password"
+           ng-model="AccountSvc.item.password" required>
+                                <span ng-show="accountForm.$submitted || accountForm.password.$touched"
+                                      class="form-control-feedback"
+                                      ng-class="!accountForm.password.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+                                      aria-hidden="true"></span>
+</div>
