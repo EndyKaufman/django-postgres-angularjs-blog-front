@@ -24,7 +24,7 @@
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="/{{item.name}}"
+               ng-href="/{{AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
@@ -38,7 +38,7 @@
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="/{{item.name}}"
+               ng-href="/{{AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>

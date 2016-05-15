@@ -6,7 +6,7 @@ describe('Create, reset password with email and delete user', function() {
     var appConfigResponse = undefined, createResponse = undefined, logoutResponse = undefined,
     logoutNewPasswordResponse = undefined, loginNewPasswordResponse = undefined,
     loginResponse = undefined, recoveryResponse = undefined, resetCode = undefined,
-    reset_passwordResponse = undefined, deleteResponse = undefined;
+    resetResponse = undefined, deleteResponse = undefined;
 
     beforeEach(function(done){
         if (appConfigResponse!==undefined){
@@ -131,25 +131,25 @@ describe('Create, reset password with email and delete user', function() {
                     describe('Sent code for reset password and new password', function() {
 
                         beforeEach(function(done){
-                            if (reset_passwordResponse!==undefined){
+                            if (resetResponse!==undefined){
                                 done();
                                 return;
                             }
                             //api.debug=true;
-                            api.postJson('/api/v1/account/reset_password', {
+                            api.postJson('/api/v1/account/reset', {
                                 code:resetCode,
                                 password:'password'
                             }, function(response){
-                                reset_passwordResponse = response;
+                                resetResponse = response;
                                 done();
                             });
                         });
 
                         it('response structure must be correct', function() {
-                            expect(typeof reset_passwordResponse).toEqual('object');
-                            expect(reset_passwordResponse.data).toBeDefined();
-                            if (reset_passwordResponse.data){
-                                var userData = reset_passwordResponse.data[0];
+                            expect(typeof resetResponse).toEqual('object');
+                            expect(resetResponse.data).toBeDefined();
+                            if (resetResponse.data){
+                                var userData = resetResponse.data[0];
                                 var fields = ['id', 'username', 'email', 'firstname', 'lastname', 'roles'];
                                 for (var i=0; i<fields.length; i++)
                                     expect(userData[fields[i]]).toBeDefined();

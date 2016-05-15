@@ -8,10 +8,10 @@
                     </h1>
                     <div class="content">
                         <p>Please enter code from email and new password for you account</p>
-                        <form ng-submit="AccountSvc.doResetpassword()" name="accountForm">
-                            <div ng-include="'views/account/resetpassword/inputs.html'"></div>
+                        <form ng-submit="AccountSvc.doReset()" name="accountForm">
+                            <div ng-include="'views/account/reset/inputs.html'"></div>
                             <button type="submit" class="btn btn btn-cta-secondary" ng-disabled="!accountForm.$valid"
-                                    id="accountResetpassword">Save password and login
+                                    id="accountReset">Save password and login
                                 on site
                             </button>
                         </form>

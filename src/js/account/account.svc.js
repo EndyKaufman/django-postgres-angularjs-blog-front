@@ -9,7 +9,7 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
     $rootScope.$on('account.create',function(event, data){
         MessageSvc.info('account/create/success');
         AppConfig.user=service.item;
-        NavbarSvc.goBack();
+        NavbarSvc.goHome();
     });
 
     $rootScope.$on('account.login',function(event, data){
@@ -35,26 +35,26 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
     });
 
     $rootScope.$on('account.recovery',function(event, data){
-        service.goResetPassword();
+        service.goReset();
         MessageSvc.info('account/recovery/checkemail', {values:[data.email]});
     });
 
     service.item={};
 
-    service.goResetPassword=function(){
-        $location.path('/reset_password');
+    service.goReset=function(){
+        $location.path('/account/reset');
     }
     service.init=function(reload){
         angular.extend($routeParams, $route.current.$$route.params);
 
-        service.title=AppConst.account[$routeParams.navId].title;
-        service.description=AppConst.account[$routeParams.navId].description;
+        service.title=AppConst.account[$routeParams.subNavId].title;
+        service.description=AppConst.account[$routeParams.subNavId].description;
 
         AppSvc.setTitle([service.title]);
         AppSvc.setDescription(service.description);
-        AppSvc.setUrl($routeParams.navId);
+        AppSvc.setUrl('account/'+$routeParams.subNavId);
 
-        if ($routeParams.navId=='reset_password'){
+        if ($routeParams.subNavId=='reset'){
             if ($routeParams.code!==undefined)
                 service.item.code=$routeParams.code;
             else
@@ -106,13 +106,13 @@ app.factory('AccountSvc', function ($q, $location, AppConst, AccountRes, Message
         );
     }
 
-	service.doResetPassword=function(){
+	service.doReset=function(){
 	    $rootScope.$broadcast('show-errors-check-validity');
-		 AccountRes.actionResetPassword(service.item.code, service.item.password).then(
+		 AccountRes.actionReset(service.item.code, service.item.password).then(
             function (response) {
                 if (response!=undefined && response.data!=undefined && response.data.code!=undefined && response.data.code=='ok'){
                     service.item=angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.reset_password', {code:code});
+                    $rootScope.$broadcast('account.reset', {code:code});
                 	$rootScope.$broadcast('account.login', service.item);
                 }
             },

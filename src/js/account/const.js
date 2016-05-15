@@ -1,37 +1,37 @@
 app.constant('AccountConst',{
     reg:{
         title: 'Registration form',
-        name: 'reg',
+        url: 'account/reg',
         description: 'Registration on site'
     },
     login:{
         title: 'Login on site',
-        name: 'login',
+        url: 'account/login',
         description: 'Authorization on site'
     },
     logout:{
         title: 'Logout',
-        name: 'logout',
+        url: 'account/logout',
         description: 'Logout from site'
     },
     profile:{
         title: 'Profile',
-        name: 'profile',
+        url: 'account/profile',
         description: 'Profile of user'
     },
     user_app:{
         title: 'User app',
-        name: 'user_app',
+        url: 'account/user_app',
         description: 'User app of user'
     },
     recovery:{
         title: 'Recovery access',
-        name: 'recovery',
+        url: 'account/recovery',
         description: 'Recovery access to site'
     },
-    reset_password:{
+    reset:{
         title: 'Reset password',
-        name: 'reset_password',
+        url: 'account/reset',
         description: 'Reset password for account'
     },
     message:{

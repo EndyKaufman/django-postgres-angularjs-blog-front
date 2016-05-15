@@ -30,6 +30,8 @@ app.factory('AppSvc', function ($rootScope, $q) {
             items.push(service.properties.SITE_TITLE);
             service.item.title=items.join(' - ');
         }
+        $('title').html(service.item.title);
+        $('meta[property="og:title"]').attr('content',service.item.title);
         service.setDescription();
         service.setImage();
         service.setType();
@@ -43,6 +45,8 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.description=service.properties.SITE_DESCRIPTION;
         else
             service.item.description=text;
+        $('meta[property="description"]').attr('content',service.item.description);
+        $('meta[property="og:title"]').attr('content',service.item.title);
         return service.item.description;
     };
 
@@ -51,6 +55,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.image=service.properties.SITE_LOGO;
         else
             service.item.image=url;
+        $('meta[property="og:image"]').attr('content',service.item.image);
         return service.item.image;
     };
 
@@ -59,6 +64,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.type='website';
         else
             service.item.type=text;
+        $('meta[property="og:type"]').attr('content',service.item.type);
         return service.item.type;
     };
 
@@ -67,6 +73,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.url=AppConfig.host_name;
         else
             service.item.url=[AppConfig.host_name,url].join('/');
+        $('meta[property="og:url"]').attr('content',service.item.url);
         return service.item.url;
     };
 

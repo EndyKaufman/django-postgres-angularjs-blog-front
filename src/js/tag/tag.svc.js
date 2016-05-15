@@ -1,4 +1,4 @@
-app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, AppSvc) {
+app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, AppSvc, ManagerSvc) {
     var service={};
 
     service.item={};
@@ -139,16 +139,20 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
     }
     
     service.init=function(reload){
-        service.tagText=$routeParams.tagText;
-
-        service.title=vsprintf(AppConst.tag.strings.title,[service.tagText]);
-        service.description=vsprintf(AppConst.tag.strings.description,[service.tagText]);
-
-        AppSvc.setTitle([service.title]);
-        AppSvc.setDescription(service.description);
-        AppSvc.setUrl('tag/'+service.tagText);
-
         if ($routeParams.tagText!=undefined){
+            service.tagText=$routeParams.tagText;
+
+            service.title=vsprintf(AppConst.tag.strings.title,[service.tagText]);
+            service.description=vsprintf(AppConst.tag.strings.description,[service.tagText]);
+
+            if ($routeParams.tagText!='')
+                AppSvc.setTitle([$routeParams.tagText, service.title]);
+            else
+                AppSvc.setTitle([service.title]);
+
+            AppSvc.setDescription(service.description);
+            AppSvc.setUrl('tag/'+service.tagText);
+
             service.allList=[];
             service.allListSumSize=0;
             $q.all([
@@ -172,6 +176,8 @@ app.factory('TagSvc', function ($routeParams, $q, $rootScope, AppConst, TagRes, 
                 }
             });
         }else{
+            ManagerSvc.init();
+
             $q.all([
                 service.load()
             ]).then(function(responseList) {

@@ -1,21 +1,21 @@
 <ul class="list-unstyled">
-    <li ng-if="$routeParams.navId!='profile' && AccountSvc.isLogged()">
+    <li ng-if="$routeParams.subNavId!='profile' && AccountSvc.isLogged()">
         <i class="fa fa-link"></i>
-        <a ng-href="/profile" ng-bind="AppConst.account.profile.title"></a>
+        <a ng-href="/account/profile" ng-bind="AppConst.account.profile.title"></a>
     </li>
-    <li ng-if="$routeParams.navId!='user_app' && AccountSvc.isLogged()">
+    <li ng-if="$routeParams.subNavId!='user_app' && AccountSvc.isLogged()">
         <i class="fa fa-link"></i>
-        <a ng-href="/user_app" ng-bind="AppConst.account.user_app.title"></a>
+        <a ng-href="/account/user_app" ng-bind="AppConst.account.user_app.title"></a>
     </li>
-    <li ng-if="$routeParams.navId!='login' && !AccountSvc.isLogged()">
+    <li ng-if="$routeParams.subNavId!='login' && !AccountSvc.isLogged()">
         <i class="fa fa-link"></i>
-        <a ng-href="/login" ng-bind="AppConst.account.login.title"></a>
+        <a ng-href="/account/login" ng-bind="AppConst.account.login.title"></a>
     </li>
-    <li ng-if="$routeParams.navId!='reg' && !AccountSvc.isLogged()">
+    <li ng-if="$routeParams.subNavId!='reg' && !AccountSvc.isLogged()">
         <i class="fa fa-link"></i>
-        <a ng-href="/reg" ng-bind="AppConst.account.reg.title"></a>
+        <a ng-href="/account/reg" ng-bind="AppConst.account.reg.title"></a>
     </li>
-    <li ng-if="$routeParams.navId!='recovery' && !AccountSvc.isLogged()">
+    <li ng-if="$routeParams.subNavId!='recovery' && !AccountSvc.isLogged()">
         <i class="fa fa-link"></i>
-        <a ng-href="/recovery" ng-bind="AppConst.account.recovery.title"></a></li>
+        <a ng-href="/account/recovery" ng-bind="AppConst.account.recovery.title"></a></li>
 </ul>

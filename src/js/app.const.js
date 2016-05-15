@@ -36,7 +36,7 @@ HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, Contact
             {
                 name:'logout',
                 parent:'account',
-                click:function(){console.log('hoi');
+                click:function(){
                     $rootScope.$broadcast('account.doLogout', true);
                 },
                 hiddenHandler: function(){

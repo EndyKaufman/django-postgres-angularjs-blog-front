@@ -1,52 +1,67 @@
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/profile', {
+      .when('/account', {
         templateUrl: 'views/account/profile.html',
         controller: 'ProfileCtrl',
         params:{
-            navId: 'profile'
+            navId: 'account',
+            subNavId: 'profile'
         }
       })
-      .when('/user_app', {
+      .when('/account/profile', {
+        templateUrl: 'views/account/profile.html',
+        controller: 'ProfileCtrl',
+        params:{
+            navId: 'account',
+            subNavId: 'profile'
+        }
+      })
+      .when('/account/user_app', {
         templateUrl: 'views/account/user_app.html',
         controller: 'UserAppCtrl',
         params:{
-            navId: 'user_app'
+            navId: 'account',
+            subNavId: 'user_app'
         }
       })
-      .when('/reg', {
+      .when('/account/reg', {
         templateUrl: 'views/account/reg.html',
         controller: 'AccountCtrl',
         params:{
-            navId: 'reg'
+            navId: 'account',
+            subNavId: 'reg'
         }
       })
-      .when('/recovery', {
+      .when('/account/recovery', {
         templateUrl: 'views/account/recovery.html',
         controller: 'AccountCtrl',
         params:{
-            navId: 'recovery'
+            navId: 'account',
+            subNavId: 'recovery'
         }
       })
-      .when('/reset_password/:code', {
-        templateUrl: 'views/account/reset_password.html',
+      .when('/account/reset/:code', {
+        templateUrl: 'views/account/reset.html',
         controller: 'AccountCtrl',
         params:{
-            navId: 'reset_password'
+            navId: 'account',
+            subNavId: 'reset'
         }
       })
-      .when('/reset_password', {
-        templateUrl: 'views/account/reset_password.html',
+      .when('/account/reset', {
+        templateUrl: 'views/account/reset.html',
         controller: 'AccountCtrl',
         params:{
-            navId: 'reset_password'
+            navId: 'account',
+            subNavId: 'reset'
         }
       })
-      .when('/login', {
+      .when('/account/login', {
         templateUrl: 'views/account/login.html',
         controller: 'AccountCtrl',
         params:{
-            navId: 'login'
+            navId: 'account',
+            subNavId: 'login'
         }
       });
 });
