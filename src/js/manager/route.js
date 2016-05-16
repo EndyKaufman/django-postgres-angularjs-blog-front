@@ -31,5 +31,13 @@ app.config(function ($routeProvider, $locationProvider) {
             navId: 'manager',
             subNavId: 'tag'
         }
+      })
+      .when('/manager/html_cache', {
+        templateUrl: 'views/manager/html_cache.html',
+        controller: 'HtmlCacheCtrl',
+        params:{
+            navId: 'manager',
+            subNavId: 'html_cache'
+        }
       });
 });

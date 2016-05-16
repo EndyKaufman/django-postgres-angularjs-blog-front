@@ -24,6 +24,10 @@ app.constant('ManagerConst', {
         title: 'Users',
         description: 'Site users'
     },
+    html_cache:{
+        title: 'Html cache',
+        description: 'Html cache'
+    },
     message:{
     }
 });

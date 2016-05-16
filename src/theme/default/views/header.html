@@ -3,7 +3,7 @@
     <div class="container">
         <img class="profile-image cursor-pointer img-responsive img-circle pull-left"
              ng-src="{{AppSvc.properties.SITE_LOGO}}"
-             alt="{{AppSvc.properties.SITE_TITLE.value}}" ng-if="AppSvc.properties.SITE_LOGO"
+             alt="{{AppSvc.properties.SITE_TITLE}}" ng-if="AppSvc.properties.SITE_LOGO"
              ng-click="NavbarSvc.goHome()"/>
         <div class="profile-content pull-left">
             <h1 class="name cursor-pointer" ng-bind-html="AppSvc.properties.SITE_TITLE | unsafe"

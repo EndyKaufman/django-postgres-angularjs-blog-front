@@ -23,4 +23,9 @@
         <a ng-href="/manager/users"
            ng-bind="AppConst.manager.users.title"></a>
     </li>
+    <li ng-if="$routeParams.subNavId!='html_cache'">
+        <i class="fa fa-link"></i>
+        <a ng-href="/manager/html_cache"
+           ng-bind="AppConst.manager.html_cache.title"></a>
+    </li>
 </ul>

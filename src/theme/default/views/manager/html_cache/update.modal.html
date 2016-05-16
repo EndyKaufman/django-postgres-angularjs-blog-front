@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" ng-controller="HtmlCacheCtrl">
+            <form name="html_cacheForm">
+                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+                <div class="modal-body">
+                    <div class="modal-body-inner">
+                        <div ng-include="'views/manager/html_cache/inputs.html'"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheUpdateCancel">
+                        <i class="fa fa-undo"></i> {{cancelText}}
+                    </button>
+                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"
+                            ng-disabled="!html_cacheForm.$valid" id="html_cacheUpdateConfirm">
+                        <i class="fa fa-floppy-o"></i> {{confirmText}}
+                    </button>
+                </div>
+                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">
+                    <i class="fa fa-times"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
