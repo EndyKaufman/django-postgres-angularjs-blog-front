@@ -78803,6 +78803,8 @@ app.constant('ManagerConst', {
     message:{
     }
 });
+app.constant('MessageConst', {
+});
 app.constant('NavbarConst', {
     left:[
     ],
@@ -78826,8 +78828,6 @@ app.constant('PostConst', {
     message:{
         'post/remove/confirm':'Do you really want to remove post <strong>%s</strong>?'
     }
-});
-app.constant('MessageConst', {
 });
 app.constant('ProjectConst', {
     strings:{
@@ -79390,195 +79390,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                        </span>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/manager/properties/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="PropertiesCtrl">\n' +
-    '            <form name="propertiesForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/properties/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="propertiesUpdateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!propertiesForm.$valid" id="propertiesUpdateConfirm">\n' +
-    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/properties/list.html', '<table class="table table-hover">\n' +
-    '    <thead>\n' +
-    '    <tr>\n' +
-    '        <th>#</th>\n' +
-    '        <th>Name</th>\n' +
-    '        <th>Value</th>\n' +
-    '        <th class="text-right" style="width:200px">Actions</th>\n' +
-    '    </tr>\n' +
-    '    </thead>\n' +
-    '    <tbody>\n' +
-    '    <tr ng-repeat="item in PropertiesSvc.list"\n' +
-    '        ng-class="(PropertiesSvc.item.id==item.id)?\'bold\':\'\'">\n' +
-    '        <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
-    '        <td class="text-right">\n' +
-    '            <button ng-click="PropertiesSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
-    '                    id="{{\'properties\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
-    '            </button>\n' +
-    '            <button ng-click="PropertiesSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
-    '                    id="{{\'properties\'+item.id+\'Delete\'}}" ng-if="item.only_update==0"><i class="fa fa-trash"></i> Delete\n' +
-    '            </button>\n' +
-    '        </td>\n' +
-    '    </tr>\n' +
-    '    </tbody>\n' +
-    '</table>');
-	a.put('views/manager/properties/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="propertiesCreate">\n' +
-    '    <i class="fa fa-plus"></i> Create\n' +
-    '</button>');
-	a.put('views/manager/properties/inputs.html', '<div class="form-group">\n' +
-    '    <label for="PropertiesComment">Comment</label>\n' +
-    '    <textarea class="form-control" id="PropertiesComment"\n' +
-    '              ng-model="PropertiesSvc.item.comment" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="PropertiesName">Name</label>\n' +
-    '    <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="PropertiesValue">Value</label>\n' +
-    '    <textarea class="form-control" id="PropertiesValue"\n' +
-    '              ng-model="PropertiesSvc.item.value"></textarea>\n' +
-    '</div>');
-	a.put('views/manager/properties/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="PropertiesCtrl">\n' +
-    '            <form name="propertiesForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/properties/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="propertiesCreateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!propertiesForm.$valid" id="propertiesCreateConfirm">\n' +
-    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
-    '            <form name="html_cacheForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheUpdateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheUpdateConfirm">\n' +
-    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/list.html', '<table class="table table-hover">\n' +
-    '    <thead>\n' +
-    '    <tr>\n' +
-    '        <th>#</th>\n' +
-    '        <th>Name</th>\n' +
-    '        <th>Empty</th>\n' +
-    '        <th class="text-right" style="width:200px">Actions</th>\n' +
-    '    </tr>\n' +
-    '    </thead>\n' +
-    '    <tbody>\n' +
-    '    <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:\'position\'"\n' +
-    '        ng-class="(HtmlCacheSvc.item.id==item.id)?\'bold\':\'\'">\n' +
-    '        <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.content==\'\'?\'Yes\':\'No\'" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td class="text-right">\n' +
-    '            <button ng-click="HtmlCacheSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
-    '                    id="{{\'html_cache\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
-    '            </button>\n' +
-    '            <button ng-click="HtmlCacheSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
-    '                    id="{{\'html_cache\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> Delete\n' +
-    '            </button>\n' +
-    '        </td>\n' +
-    '    </tr>\n' +
-    '    </tbody>\n' +
-    '</table>');
-	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="HtmlCacheSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="html_cacheCreate">\n' +
-    '    <i class="fa fa-plus"></i> Create\n' +
-    '</button>');
-	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
-    '    <label for="HtmlCacheUrl">Name</label>\n' +
-    '    <input class="form-control" type="text" id="HtmlCacheUrl" ng-model="HtmlCacheSvc.item.url"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="HtmlCacheContent">Content</label>\n' +
-    '    <textarea class="form-control" id="HtmlCacheContent"\n' +
-    '              ng-model="HtmlCacheSvc.item.value"></textarea>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
-    '            <form name="html_cacheForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheCreateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheCreateConfirm">\n' +
-    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
 	a.put('views/manager/public_link/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="PublicLinkCtrl">\n' +
@@ -79716,6 +79527,103 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/manager/properties/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="PropertiesCtrl">\n' +
+    '            <form name="propertiesForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/properties/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="propertiesUpdateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!propertiesForm.$valid" id="propertiesUpdateConfirm">\n' +
+    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/properties/list.html', '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <th>#</th>\n' +
+    '        <th>Name</th>\n' +
+    '        <th>Value</th>\n' +
+    '        <th class="text-right" style="width:200px">Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in PropertiesSvc.list"\n' +
+    '        ng-class="(PropertiesSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="PropertiesSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
+    '                    id="{{\'properties\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
+    '            </button>\n' +
+    '            <button ng-click="PropertiesSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
+    '                    id="{{\'properties\'+item.id+\'Delete\'}}" ng-if="item.only_update==0"><i class="fa fa-trash"></i> Delete\n' +
+    '            </button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/manager/properties/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
+    '<button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
+    '        type="button" id="propertiesCreate">\n' +
+    '    <i class="fa fa-plus"></i> Create\n' +
+    '</button>');
+	a.put('views/manager/properties/inputs.html', '<div class="form-group">\n' +
+    '    <label for="PropertiesComment">Comment</label>\n' +
+    '    <textarea class="form-control" id="PropertiesComment"\n' +
+    '              ng-model="PropertiesSvc.item.comment" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="PropertiesName">Name</label>\n' +
+    '    <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="PropertiesValue">Value</label>\n' +
+    '    <textarea class="form-control" id="PropertiesValue"\n' +
+    '              ng-model="PropertiesSvc.item.value"></textarea>\n' +
+    '</div>');
+	a.put('views/manager/properties/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="PropertiesCtrl">\n' +
+    '            <form name="propertiesForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/properties/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="propertiesCreateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!propertiesForm.$valid" id="propertiesCreateConfirm">\n' +
+    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
 	a.put('views/manager/meta_tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
@@ -79816,6 +79724,118 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '            </form>\n' +
     '        </div>\n' +
     '    </div>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
+    '            <form name="html_cacheForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheUpdateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheUpdateConfirm">\n' +
+    '                        <i class="fa fa-floppy-o"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/list.html', '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <th>#</th>\n' +
+    '        <th>Name</th>\n' +
+    '        <th>Empty</th>\n' +
+    '        <th class="text-right" style="width:200px">Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:\'position\'"\n' +
+    '        ng-class="(HtmlCacheSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.content==\'\'?\'Yes\':\'No\'" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="HtmlCacheSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
+    '                    id="{{\'html_cache\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> Edit\n' +
+    '            </button>\n' +
+    '            <button ng-click="HtmlCacheSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
+    '                    id="{{\'html_cache\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> Delete\n' +
+    '            </button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
+    '<button ng-click="HtmlCacheSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
+    '        type="button" id="html_cacheCreate">\n' +
+    '    <i class="fa fa-plus"></i> Create\n' +
+    '</button>');
+	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
+    '    <label for="HtmlCacheUrl">Name</label>\n' +
+    '    <input class="form-control" type="text" id="HtmlCacheUrl" ng-model="HtmlCacheSvc.item.url"/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="HtmlCacheContent">Content</label>\n' +
+    '    <textarea class="form-control" id="HtmlCacheContent"\n' +
+    '              ng-model="HtmlCacheSvc.item.value"></textarea>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
+    '            <form name="html_cacheForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheCreateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheCreateConfirm">\n' +
+    '                        <i class="fa fa-check"></i> {{confirmText}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/account/reset/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="code">Code:</label>\n' +
+    '    <input type="text" class="form-control" name="code" id="code"\n' +
+    '           placeholder="code from email"\n' +
+    '           ng-model="AccountSvc.item.code" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.code.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.code.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="password">New password:</label>\n' +
+    '    <input type="password" class="form-control" name="password" id="password"\n' +
+    '           placeholder="new password"\n' +
+    '           ng-model="AccountSvc.item.password" required>\n' +
+    '                                <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
     '</div>');
 	a.put('views/account/user_app/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -79919,26 +79939,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/account/reset/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="code">Code:</label>\n' +
-    '    <input type="text" class="form-control" name="code" id="code"\n' +
-    '           placeholder="code from email"\n' +
-    '           ng-model="AccountSvc.item.code" required>\n' +
-    '                                <span ng-show="accountForm.$submitted || accountForm.code.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!accountForm.code.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="password">New password:</label>\n' +
-    '    <input type="password" class="form-control" name="password" id="password"\n' +
-    '           placeholder="new password"\n' +
-    '           ng-model="AccountSvc.item.password" required>\n' +
-    '                                <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '</div>');
 	a.put('views/account/reg/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="email">Email</label>\n' +
     '    <input type="email" class="form-control" name="email" id="email"\n' +
@@ -79956,6 +79956,15 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                                              class="form-control-feedback"\n' +
     '                                              ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                                              aria-hidden="true"></span>\n' +
+    '</div>');
+	a.put('views/account/recovery/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="email">Email:</label>\n' +
+    '    <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
+    '           ng-model="AccountSvc.item.email" required>\n' +
+    '                            <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
+    '                                  class="form-control-feedback"\n' +
+    '                                  ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                  aria-hidden="true"></span>\n' +
     '</div>');
 	a.put('views/account/profile/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="firstname">First name</label>\n' +
@@ -80001,15 +80010,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                          class="form-control-feedback"\n' +
     '                          ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                          aria-hidden="true"></span>\n' +
-    '</div>');
-	a.put('views/account/recovery/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="email">Email:</label>\n' +
-    '    <input type="email" class="form-control" name="email" id="email" placeholder="email"\n' +
-    '           ng-model="AccountSvc.item.email" required>\n' +
-    '                            <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
-    '                                  class="form-control-feedback"\n' +
-    '                                  ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                  aria-hidden="true"></span>\n' +
     '</div>');
 	a.put('views/account/login/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="email">Email:</label>\n' +
@@ -80080,6 +80080,83 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/message/prompt.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content">\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '            <div class="modal-body">\n' +
+    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
+    '                <div class="margin-t form-group"><label for="promptModel">{{promptLabel}}</label><input type="text"\n' +
+    '                                                                                                        class="form-control"\n' +
+    '                                                                                                        name="promptModel"\n' +
+    '                                                                                                        ng-model="promptModel">\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '            <div class="modal-footer">\n' +
+    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()">\n' +
+    '                    <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                </button>\n' +
+    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">\n' +
+    '                    <i class="fa fa-check"></i> {{confirmText}}\n' +
+    '                </button>\n' +
+    '            </div>\n' +
+    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                <i class="fa fa-times"></i>\n' +
+    '            </button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/message/modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content">\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '            <div class="modal-body" ng-bind="content"></div>\n' +
+    '            <div class="modal-footer">\n' +
+    '                <button type="button" class="btn btn-cta-secondary" ng-click="$hide()">{{closeText}}</button>\n' +
+    '            </div>\n' +
+    '            <button type="button" class="close" ng-click="$hide()" ng-bind-html="closeIcon">&nbsp;</button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/message/confirm.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content">\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '            <div class="modal-body">\n' +
+    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
+    '            </div>\n' +
+    '            <div class="modal-footer">\n' +
+    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()">\n' +
+    '                    <i class="fa fa-undo"></i> {{cancelText}}\n' +
+    '                </button>\n' +
+    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">\n' +
+    '                    <i class="fa fa-check"></i> {{confirmText}}\n' +
+    '                </button>\n' +
+    '            </div>\n' +
+    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                <i class="fa fa-times"></i>\n' +
+    '            </button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/message/alert.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content">\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
+    '            <div class="modal-body">\n' +
+    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
+    '            </div>\n' +
+    '            <div class="modal-footer">\n' +
+    '                <button type="button" class="btn btn-cta-secondary" ng-click="$hide()">\n' +
+    '                    <i class="fa fa-check"></i> {{okText}}\n' +
+    '                </button>\n' +
+    '            </div>\n' +
+    '            <button type="button" class="close" ng-click="$hide()" ng-bind-html="closeIcon">\n' +
+    '                <i class="fa fa-times"></i>\n' +
+    '            </button>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
 	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -80695,83 +80772,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div><!--//row-->\n' +
     '    </form>\n' +
     '</div><!--//masonry-->');
-	a.put('views/message/prompt.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '            <div class="modal-body">\n' +
-    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
-    '                <div class="margin-t form-group"><label for="promptModel">{{promptLabel}}</label><input type="text"\n' +
-    '                                                                                                        class="form-control"\n' +
-    '                                                                                                        name="promptModel"\n' +
-    '                                                                                                        ng-model="promptModel">\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()">\n' +
-    '                    <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                </button>\n' +
-    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">\n' +
-    '                    <i class="fa fa-check"></i> {{confirmText}}\n' +
-    '                </button>\n' +
-    '            </div>\n' +
-    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                <i class="fa fa-times"></i>\n' +
-    '            </button>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/message/modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '            <div class="modal-body" ng-bind="content"></div>\n' +
-    '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-cta-secondary" ng-click="$hide()">{{closeText}}</button>\n' +
-    '            </div>\n' +
-    '            <button type="button" class="close" ng-click="$hide()" ng-bind-html="closeIcon">&nbsp;</button>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/message/confirm.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '            <div class="modal-body">\n' +
-    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
-    '            </div>\n' +
-    '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-cta-default" ng-click="$cancel()">\n' +
-    '                    <i class="fa fa-undo"></i> {{cancelText}}\n' +
-    '                </button>\n' +
-    '                <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">\n' +
-    '                    <i class="fa fa-check"></i> {{confirmText}}\n' +
-    '                </button>\n' +
-    '            </div>\n' +
-    '            <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                <i class="fa fa-times"></i>\n' +
-    '            </button>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/message/alert.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
-    '            <div class="modal-body">\n' +
-    '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
-    '            </div>\n' +
-    '            <div class="modal-footer">\n' +
-    '                <button type="button" class="btn btn-cta-secondary" ng-click="$hide()">\n' +
-    '                    <i class="fa fa-check"></i> {{okText}}\n' +
-    '                </button>\n' +
-    '            </div>\n' +
-    '            <button type="button" class="close" ng-click="$hide()" ng-bind-html="closeIcon">\n' +
-    '                <i class="fa fa-times"></i>\n' +
-    '            </button>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
 	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <div class="row">\n' +
@@ -80976,72 +80976,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="/post">All posts <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading">Other</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//section-->\n' +
-    '\n' +
-    '<div ng-include="\'views/home/sidebar.html\'"></div>\n' +
-    '');
-	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        Contact us\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <form name="contactForm">\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="username">You name</label>\n' +
-    '                                <input type="text" class="form-control" name="username" id="username"\n' +
-    '                                       ng-model="ContactSvc.item.username" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="email">Email</label>\n' +
-    '                                <input type="email" class="form-control" name="email" id="email"\n' +
-    '                                       ng-model="ContactSvc.item.email" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="message">Message</label>\n' +
-    '                                <textarea class="form-control" name="message" id="message"\n' +
-    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
-    '                                <i class="fa fa-envelope-o"></i> Send message\n' +
-    '                            </button>\n' +
-    '                        </form>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
-    '</ul>');
 	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="FileCtrl">\n' +
@@ -81180,6 +81114,72 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading">Other</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//section-->\n' +
+    '\n' +
+    '<div ng-include="\'views/home/sidebar.html\'"></div>\n' +
+    '');
+	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        Contact us\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <form name="contactForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="username">You name</label>\n' +
+    '                                <input type="text" class="form-control" name="username" id="username"\n' +
+    '                                       ng-model="ContactSvc.item.username" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email">Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="ContactSvc.item.email" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="message">Message</label>\n' +
+    '                                <textarea class="form-control" name="message" id="message"\n' +
+    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
+    '                                <i class="fa fa-envelope-o"></i> Send message\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
+    '</ul>');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +
     '    <div class="row">\n' +
