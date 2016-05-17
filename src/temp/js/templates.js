@@ -634,7 +634,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<div class="form-group">\n' +
     '    <label for="HtmlCacheContent">Content</label>\n' +
     '    <textarea class="form-control" id="HtmlCacheContent"\n' +
-    '              ng-model="HtmlCacheSvc.item.value"></textarea>\n' +
+    '              ng-model="HtmlCacheSvc.item.content"></textarea>\n' +
     '</div>');
 	a.put('views/manager/html_cache/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
