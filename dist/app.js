@@ -78798,7 +78798,11 @@ app.constant('ManagerConst', {
     },
     html_cache:{
         title: 'Html cache',
-        description: 'Html cache'
+        description: 'Html cache',
+        strings:{
+            scanSitemap_title:'Create from sitemap.xml',
+            scanSitemap_process:'Filling from sitemap.xml...'
+        }
     },
     message:{
     }
@@ -79778,9 +79782,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="HtmlCacheSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="html_cacheCreate">\n' +
-    '    <i class="fa fa-plus"></i> Create\n' +
+    '<button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
+    '        type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
+    '    <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
     '</button>');
 	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
     '    <label for="HtmlCacheUrl">Name</label>\n' +
@@ -81755,6 +81759,18 @@ app.factory('UserAppRes', function ($q, AppConst, AppRes) {
 app.factory('HtmlCacheRes', function ($q, AppConst, AppRes) {
     var service={};
 
+    service.getSiteMap=function(){
+        return AppRes.get('/sitemap.xml');
+    };
+
+    service.getPage=function(url){
+        var config = {
+            headers:  {
+            }
+        }
+        return AppRes.get(url+'?_escaped_fragment_=', config);
+    };
+
     service.getList=function(){
         return AppRes.get('/api/v1/manager/html_cache/list');
     };
@@ -83481,6 +83497,56 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
         service.item.content = '';
     }
 
+
+    service.scanSitemap={
+        disabled:false,
+        title:AppConst.manager.html_cache.strings.scanSitemap_title,
+        currentUrlIndex:0,
+        urls:[],
+        doUrl:function(callback){
+           var $this=this;
+            console.log($this);
+            $this.title=AppConst.manager.html_cache.strings.scanSitemap_process+'('+$this.currentUrlIndex+'/'+$this.urls.length+')';
+            $this.disabled=true;
+            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response, status, headers, config) {
+                console.log('success');
+                 $this.currentUrlIndex++;
+                 if ($this.currentUrlIndex==$this.urls.length){
+                    callback();
+                 }else{
+                    $this.doUrl(callback);
+                 }
+            },function(errResp) {
+                console.log('error');
+                 $this.currentUrlIndex++;
+                 if ($this.currentUrlIndex==$this.urls.length){
+                    callback();
+                 }else{
+                    $this.doUrl(callback);
+                 }
+            });
+        },
+        do:function(){
+            var $this=this;
+            $this.title=AppConst.manager.html_cache.strings.scanSitemap_process;
+            $this.disabled=true;
+
+            HtmlCacheRes.getSiteMap().then(function (response) {
+                var locs=$(response.data).find('loc');
+                $this.urls=[];
+                var url='';
+                for (var i=0;i<locs.length;i++){
+                    url=$(locs[i]).text();
+                    $this.urls.push(url);
+                }
+                $this.doUrl(function(){
+                    $this.title=AppConst.manager.html_cache.strings.scanSitemap_title;
+                    $this.disabled=false;
+                });
+            });
+        }
+    }
+
     service.showCreate=function(){
         service.mode='create';
         service.initEmptyItem();
@@ -83624,6 +83690,7 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
 
         });
     }
+
     return service;
   });
 app.factory('MetaTagSvc', function (AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {

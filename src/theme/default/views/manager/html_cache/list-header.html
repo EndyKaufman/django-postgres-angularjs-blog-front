@@ -1,5 +1,5 @@
 <span ng-bind="ManagerSvc.title"></span>
-<button ng-click="HtmlCacheSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"
-        type="button" id="html_cacheCreate">
-    <i class="fa fa-plus"></i> Create
+<button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary pull-right btn-xs"
+        type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >
+    <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>
 </button>

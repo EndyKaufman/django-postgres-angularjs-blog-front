@@ -26,7 +26,11 @@ app.constant('ManagerConst', {
     },
     html_cache:{
         title: 'Html cache',
-        description: 'Html cache'
+        description: 'Html cache',
+        strings:{
+            scanSitemap_title:'Create from sitemap.xml',
+            scanSitemap_process:'Filling from sitemap.xml...'
+        }
     },
     message:{
     }

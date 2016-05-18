@@ -10,6 +10,56 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
         service.item.content = '';
     }
 
+
+    service.scanSitemap={
+        disabled:false,
+        title:AppConst.manager.html_cache.strings.scanSitemap_title,
+        currentUrlIndex:0,
+        urls:[],
+        doUrl:function(callback){
+           var $this=this;
+            console.log($this);
+            $this.title=AppConst.manager.html_cache.strings.scanSitemap_process+'('+$this.currentUrlIndex+'/'+$this.urls.length+')';
+            $this.disabled=true;
+            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response, status, headers, config) {
+                console.log('success');
+                 $this.currentUrlIndex++;
+                 if ($this.currentUrlIndex==$this.urls.length){
+                    callback();
+                 }else{
+                    $this.doUrl(callback);
+                 }
+            },function(errResp) {
+                console.log('error');
+                 $this.currentUrlIndex++;
+                 if ($this.currentUrlIndex==$this.urls.length){
+                    callback();
+                 }else{
+                    $this.doUrl(callback);
+                 }
+            });
+        },
+        do:function(){
+            var $this=this;
+            $this.title=AppConst.manager.html_cache.strings.scanSitemap_process;
+            $this.disabled=true;
+
+            HtmlCacheRes.getSiteMap().then(function (response) {
+                var locs=$(response.data).find('loc');
+                $this.urls=[];
+                var url='';
+                for (var i=0;i<locs.length;i++){
+                    url=$(locs[i]).text();
+                    $this.urls.push(url);
+                }
+                $this.doUrl(function(){
+                    $this.title=AppConst.manager.html_cache.strings.scanSitemap_title;
+                    $this.disabled=false;
+                });
+            });
+        }
+    }
+
     service.showCreate=function(){
         service.mode='create';
         service.initEmptyItem();
@@ -153,5 +203,6 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
 
         });
     }
+
     return service;
   });
