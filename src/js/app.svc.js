@@ -24,14 +24,16 @@ app.factory('AppSvc', function ($rootScope, $q) {
     }
 
     service.setTitle=function(items){
-        if (items==undefined)
+        if (items==undefined){
             service.item.title=service.properties.SITE_TITLE;
-        else{
+            service.item.short_title=service.properties.SITE_TITLE;
+        }else{
             items.push(service.properties.SITE_TITLE);
             service.item.title=items.join(' - ');
+            service.item.short_title=items[0];
         }
         $('title').html(service.item.title);
-        $('meta[property="og:title"]').attr('content',service.item.title);
+        $('meta[property="og:title"]').attr('content',service.item.short_title);
         service.setDescription();
         service.setImage();
         service.setType();
@@ -46,7 +48,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
         else
             service.item.description=text;
         $('meta[property="description"]').attr('content',service.item.description);
-        $('meta[property="og:title"]').attr('content',service.item.title);
+        $('meta[property="og:description"]').attr('content',service.item.description);
         return service.item.description;
     };
 
@@ -55,6 +57,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.image=service.properties.SITE_LOGO;
         else
             service.item.image=url;
+        $('link[rel="image_src"]').attr('href',service.item.image);
         $('meta[property="og:image"]').attr('content',service.item.image);
         return service.item.image;
     };

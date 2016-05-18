@@ -81874,14 +81874,16 @@ app.factory('AppSvc', function ($rootScope, $q) {
     }
 
     service.setTitle=function(items){
-        if (items==undefined)
+        if (items==undefined){
             service.item.title=service.properties.SITE_TITLE;
-        else{
+            service.item.short_title=service.properties.SITE_TITLE;
+        }else{
             items.push(service.properties.SITE_TITLE);
             service.item.title=items.join(' - ');
+            service.item.short_title=items[0];
         }
         $('title').html(service.item.title);
-        $('meta[property="og:title"]').attr('content',service.item.title);
+        $('meta[property="og:title"]').attr('content',service.item.short_title);
         service.setDescription();
         service.setImage();
         service.setType();
@@ -81896,7 +81898,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
         else
             service.item.description=text;
         $('meta[property="description"]').attr('content',service.item.description);
-        $('meta[property="og:title"]').attr('content',service.item.title);
+        $('meta[property="og:description"]').attr('content',service.item.description);
         return service.item.description;
     };
 
@@ -81905,6 +81907,7 @@ app.factory('AppSvc', function ($rootScope, $q) {
             service.item.image=service.properties.SITE_LOGO;
         else
             service.item.image=url;
+        $('link[rel="image_src"]').attr('href',service.item.image);
         $('meta[property="og:image"]').attr('content',service.item.image);
         return service.item.image;
     };
@@ -83509,7 +83512,6 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
             $this.title=AppConst.manager.html_cache.strings.scanSitemap_process+'('+$this.currentUrlIndex+'/'+$this.urls.length+')';
             $this.disabled=true;
             HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response, status, headers, config) {
-                console.log('success');
                  $this.currentUrlIndex++;
                  if ($this.currentUrlIndex==$this.urls.length){
                     callback();
@@ -83517,7 +83519,6 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
                     $this.doUrl(callback);
                  }
             },function(errResp) {
-                console.log('error');
                  $this.currentUrlIndex++;
                  if ($this.currentUrlIndex==$this.urls.length){
                     callback();
@@ -83537,11 +83538,13 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
                 var url='';
                 for (var i=0;i<locs.length;i++){
                     url=$(locs[i]).text();
-                    $this.urls.push(url);
+                    if (service.getItemByUrl(url)==false)
+                        $this.urls.push(url);
                 }
                 $this.doUrl(function(){
                     $this.title=AppConst.manager.html_cache.strings.scanSitemap_title;
                     $this.disabled=false;
+                    service.load(true);
                 });
             });
         }
@@ -83574,6 +83577,16 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
         service.item=angular.copy(item);
     }
 
+    service.getItemByUrl=function(url){
+        var item=false;
+        for (var i=0;i<service.list.length;i++){
+            if (service.list[i].url=='url'){
+                item=service.list[i];
+                break;
+            }
+        }
+        return item;
+    }
     service.showUpdate=function(item){
         service.mode='update';
         service.item=angular.copy(item);

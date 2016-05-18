@@ -22,7 +22,6 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
             $this.title=AppConst.manager.html_cache.strings.scanSitemap_process+'('+$this.currentUrlIndex+'/'+$this.urls.length+')';
             $this.disabled=true;
             HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response, status, headers, config) {
-                console.log('success');
                  $this.currentUrlIndex++;
                  if ($this.currentUrlIndex==$this.urls.length){
                     callback();
@@ -30,7 +29,6 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
                     $this.doUrl(callback);
                  }
             },function(errResp) {
-                console.log('error');
                  $this.currentUrlIndex++;
                  if ($this.currentUrlIndex==$this.urls.length){
                     callback();
@@ -50,11 +48,13 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
                 var url='';
                 for (var i=0;i<locs.length;i++){
                     url=$(locs[i]).text();
-                    $this.urls.push(url);
+                    if (service.getItemByUrl(url)==false)
+                        $this.urls.push(url);
                 }
                 $this.doUrl(function(){
                     $this.title=AppConst.manager.html_cache.strings.scanSitemap_title;
                     $this.disabled=false;
+                    service.load(true);
                 });
             });
         }
@@ -87,6 +87,16 @@ app.factory('HtmlCacheSvc', function (AppConst, HtmlCacheRes, $rootScope, $q, $m
         service.item=angular.copy(item);
     }
 
+    service.getItemByUrl=function(url){
+        var item=false;
+        for (var i=0;i<service.list.length;i++){
+            if (service.list[i].url=='url'){
+                item=service.list[i];
+                break;
+            }
+        }
+        return item;
+    }
     service.showUpdate=function(item){
         service.mode='update';
         service.item=angular.copy(item);
