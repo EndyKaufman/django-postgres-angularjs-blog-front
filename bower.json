@@ -39,7 +39,8 @@
     "google-code-prettify": "~1.0.4",
     "angular-ui-uploader": "~1.1.3",
     "ag-grid": "~4.1.5",
-    "speakingurl": "~9.0.0"
+    "speakingurl": "~9.0.0",
+    "angular-gettext": "~2.2.1"
   },
   "resolutions": {
     "angular": "1.5.5"

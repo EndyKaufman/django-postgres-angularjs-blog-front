@@ -46,7 +46,7 @@ app.constant('AccountConst',{
         'account/login/success':'You authorizing!',
         'account/logout/success':'Bye-Bye!',
         'account/logout/confirm':'Do you really want to leave?',
-        'account/user_not_found':'User with email <strong>%s</strong> not found!',
+        'account/user_with_email_not_found':'User with email <strong>%s</strong> not found!',
         'account/recovery/checkemail':'Check email <strong>%s</strong> for code to reset password',
         'account/delete/confirm':'Do you really want to delete account?'
     }

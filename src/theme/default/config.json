@@ -1,5 +1,6 @@
 {
   "test": {
+    "vendor": [],
     "source": [
       "!tests/**/helpers.js",
       "!tests/helpers.js",
@@ -18,11 +19,13 @@
     ]
   },
   "scss": {
+    "vendor": [],
     "source": [
       "src/theme/%theme/scss/**/*.scss"
     ]
   },
   "less": {
+    "vendor": [],
     "source": [
       "src/theme/%theme/less/styles.less"
     ],
@@ -31,20 +34,22 @@
     ]
   },
   "css": {
-    "source": [
+    "vendor": [
       "bower_components/normalize-css/normalize.css",
       "bower_components/google-code-prettify/bin/prettify.min.css",
       "bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
       "bower_components/ng-tags-input/ng-tags-input.css",
       "bower_components/ng-tags-input/ng-tags-input.bootstrap.css",
       "bower_components/ag-grid/dist/styles/ag-grid.css",
-      "bower_components/ag-grid/dist/styles/theme-fresh.css",
+      "bower_components/ag-grid/dist/styles/theme-fresh.css"
+    ],
+    "source": [
       "src/temp/css/**/*.css",
       "src/temp/css/styles.css"
     ]
   },
   "js": {
-    "source": [
+    "vendor": [
       "src/js/**/tools.js",
       "bower_components/speakingurl/speakingurl.min.js",
       "bower_components/sprintf/dist/sprintf.min.js",
@@ -71,6 +76,9 @@
       "bower_components/angular-markdown/angular.markdown.js",
       "bower_components/angular-ui-uploader/dist/uploader.js",
       "bower_components/ag-grid/dist/ag-grid.js",
+      "bower_components/angular-gettext/dist/angular-gettext.min.js"
+    ],
+    "source": [
       "src/js/app.init.js",
       "src/theme/%theme/js/app.theme.js",
       "src/js/**/**/**/const.js",
@@ -80,9 +88,10 @@
       "src/js/**/**/**/route.js",
       "src/js/**/**/route.js",
       "src/js/**/route.js",
-      "src/js/app.route.js",
+      "src/js/app.route.js"
+    ],
+    "source2": [
       "src/js/**/init.js",
-      "src/temp/js/templates.js",
       "src/js/**/utils.js",
       "src/js/**/**/**/*.res.js",
       "src/js/**/**/*.res.js",
@@ -97,14 +106,17 @@
       "src/js/**/*.ctrl.js",
       "src/js/app.ctrl.js",
       "src/js/**/*.js",
-      "src/theme/%theme/js/**/*.js"
+      "src/theme/%theme/js/**/*.js",
+      "src/js/app.run.js"
     ]
   },
   "template": {
+    "vendor": [],
     "source": [
       "src/theme/%theme/views/**/*.html"
     ],
-    "strip": "src/theme/%theme/views/"
+    "strip": "src/theme/%theme/views/",
+    "output": "src/temp/js/templates.js"
   },
   "sourceChange": {
     "../../bower_components/bootstrap/fonts/glyphicons-halflings-regular": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/fonts/glyphicons-halflings-regular",

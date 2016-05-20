@@ -1,52 +1,52 @@
-app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc) {
-    var service={};
+app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc) {
+    var service = {};
 
-    service.allList=[];
+    service.allList = [];
 
-    service.countItemsOnRow=3;
-    service.limitOnHome=3;
-    service.limit=10;
-    service.begin=0;
+    service.countItemsOnRow = 3;
+    service.limitOnHome = 3;
+    service.limit = 10;
+    service.begin = 0;
 
-    service.searchText='';
+    service.searchText = '';
 
-    $rootScope.$on('$routeChangeStart',function(event, current, previous){
-        if ($routeParams.navId!='search'){
-            service.searchText='';
+    $rootScope.$on('$routeChangeStart', function(event, current, previous) {
+        if ($routeParams.navId != 'search') {
+            service.searchText = '';
         }
     });
 
-    service.doSearch=function(searchText){
-        $location.path('/search/'+searchText);
-    }
+    service.doSearch = function(searchText) {
+        $location.path('/search/' + searchText);
+    };
 
-    service.init=function(reload){
-        service.searchText=$routeParams.searchText;
+    service.init = function(reload) {
+        service.searchText = $routeParams.searchText;
 
-        service.title=vsprintf(AppConst.search.strings.title,[service.searchText]);
-        service.description=vsprintf(AppConst.search.strings.description,[service.searchText]);
+        service.title = vsprintf(AppConst.search.strings.title, [service.searchText]);
+        service.description = vsprintf(AppConst.search.strings.description, [service.searchText]);
 
         AppSvc.setTitle([service.title]);
         AppSvc.setDescription(service.description);
-        AppSvc.setUrl('search/'+service.searchText);
+        AppSvc.setUrl('search/' + service.searchText);
 
-        if ($routeParams.searchText!=undefined){
-            service.allList=[];
-            service.allListSumSize=0;
+        if ($routeParams.searchText !== undefined) {
+            service.allList = [];
+            service.allListSumSize = 0;
             $q.all([
                 TagSvc.load(),
                 ProjectRes.getSearch($routeParams.searchText),
                 PostRes.getSearch($routeParams.searchText)
             ]).then(function(responseList) {
-                for (var i=1;i<responseList.length;i++){
-                    if (responseList[i].data.data && responseList[i].data.data.length>0)
-                        service.allListSumSize=service.allListSumSize+responseList[i].data.data.length;
-                    if (i==1)
+                for (var i = 1; i < responseList.length; i++) {
+                    if (responseList[i].data.data && responseList[i].data.data.length > 0)
+                        service.allListSumSize = service.allListSumSize + responseList[i].data.data.length;
+                    if (i == 1)
                         service.allList.push({
                             name: 'project',
                             list: responseList[i].data.data
                         });
-                    if (i==2)
+                    if (i == 2)
                         service.allList.push({
                             name: 'post',
                             list: responseList[i].data.data
@@ -54,6 +54,6 @@ app.factory('SearchSvc', function ($rootScope, $routeParams, $q, $location, AppC
                 }
             });
         }
-    }
+    };
     return service;
-  });
+});

@@ -1112,7 +1112,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//desc-->');
 	a.put('views/project/list-header.html', '<span ng-bind-html="ProjectSvc.title | unsafe"></span>\n' +
     '<a ng-href="/project/create"\n' +
-    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  Create</a>');
+    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  <translate>Create</translate></a>');
 	a.put('views/project/item.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +

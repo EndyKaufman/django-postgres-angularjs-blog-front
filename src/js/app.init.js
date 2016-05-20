@@ -14,4 +14,6 @@ var app = angular.module('app', [
     'ui.bootstrap.showErrors',
     'angular-markdown',
     'ui.uploader',
-    'agGrid']);
+    'agGrid',
+    'gettext']
+);
