@@ -1,9 +1,9 @@
-app.constant('NavbarConst', {
-    left:[
-    ],
-    search:{
-        placeholder: ''
-    },
-    right:[
-    ]
+app.factory('NavbarConst', function(gettext) {
+    return {
+        left: [],
+        search: {
+            placeholder: gettext('search text')
+        },
+        right: []
+    };
 });

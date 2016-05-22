@@ -66,7 +66,7 @@ describe('Work with posts as admin', function() {
                     return;
                 }
                 //api.debug=true;
-                api.getJson('/api/v1/post/list', function(response){
+                api.getJson('/api/v1/post', function(response){
                     listResponse = response;
                     done();
                 });

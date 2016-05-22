@@ -2,10 +2,10 @@ app.factory('ProjectRes', function(AppConst, AppRes) {
     var service = {};
 
     service.getItem = function(name) {
-        return AppRes.get('/api/v1/project/item/' + name);
+        return AppRes.get('/api/v1/project/' + name);
     };
     service.getList = function() {
-        return AppRes.get('/api/v1/project/list');
+        return AppRes.get('/api/v1/project/');
     };
     service.getSearch = function(searchText) {
         if (searchText === undefined)
@@ -13,7 +13,7 @@ app.factory('ProjectRes', function(AppConst, AppRes) {
         return AppRes.get('/api/v1/project/search/' + searchText);
     };
     service.getListByTag = function(tagText) {
-        return AppRes.get('/api/v1/project/listbytag/' + tagText);
+        return AppRes.get('/api/v1/project/list_by_tag/' + tagText);
     };
     service.actionUpdate = function(item) {
         return AppRes.post('/api/v1/project/update/' + item.id, item);

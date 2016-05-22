@@ -12,7 +12,7 @@ var app = angular.module('app', [
     'mgcrea.ngStrap',
     'ngTagsInput',
     'ui.bootstrap.showErrors',
-    'angular-markdown',
+    'btford.markdown',
     'ui.uploader',
     'agGrid',
     'gettext']

@@ -1,5 +1,5 @@
 <div class="form-group has-feedback" show-errors>
-    <label for="ItemTitle">Title</label>
+    <label for="ItemTitle" translate>Title</label>
     <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="PostSvc.item.title"
            ng-change="PostSvc.slugName(PostSvc.item.title)" required>
     <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"
@@ -7,38 +7,38 @@
           aria-hidden="true"></span>
 </div>
 <div class="form-group has-feedback" ng-if="PostSvc.item.type==1">
-    <label for="ItemText">Text</label>
+    <label for="ItemText" translate>Text</label>
                 <textarea type="text" class="form-control" id="ItemText"
                           ng-model="PostSvc.item.text" rows="15"></textarea>
 </div>
 <div class="form-group has-feedback" ng-if="PostSvc.item.type==2">
-    <label for="ItemHtml">Html</label>
+    <label for="ItemHtml" translate>Html</label>
                 <textarea type="text" class="form-control" id="ItemHtml"
                           ng-model="PostSvc.item.html" rows="15"></textarea>
 </div>
 <div class="form-group has-feedback" ng-if="PostSvc.item.type==3">
-    <label for="ItemUrl">Url</label>
+    <label for="ItemUrl" translate>Url</label>
                 <textarea type="text" class="form-control" id="ItemUrl"
                           ng-model="PostSvc.item.url" rows="15"></textarea>
 </div>
 <div class="form-group has-feedback" ng-if="PostSvc.item.type==4">
-    <label for="ItemMarkdown">Markdown</label>
+    <label for="ItemMarkdown" translate>Markdown</label>
                 <textarea type="text" class="form-control" id="ItemMarkdown"
                           ng-model="PostSvc.item.markdown" rows="15"></textarea>
 </div>
 <div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">
-    <label for="{{'ItemImage'+($index+1)}}" ng-bind-html="'Image '+($index+1) | unsafe"></label>
+    <label for="{{'ItemImage'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>
     <div class="input-group has-feedback">
         <input type="text" class="form-control" id="{{'ItemImage'+($index+1)}}"
                ng-model="image.src">
                         <span class="input-group-btn">
                             <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"
                                     type="button" id="{{'postSelect'+$index+'Image'}}">
-                                <i class="fa fa-check"></i> Select
+                                <i class="fa fa-check"></i> <translate>Select</translate>
                             </button>
                             <button ng-click="PostSvc.doDeleteImage($index)" class="btn btn-cta-red"
                                     type="button" id="{{'postDelete'+$index+'Image'}}">
-                                <i class="fa fa-trash"></i> Delete image
+                                <i class="fa fa-trash"></i> <translate>Delete image</translate>
                             </button>
                         </span>
     </div>

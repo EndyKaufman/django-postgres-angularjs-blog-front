@@ -2,7 +2,7 @@ app.factory('PropertiesRes', function($q, AppConst, AppRes) {
     var service = {};
 
     service.getList = function() {
-        return AppRes.get('/api/v1/manager/properties/list');
+        return AppRes.get('/api/v1/manager/properties/');
     };
 
     service.actionUpdate = function(item) {

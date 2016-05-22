@@ -1,19 +1,19 @@
 <div class="form-group">
-    <label for="UserAppName">Name</label>
+    <label for="UserAppName" translate>Name</label>
     <input class="form-control" type="text" id="UserAppName" ng-model="UserAppSvc.item.name"/>
 </div>
 <div class="form-group">
-    <label for="UserAppClientId">Client ID</label>
+    <label for="UserAppClientId" translate>Client ID</label>
     <input type="text" class="form-control" id="UserAppClientId"
            ng-model="UserAppSvc.item.client_id" disabled/>
 </div>
 <div class="form-group">
-    <label for="UserAppClientSecret">Client secret</label>
+    <label for="UserAppClientSecret" translate>Client secret</label>
     <input type="text" class="form-control" id="UserAppClientSecret"
            ng-model="UserAppSvc.item.client_secret" disabled/>
 </div>
 <div class="form-group">
-    <label for="UserAppClientRedirectUris">Redirect uris</label>
+    <label for="UserAppClientRedirectUris" translate>Redirect uris</label>
     <input type="text" class="form-control" id="UserAppClientRedirectUris"
-           ng-model="UserAppSvc.item.redirect_uris" placeholder="Allowed URIs list, space separated"/>
+           ng-model="UserAppSvc.item.redirect_uris" placeholder="{{ 'allowed URIs list, space separated' | translate}}"/>
 </div>

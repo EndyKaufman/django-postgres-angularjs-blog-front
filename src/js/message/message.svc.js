@@ -1,4 +1,4 @@
-app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $modal) {
+app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $modal, gettextCatalog, gettext) {
     var service = {};
 
     service.list = {};
@@ -43,7 +43,7 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
 
         var boxOptions = {
             title: data.title,
-            content: extVSprintF(message, data.values),
+            content: extVSprintF(gettextCatalog.getString(message), data.values),
             theme: 'danger',
             confirmTemplate: 'views/message/confirm.modal.html',
             promptTemplate: 'views/message/prompt.modal.html',
@@ -73,7 +73,7 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
 
         var boxOptions = {
             title: data.title,
-            content: extVSprintF(message, data.values),
+            content: extVSprintF(gettextCatalog.getString(message), data.values),
             theme: 'alert',
             confirmTemplate: 'views/message/confirm.modal.html',
             promptTemplate: 'views/message/prompt.modal.html',
@@ -109,15 +109,15 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
 
         var boxOptions = {
             title: data.title,
-            content: extVSprintF(message, data.values),
+            content: extVSprintF(gettextCatalog.getString(message), data.values),
             boxType: 'confirm',
             theme: 'alert',
             confirmTemplate: 'views/message/confirm.modal.html',
             promptTemplate: 'views/message/prompt.modal.html',
             alertTemplate: 'views/message/alert.modal.html',
             effect: false,
-            confirmText: 'Yes',
-            cancelText: 'No',
+            confirmText: gettext('Yes'),
+            cancelText: gettext('No'),
             afterConfirm: callbackOk,
             afterCancel: callbackCancel,
             html: true
@@ -130,8 +130,8 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
 
     service.info = function(message, data, type) {
 
-        if (service.infoEnable === false)
-            return;
+        //if (service.infoEnable === false)
+        //   return;
 
         service.alert(message, data);
         /*

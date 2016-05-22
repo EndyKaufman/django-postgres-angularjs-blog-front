@@ -1,26 +1,5 @@
-app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppConst, PostRes, TagSvc, MessageSvc, AppSvc) {
+app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppConst, PostRes, TagSvc, MessageSvc, AppSvc, gettextCatalog) {
     var service = {};
-
-    $rootScope.$on('post.delete', function(event, item) {
-        MessageSvc.info('post/delete/success', {
-            values: item
-        });
-        service.goList();
-    });
-
-    $rootScope.$on('post.create', function(event, item) {
-        MessageSvc.info('post/create/success', {
-            values: item
-        });
-        service.goItem(item.name);
-    });
-
-    $rootScope.$on('post.update', function(event, item) {
-        MessageSvc.info('post/update/success', {
-            values: item
-        });
-        service.goItem(item.name);
-    });
 
     service.item = {};
     service.list = [];
@@ -30,34 +9,47 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
     service.limit = 10;
     service.begin = 0;
 
-    service.title = AppConst.post.strings.title;
+    $rootScope.$on('post.init.meta', function(event, current, previous) {
+        service.initMeta();
+    });
+
+    service.setMeta = function() {
+        if (service.postName !== undefined) {
+            AppSvc.setTitle([service.item.title, service.title]);
+            AppSvc.setDescription(service.item.description);
+            AppSvc.setUrl('post/' + service.postName);
+            if (service.item.images.length > 0)
+                AppSvc.setImage(service.item.images[0].src_url);
+        } else {
+            AppSvc.setTitle([service.title]);
+            AppSvc.setDescription(service.description);
+            AppSvc.setUrl('post');
+        }
+    };
+
+    service.initMeta = function() {
+        service.postName = $routeParams.postName;
+        service.title = gettextCatalog.getString(AppConst.post.strings.title);
+        service.description = gettextCatalog.getString(AppConst.post.strings.description);
+    };
 
     service.init = function(reload) {
-        service.postName = $routeParams.postName;
+        service.initMeta();
+
         $q.all([
             TagSvc.load(),
             service.load()
-        ]).then(function(responseList) {
-            if (service.postName !== undefined) {
-                AppSvc.setTitle([service.item.title, service.title]);
-                AppSvc.setDescription(service.item.description);
-                AppSvc.setUrl('post/' + service.postName);
-                if (service.item.images.length > 0)
-                    AppSvc.setImage(service.item.images[0].src_url);
-            } else {
-                AppSvc.setTitle([service.title]);
-                AppSvc.setDescription(AppConst.post.strings.description);
-                AppSvc.setUrl('post');
-            }
+        ]).then(function(dataList) {
+            service.setMeta();
         });
     };
 
     service.goList = function() {
-        $location.path('/post');
+        $location.path(AppSvc.currentLangUrlPrefix + '/post');
     };
 
     service.goItem = function(postName) {
-        $location.path('/post/' + postName);
+        $location.path(AppSvc.currentLangUrlPrefix + '/post/' + postName);
     };
 
     service.updateItemOnList = function(item) {
@@ -72,18 +64,11 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         service.slugName(item.name);
         $rootScope.$broadcast('show-errors-check-validity');
         PostRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    if (response.data.reload_source.tag === true)
-                        TagSvc.load(true);
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('post.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data, response) {
+                if (response.data.reload_source.tag === true)
+                    TagSvc.load(true);
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
@@ -91,43 +76,38 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         service.slugName(item.name);
         $rootScope.$broadcast('show-errors-check-validity');
         PostRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    if (response.data.reload_source.tag === true)
-                        TagSvc.load(true);
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
+            function(data, response) {
+                if (response.data.reload_source.tag === true)
+                    TagSvc.load(true);
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
 
-                    $rootScope.$broadcast('post.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+                MessageSvc.info('post/update/success', {
+                    values: [item.title]
+                });
+                service.goItem(item.name);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('post/remove/confirm', {
+        MessageSvc.confirm('post/delete/confirm', {
                 values: [item.title]
             },
             function() {
                 PostRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.initEmptyItem();
-                            $rootScope.$broadcast('post.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
+
+                        MessageSvc.info('post/delete/success', {
+                            values: [item.title]
+                        });
+                        service.goList();
                     }
                 );
             });
@@ -149,11 +129,11 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
     service.slugName = function(value) {
         if (service.item.id === undefined)
             service.item.name = getSlug(value, {
-                lang: 'ru',
+                lang: AppSvc.currentLangShort,
                 uric: true
             });
     };
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         /*service.title = '';
         service.name = '';
@@ -171,29 +151,23 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         if (service.postName !== undefined) {
             if (service.item.name !== service.postName)
                 PostRes.getItem(service.postName).then(
-                    function(response) {
-                        service.item = angular.copy(response.data.data[0]);
+                    function(data) {
+                        service.item = angular.copy(data[0]);
                         deferred.resolve(service.item);
-                        $rootScope.$broadcast('post.item.load', service.item);
                     },
-                    function(response) {
-                        service.item = {};
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                    function(data) {
+                        service.clearItem();
                         deferred.resolve(service.item);
                     }
                 );
         } else {
             if (service.loaded !== true || reload === true) {
                 service.loaded = true;
-                PostRes.getList().then(function(response) {
-                    service.list = angular.copy(response.data.data);
+                PostRes.getList().then(function(data) {
+                    service.list = angular.copy(data);
                     deferred.resolve(service.list);
-                    $rootScope.$broadcast('post.load', service.list);
-                }, function(response) {
+                }, function(data) {
                     service.list = [];
-                    if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                        MessageSvc.error(response.data.code, response.data);
                     deferred.resolve(service.list);
                 });
             } else

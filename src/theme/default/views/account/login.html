@@ -7,11 +7,11 @@
                     <h1 class="heading" ng-bind="AccountSvc.title">
                     </h1>
                     <div class="content">
-                        <p>Please enter you email address and password for login on site</p>
+                        <p translate>Please enter you email address and password for login on site</p>
                         <form ng-submit="AccountSvc.doLogin()" name="accountForm">
                             <div ng-include="'views/account/login/inputs.html'"></div>
                             <button type="submit" class="btn btn-cta-secondary" ng-disabled="!accountForm.$valid"
-                                    id="accountLogin">
+                                    id="accountLogin" translate>
                                 Login
                             </button>
                         </form>

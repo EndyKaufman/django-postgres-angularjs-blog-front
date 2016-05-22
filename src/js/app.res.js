@@ -1,19 +1,53 @@
-app.factory('AppRes', function($q, $http, $cookies, uiUploader) {
+app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
     var service = {};
 
 
     service.get = function(url) {
-        return $http({
+        var deferred = $q.defer();
+        $http({
             method: 'GET',
             url: url
-        });
+        }).then(
+            function(response) {
+                if (response !== null && response !== undefined && response.data !== undefined &&
+                    response.data.code !== undefined && response.data.code == 'ok') {
+                    deferred.resolve(response.data.data, response);
+                }
+            },
+            function(response) {
+                if (response !== null && response !== undefined && response.data !== undefined &&
+                    response.data.code !== undefined) {
+                    MessageSvc.error(response.data.code, response.data);
+                    deferred.reject(response.data, response);
+                } else
+                    deferred.reject(null);
+            }
+        );
+        return deferred.promise;
     };
 
     service.post = function(url, data) {
+        var deferred = $q.defer();
         if (data === undefined)
             data = {};
         data = angular.copy(data);
-        return $http.post(url, data);
+        $http.post(url, data).then(
+            function(response) {
+                if (response !== null && response !== undefined && response.data !== undefined &&
+                    response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
+                    deferred.resolve(response.data.data, response);
+                }
+            },
+            function(response) {
+                if (response !== null && response !== undefined && response.data !== undefined &&
+                    response.data !== null && response.data.code !== undefined) {
+                    MessageSvc.error(response.data.code, response.data);
+                    deferred.reject(response.data, response);
+                } else
+                    deferred.reject(null);
+            }
+        );
+        return deferred.promise;
     };
 
     service.addFiles = function(files) {

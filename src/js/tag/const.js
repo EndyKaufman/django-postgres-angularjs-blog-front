@@ -1,6 +1,8 @@
-app.constant('TagConst', {
-    strings:{
-        title:'Tags',
-        description: 'Tag: %s'
-    }
+app.factory('TagConst', function(gettext) {
+    return {
+        strings: {
+            title: gettext('Tags'),
+            description: gettext('Tag: %s')
+        }
+    };
 });

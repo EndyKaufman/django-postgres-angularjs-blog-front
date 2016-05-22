@@ -1,10 +1,10 @@
 <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>
+            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>
             <div class="modal-body">
                 <div class="modal-body-inner" ng-bind="content"></div>
-                <div class="margin-t form-group"><label for="promptModel">{{promptLabel}}</label><input type="text"
+                <div class="margin-t form-group"><label for="promptModel">{{promptLabel | translate}}</label><input type="text"
                                                                                                         class="form-control"
                                                                                                         name="promptModel"
                                                                                                         ng-model="promptModel">
@@ -12,10 +12,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-cta-default" ng-click="$cancel()">
-                    <i class="fa fa-undo"></i> {{cancelText}}
+                    <i class="fa fa-undo"></i> {{cancelText | translate}}
                 </button>
                 <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()">
-                    <i class="fa fa-check"></i> {{confirmText}}
+                    <i class="fa fa-check"></i> {{confirmText | translate}}
                 </button>
             </div>
             <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">

@@ -5,8 +5,8 @@
                 <div class="section-inner">
                     <h1 class="heading">
                         <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>
-                        <a ng-href="{{'/project/update/'+ProjectSvc.item.name}}"
-                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/project/update/'+ProjectSvc.item.name}}"
+                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>
                     </h1>
                     <div class="content">
                         <div class="item row">
@@ -20,7 +20,7 @@
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
             <aside class="list description aside section">
                 <div class="section-inner">
-                    <h2 class="heading">Description</h2>
+                    <h2 class="heading" translate>Description</h2>
                     <div class="content">
                         <span ng-bind-html="ProjectSvc.item.description | unsafe"></span>
                     </div><!--//content-->
@@ -29,7 +29,7 @@
 
             <aside class="list tags aside section" ng-if="ProjectSvc.item.tags.length>0">
                 <div class="section-inner">
-                    <h2 class="heading">Tags</h2>
+                    <h2 class="heading" translate>Tags</h2>
                     <div class="content">
                         <div ng-include="'views/project/item-tags.html'"></div>
                     </div><!--//content-->
@@ -38,7 +38,7 @@
 
             <aside class="info aside section">
                 <div class="section-inner">
-                    <h2 class="heading sr-only">Search</h2>
+                    <h2 class="heading sr-only" translate>Search</h2>
                     <div class="content">
                         <div ng-include="'views/search.html'"></div>
                     </div><!--//content-->

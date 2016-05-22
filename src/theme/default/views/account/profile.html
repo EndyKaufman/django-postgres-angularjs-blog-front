@@ -11,11 +11,10 @@
                             <div ng-include="'views/account/profile/inputs.html'"></div>
                             <button ng-click="ProfileSvc.doUpdate(ProfileSvc.item)" class="btn btn-cta-secondary"
                                     ng-disabled="!accountForm.$valid" id="accountSave">
-                                <i class="fa fa-floppy-o"></i> Save
+                                <i class="fa fa-floppy-o"></i> <translate>Save</translate>
                             </button>
                             <button ng-click="ProfileSvc.doDelete()" class="btn btn-cta-red" id="accountDelete"><i
-                                    class="fa fa-trash"></i> Delete
-                                account
+                                    class="fa fa-trash"></i> <translate>Delete account</translate>
                             </button>
                         </form>
                     </div><!--//content-->

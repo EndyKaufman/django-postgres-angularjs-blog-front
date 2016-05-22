@@ -1,6 +1,6 @@
 <div class="form-group has-feedback" show-errors>
-    <label for="email">Email:</label>
-    <input type="email" class="form-control" name="email" id="email" placeholder="email"
+    <label for="email" translate>Email:</label>
+    <input type="email" class="form-control" name="email" id="email" placeholder="{{'enter you email' | translate}}"
            ng-model="AccountSvc.item.email" required>
                                 <span ng-show="accountForm.$submitted || accountForm.email.$touched"
                                       class="form-control-feedback"
@@ -8,9 +8,9 @@
                                       aria-hidden="true"></span>
 </div>
 <div class="form-group has-feedback" show-errors>
-    <label for="password">Password:</label>
+    <label for="password" translate>Password:</label>
     <input type="password" class="form-control" name="password" id="password"
-           placeholder="password"
+           placeholder="{{ 'enter you password' | translate}}"
            ng-model="AccountSvc.item.password" required>
                                 <span ng-show="accountForm.$submitted || accountForm.password.$touched"
                                       class="form-control-feedback"

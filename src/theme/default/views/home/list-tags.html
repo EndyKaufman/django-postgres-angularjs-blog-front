@@ -1,7 +1,7 @@
 <ul class="list-unstyled">
     <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">
-        <i class="fa fa-tag"></i> <a ng-href="{{'/tag/'+tag.text}}" ng-class="tag.text==TagSvc.tagText?'active':''"
+        <i class="fa fa-tag"></i> <a ng-href="{{AppSvc.currentLangUrlPrefix+'/tag/'+tag.text}}" ng-class="tag.text==TagSvc.tagText?'active':''"
                                      ng-bind="tag.text"></a></li>
 </ul>
-<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000">Show all <i
+<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000"><translate>Show all</translate> <i
         class="fa fa-chevron-down"></i></a>

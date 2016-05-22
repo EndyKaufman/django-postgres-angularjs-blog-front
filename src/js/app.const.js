@@ -1,5 +1,15 @@
 app.factory('AppConst', function($rootScope,
-    HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst) {
+    HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst, FileConst, gettext) {
+    var langs = {
+        'ru': {
+            code: 'ru_RU',
+            title: gettext('RU')
+        },
+        'en': {
+            code: 'en_US',
+            title: gettext('EN')
+        }
+    };
     var navbar = {
         left: [{
             name: 'project'
@@ -29,7 +39,7 @@ app.factory('AppConst', function($rootScope,
             name: 'logout',
             parent: 'account',
             click: function() {
-                $rootScope.$broadcast('account.doLogout', true);
+                $rootScope.$broadcast('account.do.logout', true);
             },
             hiddenHandler: function() {
                 return (AppConfig.user.id === undefined);
@@ -37,11 +47,13 @@ app.factory('AppConst', function($rootScope,
         }]
     };
     var service = {
+        langs: langs,
         home: HomeConst,
         navbar: angular.extend({}, NavbarConst, navbar),
         manager: ManagerConst,
         search: SearchConst,
         account: AccountConst,
+        file: FileConst,
         tag: TagConst,
         project: ProjectConst,
         post: PostConst,

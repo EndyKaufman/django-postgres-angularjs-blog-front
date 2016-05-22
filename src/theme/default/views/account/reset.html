@@ -7,12 +7,11 @@
                     <h1 class="heading" ng-bind="AccountSvc.title">
                     </h1>
                     <div class="content">
-                        <p>Please enter code from email and new password for you account</p>
+                        <p translate>Please enter code from email and new password for you account</p>
                         <form ng-submit="AccountSvc.doReset()" name="accountForm">
                             <div ng-include="'views/account/reset/inputs.html'"></div>
                             <button type="submit" class="btn btn btn-cta-secondary" ng-disabled="!accountForm.$valid"
-                                    id="accountReset">Save password and login
-                                on site
+                                    id="accountReset" translate>Change password
                             </button>
                         </form>
                     </div><!--//content-->

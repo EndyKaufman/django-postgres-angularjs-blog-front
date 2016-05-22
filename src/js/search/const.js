@@ -1,6 +1,8 @@
-app.constant('SearchConst', {
-    strings:{
-        title:'Search',
-        description: 'Search result for text "%s"'
-    }
+app.factory('SearchConst', function(gettext) {
+    return {
+        strings: {
+            title: gettext('Search'),
+            description: gettext('Search result for text "%s"')
+        }
+    };
 });

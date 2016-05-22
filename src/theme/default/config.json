@@ -36,7 +36,6 @@
   "css": {
     "vendor": [
       "bower_components/normalize-css/normalize.css",
-      "bower_components/google-code-prettify/bin/prettify.min.css",
       "bower_components/angular-ui-tree/dist/angular-ui-tree.min.css",
       "bower_components/ng-tags-input/ng-tags-input.css",
       "bower_components/ng-tags-input/ng-tags-input.bootstrap.css",
@@ -54,7 +53,6 @@
       "bower_components/speakingurl/speakingurl.min.js",
       "bower_components/sprintf/dist/sprintf.min.js",
       "bower_components/chance/chance.js",
-      "bower_components/google-code-prettify/src/run_prettify.js",
       "bower_components/angular/angular.js",
       "bower_components/angular-route/angular-route.js",
       "bower_components/angular-cookies/angular-cookies.js",
@@ -73,7 +71,7 @@
       "bower_components/showdown/src/extensions/prettify.js",
       "bower_components/showdown/src/extensions/table.js",
       "bower_components/showdown/src/extensions/twitter.js",
-      "bower_components/angular-markdown/angular.markdown.js",
+      "bower_components/angular-markdown-directive/markdown.js",
       "bower_components/angular-ui-uploader/dist/uploader.js",
       "bower_components/ag-grid/dist/ag-grid.js",
       "bower_components/angular-gettext/dist/angular-gettext.min.js"

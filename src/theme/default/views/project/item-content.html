@@ -30,8 +30,7 @@
         <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>
     </div>
     <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">
-        <markdown extensions="github, table, twitter" strip="true" allow-html="true"
-                  ng-model="ProjectSvc.item.markdown">
-        </markdown>
+        <btf-markdown ng-model="ProjectSvc.item.markdown">
+        </btf-markdown>
     </div>
 </div><!--//desc-->

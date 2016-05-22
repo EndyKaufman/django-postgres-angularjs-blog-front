@@ -2,7 +2,7 @@ app.factory('MetaTagRes', function($q, AppConst, AppRes) {
     var service = {};
 
     service.getList = function() {
-        return AppRes.get('/api/v1/manager/meta_tag/list');
+        return AppRes.get('/api/v1/manager/meta_tag/');
     };
 
     service.actionUpdate = function(item) {

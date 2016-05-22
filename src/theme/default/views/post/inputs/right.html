@@ -1,12 +1,12 @@
 <div class="form-group has-feedback" show-errors>
-    <label for="ItemName">Name</label>
+    <label for="ItemName" translate>Name</label>
     <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="PostSvc.item.name" required>
     <span ng-show="postForm.$submitted || postForm.ItemName.$touched" class="form-control-feedback"
           ng-class="!postForm.ItemName.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
           aria-hidden="true"></span>
 </div>
 <div class="form-group has-feedback">
-    <label for="ItemType">Type</label>
+    <label for="ItemType" translate>Type</label>
     <select class="form-control" id="ItemType" ng-model="PostSvc.item.type">
         <option ng-repeat="type in AppConst.post.types"
                 ng-value="type.id"
@@ -15,13 +15,13 @@
     </select>
 </div>
 <div class="form-group has-feedback">
-    <label for="ItemTags">Tags</label>
-    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="Add tag" min-length="1">
+    <label for="ItemTags" translate>Tags</label>
+    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="{{ 'add tag' | translate}}" min-length="1">
         <auto-complete source="TagSvc.searchTag($query)"></auto-complete>
     </tags-input>
 </div>
 <div class="form-group">
-    <label for="ItemDescription">Description</label>
+    <label for="ItemDescription" translate>Description</label>
                 <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"
                           ng-model="PostSvc.item.description" required></textarea>
 </div>

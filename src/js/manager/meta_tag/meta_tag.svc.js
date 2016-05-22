@@ -1,10 +1,10 @@
-app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
+app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
     var service = {};
 
     service.item = {};
     service.list = [];
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.name = '';
         service.item.content = '';
@@ -14,16 +14,16 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new meta_tag',
+            title: gettext('Add new meta tag'),
             confirmTemplate: 'views/manager/meta_tag/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -43,14 +43,14 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit meta tag'),
             confirmTemplate: 'views/manager/meta_tag/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -73,57 +73,35 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         MetaTagRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('meta_tag.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         MetaTagRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('meta_tag.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('meta_tag/remove/confirm', {
-                values: [item.src]
+        MessageSvc.confirm('meta_tag/delete/confirm', {
+                values: [item.name]
             },
             function() {
                 MetaTagRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('meta_tag.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
@@ -133,14 +111,11 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            MetaTagRes.getList().then(function(response) {
-                service.list = angular.copy(response.data.data);
+            MetaTagRes.getList().then(function(data) {
+                service.list = angular.copy(data);
                 deferred.resolve(service.list);
-                $rootScope.$broadcast('meta_tag.load', service.list);
-            }, function(response) {
+            }, function(data) {
                 service.list = [];
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             });
         } else
@@ -153,7 +128,7 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
 
         $q.all([
             service.load()
-        ]).then(function(responseList) {
+        ]).then(function(dataList) {
 
         });
     };

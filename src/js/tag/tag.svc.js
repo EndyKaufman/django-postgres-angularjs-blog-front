@@ -1,4 +1,4 @@
-app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, AppSvc, ManagerSvc) {
+app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, ProjectRes, PostRes, $modalBox, $modal, NavbarSvc, MessageSvc, AppSvc, ManagerSvc, gettextCatalog, gettext) {
     var service = {};
 
     service.item = {};
@@ -17,7 +17,7 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
     });
 
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.text = '';
         service.item.description = '';
@@ -25,16 +25,16 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new tag',
+            title: gettext('Add new tag'),
             confirmTemplate: 'views/manager/tag/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -54,14 +54,14 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit properties'),
             confirmTemplate: 'views/manager/tag/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -84,76 +84,64 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         TagRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('tag.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         TagRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('tag.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('tag/remove/confirm', {
-                values: [item.src]
+        MessageSvc.confirm('tag/delete/confirm', {
+                values: [item.text]
             },
             function() {
                 TagRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('tag.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
     };
 
+    service.setMeta = function() {
+        if ($routeParams.tagText !== '')
+            AppSvc.setTitle([$routeParams.tagText, service.title]);
+        else
+            AppSvc.setTitle([service.title]);
+
+        AppSvc.setDescription(service.description);
+        AppSvc.setUrl('tag/' + service.tagText);
+    };
+
+    service.initMeta = function() {
+        service.tagText = $routeParams.tagText;
+
+        if (service.tagText !== undefined) {
+            service.title = vsprintf(gettextCatalog.getString(AppConst.tag.strings.title), [service.tagText]);
+            service.description = vsprintf(gettextCatalog.getString(AppConst.tag.strings.description), [service.tagText]);
+        }
+    };
+
     service.init = function(reload) {
-        if ($routeParams.tagText !== undefined) {
-            service.tagText = $routeParams.tagText;
+        service.initMeta();
 
-            service.title = vsprintf(AppConst.tag.strings.title, [service.tagText]);
-            service.description = vsprintf(AppConst.tag.strings.description, [service.tagText]);
-
-            if ($routeParams.tagText !== '')
-                AppSvc.setTitle([$routeParams.tagText, service.title]);
-            else
-                AppSvc.setTitle([service.title]);
-
-            AppSvc.setDescription(service.description);
-            AppSvc.setUrl('tag/' + service.tagText);
+        if (service.tagText !== undefined) {
+            service.setMeta();
 
             service.allList = [];
             service.allListSumSize = 0;
@@ -161,19 +149,22 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
                 service.load(),
                 ProjectRes.getListByTag($routeParams.tagText),
                 PostRes.getListByTag($routeParams.tagText)
-            ]).then(function(responseList) {
-                for (var i = 1; i < responseList.length; i++) {
-                    if (responseList[i].data.data && responseList[i].data.data.length > 0)
-                        service.allListSumSize = service.allListSumSize + responseList[i].data.data.length;
+            ]).then(function(dataList) {
+                $rootScope.$broadcast('project.init.meta');
+                $rootScope.$broadcast('post.init.meta');
+
+                for (var i = 1; i < dataList.length; i++) {
+                    if (dataList[i] && dataList[i].length > 0)
+                        service.allListSumSize = service.allListSumSize + dataList[i].length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: responseList[i].data.data
+                            list: dataList[i]
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: responseList[i].data.data
+                            list: dataList[i]
                         });
                 }
             });
@@ -182,7 +173,7 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
 
             $q.all([
                 service.load()
-            ]).then(function(responseList) {
+            ]).then(function(dataList) {
 
             });
         }
@@ -201,15 +192,12 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            TagRes.getList().then(function(response) {
-                    service.list = angular.copy(response.data.data);
+            TagRes.getList().then(function(data) {
+                    service.list = angular.copy(data);
                     deferred.resolve(service.list);
-                    $rootScope.$broadcast('tag.load', service.list);
                 },
-                function(response) {
+                function(data) {
                     service.list = [];
-                    if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                        MessageSvc.error(response.data.code, response.data);
                     deferred.resolve(service.list);
                 });
         } else

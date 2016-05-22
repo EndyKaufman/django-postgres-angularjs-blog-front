@@ -5,22 +5,22 @@
                 <section class="latest section">
                     <div class="section-inner">
                         <h1 class="heading">
-                            <span>Create project</span>
+                            <span translate>Create project</span>
                         </h1>
                         <div class="content">
                             <div ng-include="'views/project/inputs/central.html'"></div>
                             <div>
                                 <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-cta-secondary"
                                         ng-disabled="!projectForm.$valid" id="projectCreate">
-                                    <i class="fa fa-check"></i> Create
+                                    <i class="fa fa-check"></i> <translate>Create</translate>
                                 </button>
                                 <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"
                                         id="projectDelete">
-                                    <i class="fa fa-trash"></i> Delete project
+                                    <i class="fa fa-trash"></i> <translate>Delete project</translate>
                                 </button>
                                 <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"
                                         id="projectAddImage">
-                                    <i class="fa fa-plus"></i> Add image
+                                    <i class="fa fa-plus"></i> <translate>Add image</translate>
                                 </button>
                             </div>
                         </div><!--//content-->
@@ -32,7 +32,7 @@
 
                 <aside class="list tags aside section">
                     <div class="section-inner">
-                        <h2 class="heading">Additionally</h2>
+                        <h2 class="heading" translate>Additionally</h2>
                         <div class="content">
                             <div ng-include="'views/project/inputs/right.html'"></div>
                         </div><!--//content-->
@@ -41,7 +41,7 @@
 
                 <aside class="info aside section">
                     <div class="section-inner">
-                        <h2 class="heading sr-only">Search</h2>
+                        <h2 class="heading sr-only" translate>Search</h2>
                         <div class="content">
                             <div ng-include="'views/search.html'"></div>
                         </div><!--//content-->

@@ -1,4 +1,4 @@
-app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc) {
+app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc, gettextCatalog) {
     var service = {};
 
     service.allList = [];
@@ -17,18 +17,25 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
     });
 
     service.doSearch = function(searchText) {
-        $location.path('/search/' + searchText);
+        $location.path(AppSvc.currentLangUrlPrefix + '/search/' + searchText);
     };
 
-    service.init = function(reload) {
-        service.searchText = $routeParams.searchText;
-
-        service.title = vsprintf(AppConst.search.strings.title, [service.searchText]);
-        service.description = vsprintf(AppConst.search.strings.description, [service.searchText]);
-
+    service.setMeta = function() {
         AppSvc.setTitle([service.title]);
         AppSvc.setDescription(service.description);
         AppSvc.setUrl('search/' + service.searchText);
+    };
+
+    service.initMeta = function() {
+        service.searchText = $routeParams.searchText;
+
+        service.title = vsprintf(gettextCatalog.getString(AppConst.search.strings.title), [service.searchText]);
+        service.description = vsprintf(gettextCatalog.getString(AppConst.search.strings.description), [service.searchText]);
+    };
+
+    service.init = function(reload) {
+        service.initMeta();
+        service.setMeta();
 
         if ($routeParams.searchText !== undefined) {
             service.allList = [];
@@ -37,19 +44,22 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
                 TagSvc.load(),
                 ProjectRes.getSearch($routeParams.searchText),
                 PostRes.getSearch($routeParams.searchText)
-            ]).then(function(responseList) {
-                for (var i = 1; i < responseList.length; i++) {
-                    if (responseList[i].data.data && responseList[i].data.data.length > 0)
-                        service.allListSumSize = service.allListSumSize + responseList[i].data.data.length;
+            ]).then(function(dataList) {
+                $rootScope.$broadcast('project.init.meta');
+                $rootScope.$broadcast('post.init.meta');
+
+                for (var i = 1; i < dataList.length; i++) {
+                    if (dataList[i] && dataList[i].length > 0)
+                        service.allListSumSize = service.allListSumSize + dataList[i].length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: responseList[i].data.data
+                            list: dataList[i]
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: responseList[i].data.data
+                            list: dataList[i]
                         });
                 }
             });

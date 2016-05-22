@@ -1,15 +1,27 @@
-app.constant('PostConst', {
-    strings:{
-        title: 'My post',
-        description: 'Posts descriptions'
-    },
-    types:[
-        {id:1,title:'Text'},
-        {id:2,title:'Html'},
-        {id:3,title:'Url'},
-        {id:4,title:'Markdown'}
-    ],
-    message:{
-        'post/remove/confirm':'Do you really want to remove post <strong>%s</strong>?'
-    }
+app.factory('PostConst', function(gettext) {
+    return {
+        strings: {
+            title: gettext('Posts'),
+            description: gettext('Posts descriptions')
+        },
+        types: [{
+            id: 1,
+            title: gettext('Text')
+        }, {
+            id: 2,
+            title: gettext('Html')
+        }, {
+            id: 3,
+            title: gettext('Url')
+        }, {
+            id: 4,
+            title: gettext('Markdown')
+        }],
+        message: {
+            'post/delete/confirm': gettext('Do you really want to delete post <strong>%s</strong>?'),
+            'post/create/success': gettext('Post <strong>%s</strong> created!'),
+            'post/update/success': gettext('Post <strong>%s</strong> updated!'),
+            'post/delete/success': gettext('Post <strong>%s</strong> deleted!')
+        }
+    };
 });

@@ -1,3 +1,5 @@
-app.constant('HomeConst', {
-    url:'/'
+app.factory('HomeConst', function(gettext) {
+    return {
+        url: '/'
+    };
 });

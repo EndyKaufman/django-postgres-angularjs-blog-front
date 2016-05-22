@@ -1,2 +1,3 @@
-app.constant('MessageConst', {
+app.factory('MessageConst', function(gettext) {
+    return {};
 });

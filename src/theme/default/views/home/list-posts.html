@@ -1,5 +1,5 @@
 <div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">
     <div ng-include="'views/post/list-item.html'"></div>
 </div><!--//item-->
-<a class="btn btn-cta-secondary" ng-href="/post">All posts <i
+<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+'/post'}}"><translate>All posts</translate> <i
         class="fa fa-chevron-right"></i></a>

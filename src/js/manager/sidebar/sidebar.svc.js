@@ -6,7 +6,7 @@ app.factory('ManagerSidebarSvc', function($q, TagSvc, PostSvc, ProjectSvc) {
             TagSvc.load(),
             ProjectSvc.load(),
             PostSvc.load()
-        ]).then(function(responseList) {});
+        ]).then(function(dataList) {});
 
     };
     return service;

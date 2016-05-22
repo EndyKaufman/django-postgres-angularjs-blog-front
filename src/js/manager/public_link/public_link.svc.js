@@ -1,10 +1,10 @@
-app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
+app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
     var service = {};
 
     service.item = {};
     service.list = [];
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.src = '';
         service.item.title = '';
@@ -18,16 +18,16 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new public_link',
+            title: gettext('Add new public link'),
             confirmTemplate: 'views/manager/public_link/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -47,14 +47,14 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit public link'),
             confirmTemplate: 'views/manager/public_link/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -77,57 +77,35 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PublicLinkRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('public_link.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PublicLinkRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('public_link.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('public_link/remove/confirm', {
-                values: [item.src]
+        MessageSvc.confirm('public_link/delete/confirm', {
+                values: [item.title]
             },
             function() {
                 PublicLinkRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('public_link.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
@@ -137,14 +115,11 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            PublicLinkRes.getList().then(function(response) {
-                service.list = angular.copy(response.data.data);
+            PublicLinkRes.getList().then(function(data) {
+                service.list = angular.copy(data);
                 deferred.resolve(service.list);
-                $rootScope.$broadcast('public_link.load', service.list);
-            }, function(response) {
+            }, function(data) {
                 service.list = [];
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             });
         } else
@@ -157,7 +132,7 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
 
         $q.all([
             service.load()
-        ]).then(function(responseList) {
+        ]).then(function(dataList) {
 
         });
     };

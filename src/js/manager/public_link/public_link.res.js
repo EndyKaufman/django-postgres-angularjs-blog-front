@@ -2,7 +2,7 @@ app.factory('PublicLinkRes', function($q, AppConst, AppRes) {
     var service = {};
 
     service.getList = function() {
-        return AppRes.get('/api/v1/manager/public_link/list');
+        return AppRes.get('/api/v1/manager/public_link/');
     };
 
     service.actionUpdate = function(item) {

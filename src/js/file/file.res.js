@@ -2,7 +2,7 @@ app.factory('FileRes', function($q, AppConst, uiUploader, AppRes) {
     var service = {};
 
     service.getList = function() {
-        return AppRes.get('/api/v1/file/list');
+        return AppRes.get('/api/v1/file/');
     };
     service.getSearch = function(searchText) {
         if (searchText === undefined)

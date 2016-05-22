@@ -17,15 +17,23 @@
                 </li>
             </ul>
         </div><!--//profile-->
+
+        <div ng-repeat="(lang, obj) in AppConst.langs" ng-if="AppSvc.currentLang!=obj.code">
+            <a class="btn btn-cta-secondary pull-right"
+               ng-click="AppSvc.setLangCode(obj.code)"
+               ng-bind-html="obj.title | translate"
+               id="{{code+'LangNav'}}"></a>
+        </div>
+
         <div ng-repeat="item in NavbarSvc.items.right | orderBy:'$index':true" ng-if="!item.hiddenHandler()">
             <a class="btn btn-cta-primary pull-right"
                ng-click="item.click()"
-               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
+               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="/{{AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name}}"
-               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
+               ng-href="{{AppSvc.currentLangUrlPrefix+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
+               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
 
@@ -34,15 +42,14 @@
         <div ng-repeat="item in NavbarSvc.items.left | orderBy:'$index':true" ng-if="!item.hiddenHandler()">
             <a class="btn btn-cta-primary pull-right"
                ng-click="item.click()"
-               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
+               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="/{{AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name}}"
-               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe"
+               ng-href="{{AppSvc.currentLangUrlPrefix+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
+               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
-
         </div>
     </div><!--//container-->
 </header><!--//header-->

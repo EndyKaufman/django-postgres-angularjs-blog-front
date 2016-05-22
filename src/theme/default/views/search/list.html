@@ -5,7 +5,7 @@
                 <div class="section-inner">
                     <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">
                     </h1>
-                    <div class="content" ng-if="SearchSvc.allListSumSize==0">
+                    <div class="content" ng-if="SearchSvc.allListSumSize==0" translate>
                         No results found...
                     </div><!--//content-->
                 </div><!--//section-inner-->
@@ -34,7 +34,7 @@
 
         </div><!--//primary-->
         <div class="secondary col-md-4 col-sm-12 col-xs-12">
-            <div ng-include="'views/home/sidebar.html'"></div>
+            <div ng-include="'views/home/sidebar.html'" ng-controller="SidebarCtrl"></div>
         </div><!--//secondary-->
     </div><!--//row-->
 </div><!--//masonry-->

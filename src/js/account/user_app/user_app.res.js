@@ -2,7 +2,7 @@ app.factory('UserAppRes', function($q, AppConst, AppRes) {
     var service = {};
 
     service.getList = function() {
-        return AppRes.get('/api/v1/user_app/list');
+        return AppRes.get('/api/v1/user_app/');
     };
 
     service.actionUpdate = function(item) {

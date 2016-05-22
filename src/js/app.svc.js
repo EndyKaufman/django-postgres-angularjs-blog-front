@@ -1,4 +1,4 @@
-app.factory('AppSvc', function($rootScope, $q) {
+app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout, $location) {
     var service = {};
 
     service.item = {
@@ -9,7 +9,7 @@ app.factory('AppSvc', function($rootScope, $q) {
         url: ''
     };
 
-    service.properties = {};
+    service.properties = AppConfig.properties;
 
     service.fillProperties = function(list) {
         service.properties = {};
@@ -22,13 +22,39 @@ app.factory('AppSvc', function($rootScope, $q) {
         service.properties[name] = value;
     };
 
+    service.siteLang = AppConfig.lang;
+    service.currentLang = null;
+    service.currentLangShort = null;
+    service.currentLangUrlPrefix = '';
+
+    service.setLangCode = function(code) {
+        if (code === undefined)
+            code = service.siteLang;
+
+        if (service.currentLang != code) {
+            service.currentLang = code;
+            service.currentLangShort = code.split('_')[0];
+            if (service.currentLang != service.siteLang)
+                service.currentLangUrlPrefix = '/' + service.currentLangShort;
+            else
+                service.currentLangUrlPrefix = '';
+
+            gettextCatalog.debug = true;
+            gettextCatalog.setCurrentLanguage(code);
+
+            $timeout(function() {
+                $location.path(service.currentLangUrlPrefix + service.item.url_short);
+            });
+        }
+    };
+
     service.setTitle = function(items) {
         if (items === undefined) {
             service.item.title = service.properties.SITE_TITLE;
             service.item.short_title = service.properties.SITE_TITLE;
         } else {
             items.push(service.properties.SITE_TITLE);
-            service.item.title = items.join(' - ');
+            service.item.title = angular.copy(items).join(' - ');
             service.item.short_title = items[0];
         }
         $('title').html(service.item.title);
@@ -46,7 +72,7 @@ app.factory('AppSvc', function($rootScope, $q) {
             service.item.description = service.properties.SITE_DESCRIPTION;
         else
             service.item.description = text;
-        $('meta[property="description"]').attr('content', service.item.description);
+        $('meta[name="description"]').attr('content', service.item.description);
         $('meta[property="og:description"]').attr('content', service.item.description);
         return service.item.description;
     };
@@ -71,16 +97,18 @@ app.factory('AppSvc', function($rootScope, $q) {
     };
 
     service.setUrl = function(url) {
-        if (url === undefined)
-            service.item.url = AppConfig.host_name;
-        else
-            service.item.url = [AppConfig.host_name, url].join('/');
+        if (url === undefined) {
+            service.item.url = AppConfig.host_name + service.currentLangUrlPrefix;
+            service.item.url_short = '';
+        } else {
+            service.item.url = [AppConfig.host_name, service.currentLangUrlPrefix + url].join('/');
+            service.item.url_short = '/' + url;
+        }
         $('meta[property="og:url"]').attr('content', service.item.url);
         return service.item.url;
     };
 
     service.init = function() {
-        service.properties = AppConfig.properties;
         service.setTitle();
         service.setDescription();
     };

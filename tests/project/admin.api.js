@@ -65,7 +65,7 @@ describe('Work with projects as admin', function() {
                     return;
                 }
                 //api.debug=true;
-                api.getJson('/api/v1/project/list', function(response){
+                api.getJson('/api/v1/project', function(response){
                     listResponse = response;
                     done();
                 });

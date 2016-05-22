@@ -30,8 +30,7 @@
         <p ng-bind-html="PostSvc.item.url | unsafe"></p>
     </div>
     <div ng-if="PostSvc.item.type==4 && PostSvc.item.markdown">
-        <markdown extensions="github, table, twitter" strip="true" allow-html="true"
-                  ng-model="PostSvc.item.markdown">
-        </markdown>
+        <btf-markdown ng-model="PostSvc.item.markdown">
+        </btf-markdown>
     </div>
 </div><!--//desc-->

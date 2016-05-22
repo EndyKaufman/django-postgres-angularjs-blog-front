@@ -1,60 +1,27 @@
-app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, NavbarSvc, AppSvc, $routeParams, $route) {
+app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, NavbarSvc, AppSvc, $routeParams, $route, gettextCatalog) {
     var service = {};
 
-    $rootScope.$on('account.update', function(event, data) {
-        MessageSvc.info('account/update/success');
-        AppConfig.user = service.item;
-    });
-
-    $rootScope.$on('account.create', function(event, data) {
-        MessageSvc.info('account/create/success');
-        AppConfig.user = service.item;
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.login', function(event, data) {
-        MessageSvc.info('account/login/success');
-        AppConfig.user = service.item;
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.doLogout', function(event, data) {
+    $rootScope.$on('account.do.logout', function(event, data) {
         service.doLogout();
-    });
-
-    $rootScope.$on('account.logout', function(event, data) {
-        MessageSvc.info('account/logout/success');
-        AppConfig.user = service.item;
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.delete', function(event, data) {
-        MessageSvc.info('account/delete/success');
-        AppConfig.user = service.item;
-        NavbarSvc.goHome();
-    });
-
-    $rootScope.$on('account.recovery', function(event, data) {
-        service.goReset();
-        MessageSvc.info('account/recovery/checkemail', {
-            values: [data.email]
-        });
     });
 
     service.item = {};
 
     service.goReset = function() {
-        $location.path('/account/reset');
+        $location.path(AppSvc.currentLangUrlPrefix + '/account/reset');
     };
-    service.init = function(reload) {
-        angular.extend($routeParams, $route.current.$$route.params);
 
-        service.title = AppConst.account[$routeParams.subNavId].title;
-        service.description = AppConst.account[$routeParams.subNavId].description;
-
+    service.setMeta = function() {
         AppSvc.setTitle([service.title]);
         AppSvc.setDescription(service.description);
         AppSvc.setUrl('account/' + $routeParams.subNavId);
+    };
+
+    service.initMeta = function() {
+        angular.extend($routeParams, $route.current.$$route.params);
+
+        service.title = gettextCatalog.getString(AppConst.account[$routeParams.subNavId].title);
+        service.description = gettextCatalog.getString(AppConst.account[$routeParams.subNavId].description);
 
         if ($routeParams.subNavId == 'reset') {
             if ($routeParams.code !== undefined)
@@ -62,11 +29,15 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
             else
                 service.item.code = '';
         }
+    };
+
+    service.init = function(reload) {
+        service.initMeta();
 
         $q.all([
             service.load()
-        ]).then(function(responseList) {
-
+        ]).then(function(dataList) {
+            service.setMeta();
         });
     };
 
@@ -80,15 +51,12 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
     service.doReg = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionReg(service.item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                AppConfig.user = service.item;
+
+                MessageSvc.info('account/create/success');
+                NavbarSvc.goHome();
             }
         );
     };
@@ -96,16 +64,12 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
     service.doRecovery = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionRecovery(service.item.email).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    $rootScope.$broadcast('account.recovery', {
-                        email: email
-                    });
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+
+                MessageSvc.info('account/recovery/check_email', {
+                    values: [service.item.email]
+                });
+                service.goReset();
             }
         );
     };
@@ -113,33 +77,24 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
     service.doReset = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionReset(service.item.code, service.item.password).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.reset', {
-                        code: code
-                    });
-                    $rootScope.$broadcast('account.login', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                AppConfig.user = service.item;
+
+                MessageSvc.info('account/login/success');
+                NavbarSvc.goHome();
             }
         );
     };
 
     service.doLogin = function() {
         AccountRes.actionLogin(service.item.email, service.item.password).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    $rootScope.$broadcast('account.login', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                AppConfig.user = service.item;
+
+                MessageSvc.info('account/login/success');
+                NavbarSvc.goHome();
             }
         );
     };
@@ -147,18 +102,20 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
         MessageSvc.confirm('account/logout/confirm', {},
             function() {
                 AccountRes.actionLogout().then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            service.item = {};
-                            $rootScope.$broadcast('account.logout', service.item);
-                        }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                    function(data) {
+                        service.clearItem();
+
+                        MessageSvc.info('account/logout/success');
+                        NavbarSvc.goHome();
                     }
                 );
             });
+    };
+
+
+    service.clearItem = function() {
+        service.item = {};
+        AppConfig.user = service.item;
     };
 
     service.isLogged = function() {

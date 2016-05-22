@@ -1,10 +1,10 @@
-app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, AccountSvc) {
+app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, AccountSvc, gettext) {
     var service = {};
 
     service.item = {};
     service.list = [];
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.name = '';
         service.item.content = '';
@@ -14,16 +14,16 @@ app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalB
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new user_app',
+            title: gettext('Add new application'),
             confirmTemplate: 'views/account/user_app/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -43,14 +43,14 @@ app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalB
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit application'),
             confirmTemplate: 'views/account/user_app/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -73,57 +73,35 @@ app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalB
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         UserAppRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('user_app.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         UserAppRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('user_app.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('user_app/remove/confirm', {
-                values: [item.src]
+        MessageSvc.confirm('user_app/delete/confirm', {
+                values: [item.name]
             },
             function() {
                 UserAppRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('user_app.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
@@ -133,14 +111,11 @@ app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalB
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            UserAppRes.getList().then(function(response) {
-                service.list = angular.copy(response.data.data);
+            UserAppRes.getList().then(function(data) {
+                service.list = angular.copy(data);
                 deferred.resolve(service.list);
-                $rootScope.$broadcast('user_app.load', service.list);
-            }, function(response) {
+            }, function(data) {
                 service.list = [];
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             });
         } else
@@ -153,7 +128,7 @@ app.factory('UserAppSvc', function(AppConst, UserAppRes, $rootScope, $q, $modalB
 
         $q.all([
             service.load()
-        ]).then(function(responseList) {
+        ]).then(function(dataList) {
 
         });
     };

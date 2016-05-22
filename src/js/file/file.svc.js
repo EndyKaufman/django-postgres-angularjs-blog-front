@@ -1,4 +1,4 @@
-app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $modal, MessageSvc) {
+app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $modal, MessageSvc, gettext) {
     var service = {};
 
     $rootScope.$on('fileCreate.show', function(event, item) {
@@ -13,21 +13,21 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
     service.list = [];
 
     service.showList = function(item) {
-        service.initEmptyItem();
+        service.clearItem();
         service.load().then(function() {
             for (var i = 0; i < service.list.length; i++) {
                 if (item.src == service.list[i].src)
                     service.item = service.list[i];
             }
             var boxOptions = {
-                title: 'Select file',
+                title: gettext('Select file'),
                 confirmTemplate: 'views/file/list.modal.html',
                 size: 'lg',
                 boxType: 'confirm',
                 theme: 'alert',
                 effect: false,
-                confirmText: 'Select',
-                cancelText: 'Cancel',
+                confirmText: gettext('Select'),
+                cancelText: gettext('Cancel'),
                 afterConfirm: function() {
                     if (item.src !== service.item.src) {
                         delete item.id;
@@ -44,7 +44,7 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         });
     };
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.comment = '';
         service.item.src = '';
@@ -52,16 +52,16 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new file',
+            title: gettext('Add new file'),
             confirmTemplate: 'views/file/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -81,14 +81,14 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit file properties'),
             confirmTemplate: 'views/file/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -111,57 +111,35 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         FileRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('file.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         FileRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('file.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('file/remove/confirm', {
+        MessageSvc.confirm('file/delete/confirm', {
                 values: [item.src]
             },
             function() {
                 FileRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('file.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
@@ -171,14 +149,12 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            FileRes.getList().then(function(response) {
-                service.list = angular.copy(response.data.data);
+            FileRes.getList().then(function(data) {
+                service.list = angular.copy(data);
                 deferred.resolve(service.list);
                 $rootScope.$broadcast('file.load', service.list);
-            }, function(response) {
+            }, function(data) {
                 service.list = [];
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             });
         } else
@@ -188,14 +164,12 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
 
     service.doSearch = function(text) {
         var deferred = $q.defer();
-        FileRes.getSearch(text).then(function(response) {
-            service.list = angular.copy(response.data.data);
+        FileRes.getSearch(text).then(function(data) {
+            service.list = angular.copy(data);
             deferred.resolve(service.list);
             $rootScope.$broadcast('file.load', service.list);
-        }, function(response) {
+        }, function(data) {
             service.list = [];
-            if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                MessageSvc.error(response.data.code, response.data);
             deferred.resolve(service.list);
         });
         return deferred.promise;

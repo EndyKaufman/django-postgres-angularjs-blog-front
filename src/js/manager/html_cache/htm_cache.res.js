@@ -6,14 +6,11 @@ app.factory('HtmlCacheRes', function($q, AppConst, AppRes) {
     };
 
     service.getPage = function(url) {
-        var config = {
-            headers: {}
-        };
-        return AppRes.get(url + '?_escaped_fragment_=', config);
+        return AppRes.get(url + '?_escaped_fragment_=');
     };
 
     service.getList = function() {
-        return AppRes.get('/api/v1/manager/html_cache/list');
+        return AppRes.get('/api/v1/manager/html_cache/');
     };
 
     service.actionUpdate = function(item) {

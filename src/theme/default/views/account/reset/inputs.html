@@ -1,7 +1,7 @@
 <div class="form-group has-feedback" show-errors>
-    <label for="code">Code:</label>
+    <label for="code" translate>Code:</label>
     <input type="text" class="form-control" name="code" id="code"
-           placeholder="code from email"
+           placeholder="{{ 'enter code from email' | translate}}"
            ng-model="AccountSvc.item.code" required>
                                 <span ng-show="accountForm.$submitted || accountForm.code.$touched"
                                       class="form-control-feedback"
@@ -9,9 +9,9 @@
                                       aria-hidden="true"></span>
 </div>
 <div class="form-group has-feedback" show-errors>
-    <label for="password">New password:</label>
+    <label for="password" translate>New password:</label>
     <input type="password" class="form-control" name="password" id="password"
-           placeholder="new password"
+           placeholder="{{ 'enter new password' | translate}}"
            ng-model="AccountSvc.item.password" required>
                                 <span ng-show="accountForm.$submitted || accountForm.password.$touched"
                                       class="form-control-feedback"

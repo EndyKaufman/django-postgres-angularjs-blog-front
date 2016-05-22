@@ -1,4 +1,4 @@
-app.factory('NavbarSvc', function($routeParams, $route, $rootScope, $location, $window, AppConst) {
+app.factory('NavbarSvc', function($routeParams, $route, $rootScope, $location, $window, AppConst, AppSvc) {
     var service = {};
 
     service.goBack = function() {
@@ -8,7 +8,7 @@ app.factory('NavbarSvc', function($routeParams, $route, $rootScope, $location, $
             service.goHome();
     };
     service.goHome = function() {
-        $location.path(AppConst.home.url);
+        $location.path(AppSvc.currentLangUrlPrefix + AppConst.home.url);
     };
 
     service.getItemByName = function() {};

@@ -1,10 +1,10 @@
-app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc) {
+app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettextCatalog, gettext) {
     var service = {};
 
     service.item = {};
     service.list = [];
 
-    service.initEmptyItem = function() {
+    service.clearItem = function() {
         service.item = {};
         service.item.url = '';
         service.item.content = '';
@@ -13,22 +13,21 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
 
     service.scanSitemap = {
         disabled: false,
-        title: AppConst.manager.html_cache.strings.scanSitemap_title,
+        title: gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_title),
         currentUrlIndex: 0,
         urls: [],
         doUrl: function(callback) {
             var $this = this;
-            console.log($this);
-            $this.title = AppConst.manager.html_cache.strings.scanSitemap_process + '(' + $this.currentUrlIndex + '/' + $this.urls.length + ')';
+            $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_process) + '(' + $this.currentUrlIndex + '/' + $this.urls.length + ')';
             $this.disabled = true;
-            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response, status, headers, config) {
+            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(data) {
                 $this.currentUrlIndex++;
                 if ($this.currentUrlIndex == $this.urls.length) {
                     callback();
                 } else {
                     $this.doUrl(callback);
                 }
-            }, function(errResp) {
+            }, function(data) {
                 $this.currentUrlIndex++;
                 if ($this.currentUrlIndex == $this.urls.length) {
                     callback();
@@ -39,11 +38,11 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         },
         do: function() {
             var $this = this;
-            $this.title = AppConst.manager.html_cache.strings.scanSitemap_process;
+            $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_process);
             $this.disabled = true;
 
-            HtmlCacheRes.getSiteMap().then(function(response) {
-                var locs = $(response.data).find('loc');
+            HtmlCacheRes.getSiteMap().then(function(data) {
+                var locs = $(data).find('loc');
                 $this.urls = [];
                 var url = '';
                 for (var i = 0; i < locs.length; i++) {
@@ -52,7 +51,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
                         $this.urls.push(url);
                 }
                 $this.doUrl(function() {
-                    $this.title = AppConst.manager.html_cache.strings.scanSitemap_title;
+                    $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_title);
                     $this.disabled = false;
                     service.load(true);
                 });
@@ -62,16 +61,16 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
 
     service.showCreate = function() {
         service.mode = 'create';
-        service.initEmptyItem();
+        service.clearItem();
         var boxOptions = {
-            title: 'Add new html_cache',
+            title: gettext('Add new html cache'),
             confirmTemplate: 'views/manager/html_cache/create.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Create',
-            cancelText: 'Cancel',
+            confirmText: gettext('Create'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doCreate(service.item);
             },
@@ -101,14 +100,14 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         service.mode = 'update';
         service.item = angular.copy(item);
         var boxOptions = {
-            title: 'Edit properties',
+            title: gettext('Edit html cache'),
             confirmTemplate: 'views/manager/html_cache/update.modal.html',
             size: 'lg',
             boxType: 'confirm',
             theme: 'alert',
             effect: false,
-            confirmText: 'Save',
-            cancelText: 'Cancel',
+            confirmText: gettext('Save'),
+            cancelText: gettext('Cancel'),
             afterConfirm: function() {
                 service.doUpdate(service.item);
             },
@@ -131,57 +130,35 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         HtmlCacheRes.actionCreate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.list.push(service.item);
-                    $rootScope.$broadcast('html_cache.create', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.list.push(service.item);
             }
         );
     };
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         HtmlCacheRes.actionUpdate(item).then(
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                    service.item = angular.copy(response.data.data[0]);
-                    service.updateItemOnList(service.item);
-
-                    $rootScope.$broadcast('html_cache.update', service.item);
-                }
-            },
-            function(response) {
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
+            function(data) {
+                service.item = angular.copy(data[0]);
+                service.updateItemOnList(service.item);
             }
         );
     };
     service.doDelete = function(item) {
-        MessageSvc.confirm('html_cache/remove/confirm', {
-                values: [item.src]
+        MessageSvc.confirm('html_cache/delete/confirm', {
+                values: [item.url]
             },
             function() {
                 HtmlCacheRes.actionDelete(item).then(
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined && response.data.code == 'ok') {
-                            for (var i = 0; i < service.list.length; i++) {
-                                if (service.list[i].id == item.id) {
-                                    service.list.splice(i, 1);
-                                    break;
-                                }
+                    function(data) {
+                        for (var i = 0; i < service.list.length; i++) {
+                            if (service.list[i].id == item.id) {
+                                service.list.splice(i, 1);
+                                break;
                             }
-                            service.item = {};
-                            $rootScope.$broadcast('html_cache.delete', item);
                         }
-                    },
-                    function(response) {
-                        if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                            MessageSvc.error(response.data.code, response.data);
+                        service.clearItem();
                     }
                 );
             });
@@ -191,14 +168,11 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            HtmlCacheRes.getList().then(function(response) {
-                service.list = angular.copy(response.data.data);
+            HtmlCacheRes.getList().then(function(data) {
+                service.list = angular.copy(data);
                 deferred.resolve(service.list);
-                $rootScope.$broadcast('html_cache.load', service.list);
-            }, function(response) {
+            }, function(data) {
                 service.list = [];
-                if (response !== undefined && response.data !== undefined && response.data.code !== undefined)
-                    MessageSvc.error(response.data.code, response.data);
                 deferred.resolve(service.list);
             });
         } else
@@ -211,7 +185,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
 
         $q.all([
             service.load()
-        ]).then(function(responseList) {
+        ]).then(function(dataList) {
 
         });
     };

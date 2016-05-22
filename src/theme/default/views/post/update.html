@@ -5,25 +5,25 @@
                 <section class="latest section">
                     <div class="section-inner">
                         <h1 class="heading">
-                            <span>Edit post</span>
-                            <a ng-href="{{'/post/'+PostSvc.item.name}}"
+                            <span translate>Edit post</span>
+                            <a ng-href="{{AppSvc.currentLangUrlPrefix+'/post/'+PostSvc.item.name}}"
                                class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"
-                               id="postUpdate"><i class="fa fa-pencil-square-o"></i> View</a>
+                               id="postUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>
                         </h1>
                         <div class="content">
                             <div ng-include="'views/post/inputs/central.html'"></div>
                             <div>
                                 <button ng-click="PostSvc.doUpdate(PostSvc.item)" class="btn btn-cta-secondary"
                                         ng-disabled="!postForm.$valid" id="postSave">
-                                    <i class="fa fa-floppy-o"></i> Save
+                                    <i class="fa fa-floppy-o"></i> <translate>Save</translate>
                                 </button>
                                 <button ng-click="PostSvc.doDelete(PostSvc.item)" class="btn btn-cta-red"
                                         id="postDelete">
-                                    <i class="fa fa-trash"></i> Delete post
+                                    <i class="fa fa-trash"></i> <translate>Delete post</translate>
                                 </button>
                                 <button ng-click="PostSvc.doAddImage()" class="btn btn-cta-default pull-right"
                                         id="postAddImage">
-                                    <i class="fa fa-plus"></i> Add image
+                                    <i class="fa fa-plus"></i> <translate>Add image</translate>
                                 </button>
                             </div>
                         </div><!--//content-->
@@ -35,7 +35,7 @@
 
                 <aside class="list tags aside section">
                     <div class="section-inner">
-                        <h2 class="heading">Additionally</h2>
+                        <h2 class="heading" translate>Additionally</h2>
                         <div class="content">
                             <div ng-include="'views/post/inputs/right.html'"></div>
                         </div><!--//content-->
@@ -44,7 +44,7 @@
 
                 <aside class="info aside section">
                     <div class="section-inner">
-                        <h2 class="heading sr-only">Search</h2>
+                        <h2 class="heading sr-only" translate>Search</h2>
                         <div class="content">
                             <div ng-include="'views/search.html'"></div>
                         </div><!--//content-->
