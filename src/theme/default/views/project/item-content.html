@@ -30,7 +30,7 @@
         <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>
     </div>
     <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">
-        <btf-markdown ng-model="ProjectSvc.item.markdown">
-        </btf-markdown>
+        <p markdown-to-html="ProjectSvc.item.markdown">
+        </p>
     </div>
 </div><!--//desc-->

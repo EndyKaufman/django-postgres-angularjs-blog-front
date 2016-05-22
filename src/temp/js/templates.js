@@ -600,7 +600,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <thead>\n' +
     '    <tr>\n' +
     '        <th translate>#</th>\n' +
-    '        <th translate>Name</th>\n' +
+    '        <th style="width:200px" translate>Name</th>\n' +
     '        <th translate>Empty</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
     '    </tr>\n' +
@@ -1199,8 +1199,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>\n' +
     '    </div>\n' +
     '    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">\n' +
-    '        <btf-markdown ng-model="ProjectSvc.item.markdown">\n' +
-    '        </btf-markdown>\n' +
+    '        <p markdown-to-html="ProjectSvc.item.markdown">\n' +
+    '        </p>\n' +
     '    </div>\n' +
     '</div><!--//desc-->');
 	a.put('views/project/create.html', '<div class="container sections-wrapper" ng-init="ProjectSvc.initEmptyItem()">\n' +
@@ -1480,8 +1480,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <p ng-bind-html="PostSvc.item.url | unsafe"></p>\n' +
     '    </div>\n' +
     '    <div ng-if="PostSvc.item.type==4 && PostSvc.item.markdown">\n' +
-    '        <btf-markdown ng-model="PostSvc.item.markdown">\n' +
-    '        </btf-markdown>\n' +
+    '        <p markdown-to-html="PostSvc.item.markdown">\n' +
+    '        </p>\n' +
     '    </div>\n' +
     '</div><!--//desc-->');
 	a.put('views/post/create.html', '<div class="container sections-wrapper" ng-init="PostSvc.initEmptyItem()">\n' +

@@ -7,12 +7,12 @@ var app = angular.module('app', [
 	'ngResource',
     'ui.tree',
     'ngSanitize',
+    'ng-showdown',
     'ngAnimate',
     'ngQuantum',
     'mgcrea.ngStrap',
     'ngTagsInput',
     'ui.bootstrap.showErrors',
-    'btford.markdown',
     'ui.uploader',
     'agGrid',
     'gettext']
