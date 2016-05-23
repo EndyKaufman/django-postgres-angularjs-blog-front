@@ -12,6 +12,8 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data.code !== undefined && response.data.code == 'ok') {
                     deferred.resolve(response.data.data, response);
+                } else {
+                    deferred.resolve(response.data, response);
                 }
             },
             function(response) {
@@ -36,6 +38,8 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
                     deferred.resolve(response.data.data, response);
+                } else {
+                    deferred.resolve(response.data, response);
                 }
             },
             function(response) {

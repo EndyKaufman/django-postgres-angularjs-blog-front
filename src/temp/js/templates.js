@@ -1541,7 +1541,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/message/prompt.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
     '            <div class="modal-body">\n' +
     '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
     '                <div class="margin-t form-group"><label for="promptModel">{{promptLabel | translate}}</label><input type="text"\n' +
@@ -1567,7 +1567,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/message/modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
     '            <div class="modal-body" ng-bind="content"></div>\n' +
     '            <div class="modal-footer">\n' +
     '                <button type="button" class="btn btn-cta-secondary" ng-click="$hide()">{{closeText | translate}}</button>\n' +
@@ -1579,7 +1579,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/message/confirm.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
     '            <div class="modal-body">\n' +
     '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
     '            </div>\n' +
@@ -1600,7 +1600,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/message/alert.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content">\n' +
-    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '            <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title"></h4></div>\n' +
     '            <div class="modal-body">\n' +
     '                <div class="modal-body-inner" ng-bind="content"></div>\n' +
     '            </div>\n' +

@@ -5,7 +5,8 @@ app.factory('ContactConst', function(gettext) {
             description: gettext('Contact us')
         },
         message: {
-            'contact/send/success': gettext('Message sent successfully!')
+            'contact/send/success': gettext('Message sent successfully!'),
+            'contact/send/fail': gettext('Message not sent, try later!')
         }
     };
 });

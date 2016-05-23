@@ -43,6 +43,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
 
             HtmlCacheRes.getSiteMap().then(function(data) {
                 var locs = $(data).find('loc');
+
                 $this.urls = [];
                 var url = '';
                 for (var i = 0; i < locs.length; i++) {
@@ -50,6 +51,9 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
                     if (service.getItemByUrl(url) === false)
                         $this.urls.push(url);
                 }
+
+                $this.currentUrlIndex=0;
+
                 $this.doUrl(function() {
                     $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_title);
                     $this.disabled = false;

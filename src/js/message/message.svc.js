@@ -32,9 +32,10 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
             data = {
                 values: []
             };
+        var fakeToTranslate=gettext('Error');
 
         if (data.title === undefined)
-            data.title = 'Error';
+            data.title = gettextCatalog.getString('Error');
 
         if (callbackOk === undefined)
             callbackOk = function() {};
@@ -63,8 +64,10 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
                 values: []
             };
 
+        var fakeToTranslate=gettext('Info');
+
         if (data.title === undefined)
-            data.title = 'Info';
+            data.title = gettextCatalog.getString('Info');
 
         if (callbackOk === undefined)
             callbackOk = function() {};
@@ -92,8 +95,10 @@ app.factory('MessageSvc', function(AppConst, $rootScope, $modalBox, $alert, $mod
                 values: []
             };
 
+        var fakeToTranslate=gettext('Confirm');
+
         if (data.title === undefined)
-            data.title = 'Message';
+            data.title = gettextCatalog.getString('Confirm');
 
         if (callbackOk === undefined)
             callbackOk = function() {};
