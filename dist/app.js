@@ -77381,11 +77381,11 @@ app.config(function($routeProvider, $locationProvider) {
 });
 app.config(function($routeProvider, $locationProvider) {
     var routes = {
-        '/search/:searchText': {
-            templateUrl: 'views/search/list.html',
-            controller: 'SearchCtrl',
+        '/tag/:tagText': {
+            templateUrl: 'views/tag/list.html',
+            controller: 'TagCtrl',
             params: {
-                navId: 'search'
+                navId: 'tag'
             }
         }
     };
@@ -77398,11 +77398,11 @@ app.config(function($routeProvider, $locationProvider) {
 });
 app.config(function($routeProvider, $locationProvider) {
     var routes = {
-        '/tag/:tagText': {
-            templateUrl: 'views/tag/list.html',
-            controller: 'TagCtrl',
+        '/search/:searchText': {
+            templateUrl: 'views/search/list.html',
+            controller: 'SearchCtrl',
             params: {
-                navId: 'tag'
+                navId: 'search'
             }
         }
     };
@@ -80192,7 +80192,7 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
     service.setLangCode = function(code) {
         if (code === undefined)
-            code = service.siteLang;
+            code = service.currentLang;
 
         if (service.currentLang != code || service.langInited === false) {
             service.langInited = true;

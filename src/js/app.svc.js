@@ -29,7 +29,7 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
     service.setLangCode = function(code) {
         if (code === undefined)
-            code = service.siteLang;
+            code = service.currentLang;
 
         if (service.currentLang != code || service.langInited === false) {
             service.langInited = true;
