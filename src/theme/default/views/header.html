@@ -18,11 +18,11 @@
             </ul>
         </div><!--//profile-->
 
-        <div ng-repeat="(lang, obj) in AppConst.langs" ng-if="AppSvc.currentLang!=obj.code">
+        <div ng-repeat="(lang, title) in AppConst.langs" ng-if="AppSvc.currentLang!=lang">
             <a class="btn btn-cta-secondary pull-right"
-               ng-click="AppSvc.setLangCode(obj.code)"
-               ng-bind-html="obj.title | translate"
-               id="{{code+'LangNav'}}"></a>
+               ng-click="AppSvc.setLangCode(lang)"
+               ng-bind-html="title | translate"
+               id="{{lang+'LangNav'}}"></a>
         </div>
 
         <div ng-repeat="item in NavbarSvc.items.right | orderBy:'$index':true" ng-if="!item.hiddenHandler()">

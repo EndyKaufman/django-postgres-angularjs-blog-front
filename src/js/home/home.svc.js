@@ -1,4 +1,4 @@
-app.factory('HomeSvc', function($rootScope, $q, NavbarSvc, PropertiesSvc, AppSvc, TagSvc, PostSvc, ProjectSvc) {
+app.factory('HomeSvc', function($q, NavbarSvc, PropertiesSvc, AppSvc, TagSvc, PostSvc, ProjectSvc) {
     var service = {};
 
     service.initMeta=function(){
@@ -18,8 +18,8 @@ app.factory('HomeSvc', function($rootScope, $q, NavbarSvc, PropertiesSvc, AppSvc
             ProjectSvc.load(),
             PostSvc.load()
         ]).then(function(dataList) {
-            $rootScope.$broadcast('project.init.meta');
-            $rootScope.$broadcast('post.init.meta');
+            ProjectSvc.initMeta();
+            PostSvc.initMeta();
 
             service.setMeta();
         });

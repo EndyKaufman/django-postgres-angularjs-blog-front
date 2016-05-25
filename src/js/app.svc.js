@@ -24,7 +24,6 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
     service.siteLang = AppConfig.lang;
     service.currentLang = null;
-    service.currentLangShort = null;
     service.currentLangUrlPrefix = '';
 
     service.setLangCode = function(code) {
@@ -33,7 +32,6 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
         if (service.currentLang != code) {
             service.currentLang = code;
-            service.currentLangShort = code.split('_')[0];
             if (service.currentLang != service.siteLang)
                 service.currentLangUrlPrefix = '/' + service.currentLangShort;
             else

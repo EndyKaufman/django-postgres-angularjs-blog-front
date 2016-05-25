@@ -1,14 +1,8 @@
 app.factory('AppConst', function($rootScope,
     HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst, FileConst, gettext) {
     var langs = {
-        'ru': {
-            code: 'ru_RU',
-            title: gettext('RU')
-        },
-        'en': {
-            code: 'en_US',
-            title: gettext('EN')
-        }
+        'ru': gettext('RU'),
+        'en': gettext('EN')
     };
     var navbar = {
         left: [{

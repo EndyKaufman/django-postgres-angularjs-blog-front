@@ -8,14 +8,14 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl: 'views/home/list.html',
             controller: 'HomeCtrl',
             params: {
-                lang_short: 'ru'
+                lang: 'ru'
             }
         },
         '/en': {
             templateUrl: 'views/home/list.html',
             controller: 'HomeCtrl',
             params: {
-                lang_short: 'en'
+                lang: 'en'
             }
         }
     };

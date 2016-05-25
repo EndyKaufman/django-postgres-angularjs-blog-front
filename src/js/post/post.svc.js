@@ -129,7 +129,7 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
     service.slugName = function(value) {
         if (service.item.id === undefined)
             service.item.name = getSlug(value, {
-                lang: AppSvc.currentLangShort,
+                lang: AppSvc.currentLang,
                 uric: true
             });
     };

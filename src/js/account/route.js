@@ -68,6 +68,6 @@ app.config(function($routeProvider, $locationProvider) {
     for (var url in routes) {
         $routeProvider
             .when(url, routes[url])
-            .when('/:lang_short' + url, routes[url]);
+            .when('/:lang' + url, routes[url]);
     }
 });

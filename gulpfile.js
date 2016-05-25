@@ -123,7 +123,7 @@ gulp.task('lint:js', function() {
 
 //build js
 gulp.task('build:js', function() {
-    var source = config.js.vendor.concat(config.js.source, [config.template.output], config.js.source2, ['../locales/*.js', '../locales/**/*.js']).map(optionsChange);
+    var source = config.js.vendor.concat(config.js.source, [config.template.output], config.js.source2, ['../locale/*.js', '../locale/**/*.js']).map(optionsChange);
     if (options.env == 'production')
         return gulp.src(source)
             .pipe(sourcemaps.init())
@@ -152,16 +152,16 @@ gulp.task('pot', function() {
         .pipe(gettext.extract('frontend.pot', {
             moduleName: "app"
         }))
-        .pipe(gulp.dest('../locales'));
+        .pipe(gulp.dest('../locale'));
 });
 
 gulp.task('translations', function() {
-    return gulp.src('../locales/**/*.po')
+    return gulp.src('../locale/**/*.po')
         .pipe(gettext.compile({
             moduleName: "app",
             format: 'javascript'
         }))
-        .pipe(gulp.dest('../locales/'));
+        .pipe(gulp.dest('../locale/'));
 });
 //build
 gulp.task('build', gulp.series('clear', 'template:js', 'lint:js', 'scss', 'less', 'build:css', 'pot', 'translations',
