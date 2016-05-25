@@ -22,15 +22,17 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
         service.properties[name] = value;
     };
 
+    service.langInited = false;
     service.siteLang = AppConfig.lang;
-    service.currentLang = null;
+    service.currentLang = AppConfig.current_lang;
     service.currentLangUrlPrefix = '';
 
     service.setLangCode = function(code) {
         if (code === undefined)
             code = service.siteLang;
 
-        if (service.currentLang != code) {
+        if (service.currentLang != code || service.langInited === false) {
+            service.langInited = true;
             service.currentLang = code;
             if (service.currentLang != service.siteLang)
                 service.currentLangUrlPrefix = '/' + service.currentLang;
@@ -107,8 +109,6 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
     };
 
     service.init = function() {
-        service.setTitle();
-        service.setDescription();
     };
 
     return service;
