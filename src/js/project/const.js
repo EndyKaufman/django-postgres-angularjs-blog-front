@@ -2,7 +2,7 @@ app.factory('ProjectConst', function(gettext) {
     return {
         strings: {
             title: gettext('Projects'),
-            description: gettext('Projects descriptions')
+            description: gettext('Projects description')
         },
         types: [{
             id: 1,

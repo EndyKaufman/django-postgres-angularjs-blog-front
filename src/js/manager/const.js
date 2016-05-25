@@ -3,31 +3,31 @@ app.factory('ManagerConst', function(gettext) {
         strings: {
             title: gettext('Manager'),
             url: 'manager/meta_tag',
-            description: gettext('Manager descriptions')
+            description: gettext('Manager description')
         },
         meta_tag: {
             title: gettext('Meta tags'),
-            description: gettext('Meta tags')
+            description: gettext('Meta tags description')
         },
         tag: {
             title: gettext('Tags'),
-            description: gettext('Tags')
+            description: gettext('Tags description')
         },
         public_link: {
             title: gettext('Public links'),
-            description: gettext('Public links')
+            description: gettext('Public links description')
         },
         properties: {
             title: gettext('Properties'),
-            description: gettext('Properties')
+            description: gettext('Properties description')
         },
         users: {
             title: gettext('Users'),
-            description: gettext('Site users')
+            description: gettext('Users description')
         },
         html_cache: {
             title: gettext('Html cache'),
-            description: gettext('Html cache'),
+            description: gettext('Html cache description'),
             strings: {
                 scanSitemap_title: gettext('Create from sitemap.xml'),
                 scanSitemap_process: gettext('Filling from sitemap.xml...')

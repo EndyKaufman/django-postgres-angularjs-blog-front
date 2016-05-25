@@ -2,7 +2,7 @@ app.factory('ManagerSvc', function(AppConst, $routeParams, $route, AppSvc, gette
     var service = {};
 
     service.setMeta = function() {
-        AppSvc.setTitle([service.title, AppConst.manager.strings.title]);
+        AppSvc.setTitle([service.title, gettextCatalog.getString(AppConst.manager.strings.title)]);
         AppSvc.setDescription(service.description);
         AppSvc.setUrl('manager/' + $routeParams.subNavId);
     };

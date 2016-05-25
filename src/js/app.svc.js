@@ -33,7 +33,7 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
         if (service.currentLang != code) {
             service.currentLang = code;
             if (service.currentLang != service.siteLang)
-                service.currentLangUrlPrefix = '/' + service.currentLangShort;
+                service.currentLangUrlPrefix = '/' + service.currentLang;
             else
                 service.currentLangUrlPrefix = '';
 

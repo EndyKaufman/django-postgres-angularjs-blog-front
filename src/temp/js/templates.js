@@ -1,22 +1,4 @@
-angular.module("app").run(['$templateCache', function(a) { a.put('views/account/reg/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="email" translate>Email</label>\n' +
-    '    <input type="email" class="form-control" name="email" id="email"\n' +
-    '           ng-model="AccountSvc.item.email" required>\n' +
-    '                                        <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
-    '                                              class="form-control-feedback"\n' +
-    '                                              ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                              aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="password" translate>Password</label>\n' +
-    '    <input type="password" class="form-control" name="password" id="password"\n' +
-    '           ng-model="AccountSvc.item.password" required>\n' +
-    '                                        <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
-    '                                              class="form-control-feedback"\n' +
-    '                                              ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                              aria-hidden="true"></span>\n' +
-    '</div>');
-	a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
+angular.module("app").run(['$templateCache', function(a) { a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="ItemName" translate>Name</label>\n' +
     '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="ProjectSvc.item.name" required>\n' +
     '    <span ng-show="projectForm.$submitted || projectForm.ItemName.$touched" class="form-control-feedback"\n' +
@@ -802,6 +784,24 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/account/
     '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                                      aria-hidden="true"></span>\n' +
     '</div>');
+	a.put('views/account/reg/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="email" translate>Email</label>\n' +
+    '    <input type="email" class="form-control" name="email" id="email"\n' +
+    '           ng-model="AccountSvc.item.email" required>\n' +
+    '                                        <span ng-show="accountForm.$submitted || accountForm.email.$touched"\n' +
+    '                                              class="form-control-feedback"\n' +
+    '                                              ng-class="!accountForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                              aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="password" translate>Password</label>\n' +
+    '    <input type="password" class="form-control" name="password" id="password"\n' +
+    '           ng-model="AccountSvc.item.password" required>\n' +
+    '                                        <span ng-show="accountForm.$submitted || accountForm.password.$touched"\n' +
+    '                                              class="form-control-feedback"\n' +
+    '                                              ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                              aria-hidden="true"></span>\n' +
+    '</div>');
 	a.put('views/account/recovery/inputs.html', '<div class="form-group has-feedback" show-errors>\n' +
     '    <label for="email" translate>Email:</label>\n' +
     '    <input type="email" class="form-control" name="email" id="email" placeholder="{{ \'enter you email\' |  translate}}"\n' +
@@ -875,106 +875,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/account/
     '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                                      aria-hidden="true"></span>\n' +
     '</div>');
-	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="TagSvc.allListSumSize==0" translate>\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" translate>\n' +
-    '                        No results found...\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <form name="projectForm">\n' +
@@ -1257,6 +1157,106 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/account/
     '        </div><!--//row-->\n' +
     '    </form>\n' +
     '</div><!--//masonry-->');
+	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="TagSvc.allListSumSize==0" translate>\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in TagSvc.allList" ng-if="TagSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" translate>\n' +
+    '                        No results found...\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/post/update.html', '<div class="container sections-wrapper">\n' +
     '    <form name="postForm">\n' +
     '        <div class="row">\n' +
