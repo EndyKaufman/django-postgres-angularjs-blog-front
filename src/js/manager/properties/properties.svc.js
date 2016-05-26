@@ -64,8 +64,8 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
     service.updateItemOnList = function(item) {
         for (var i = 0; i < service.list.length; i++) {
             if (item.id === service.list[i].id) {
-                AppProperties.set(service.list[i].name, service.list[i].value);
                 angular.extend(service.list[i], angular.copy(item));
+                AppProperties.set(service.list[i].name, service.list[i].value);
             }
         }
     };

@@ -79387,6 +79387,71 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
+	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading" translate>Other</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//section-->\n' +
+    '\n' +
+    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '');
+	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <form name="contactForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="username" translate>You name</label>\n' +
+    '                                <input type="text" class="form-control" name="username" id="username"\n' +
+    '                                       ng-model="ContactSvc.item.username" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email" translate>Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="ContactSvc.item.email" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="message" translate>Message</label>\n' +
+    '                                <textarea class="form-control" name="message" id="message"\n' +
+    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
+    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
+    '</ul>');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +
     '    <div class="row">\n' +
@@ -79571,71 +79636,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading" translate>Other</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//section-->\n' +
-    '\n' +
-    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '');
-	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <form name="contactForm">\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="username" translate>You name</label>\n' +
-    '                                <input type="text" class="form-control" name="username" id="username"\n' +
-    '                                       ng-model="ContactSvc.item.username" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="email" translate>Email</label>\n' +
-    '                                <input type="email" class="form-control" name="email" id="email"\n' +
-    '                                       ng-model="ContactSvc.item.email" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="message" translate>Message</label>\n' +
-    '                                <textarea class="form-control" name="message" id="message"\n' +
-    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
-    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
-    '                            </button>\n' +
-    '                        </form>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
-    '</ul>');
 	a.put('views/search.html', '<div class="form-search search-only" ng-controller="NavbarCtrl" ng-if="!NavbarSvc.items.search.hidden">\n' +
     '    <div class="input-group">\n' +
     '        <input type="text" class="form-control search-query"\n' +
@@ -82082,8 +82082,8 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
     service.updateItemOnList = function(item) {
         for (var i = 0; i < service.list.length; i++) {
             if (item.id === service.list[i].id) {
-                AppProperties.set(service.list[i].name, service.list[i].value);
                 angular.extend(service.list[i], angular.copy(item));
+                AppProperties.set(service.list[i].name, service.list[i].value);
             }
         }
     };
@@ -82507,7 +82507,7 @@ app.factory('AppLang', function($rootScope, $timeout, gettext, gettextCatalog) {
 });
 app.factory('AppProperties', function() {
     var service = {},
-        list = AppConfig.properties;
+        list = angular.copy(AppConfig.properties);
 
     service.load = function(newList) {
         list = {};

@@ -1,6 +1,6 @@
 app.factory('AppProperties', function() {
     var service = {},
-        list = AppConfig.properties;
+        list = angular.copy(AppConfig.properties);
 
     service.load = function(newList) {
         list = {};
