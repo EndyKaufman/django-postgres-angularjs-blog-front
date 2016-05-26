@@ -1,4 +1,4 @@
-app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppLang) {
+app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppLang, AppProperties) {
     var service = {};
 
     service.item = {
@@ -13,25 +13,12 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
         $location.path(AppLang.getUrlPrefix() + service.item.url_short);
     });
 
-    service.properties = AppConfig.properties;
-
-    service.fillProperties = function(list) {
-        service.properties = {};
-        for (var i = 0; i < list.length; i++) {
-            service.properties[list[i].name] = list[i].value;
-        }
-    };
-
-    service.updateProperty = function(name, value) {
-        service.properties[name] = value;
-    };
-
     service.setTitle = function(items) {
         if (items === undefined) {
-            service.item.title = service.properties.SITE_TITLE;
-            service.item.short_title = service.properties.SITE_TITLE;
+            service.item.title = AppProperties.get('SITE_TITLE');
+            service.item.short_title = AppProperties.get('SITE_TITLE');
         } else {
-            items.push(service.properties.SITE_TITLE);
+            items.push(AppProperties.get('SITE_TITLE'));
             service.item.title = angular.copy(items).join(' - ');
             service.item.short_title = items[0];
         }
@@ -47,7 +34,7 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
 
     service.setDescription = function(text) {
         if (text === undefined)
-            service.item.description = service.properties.SITE_DESCRIPTION;
+            service.item.description = AppProperties.get('SITE_DESCRIPTION');
         else
             service.item.description = text;
         $('meta[name="description"]').attr('content', service.item.description);
@@ -57,7 +44,7 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
 
     service.setImage = function(url) {
         if (url === undefined)
-            service.item.image = service.properties.SITE_LOGO;
+            service.item.image = AppProperties.get('SITE_LOGO');
         else
             service.item.image = url;
         $('link[rel="image_src"]').attr('href', service.item.image);

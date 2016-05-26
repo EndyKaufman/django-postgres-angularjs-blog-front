@@ -2259,13 +2259,13 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<header class="header" ng-controller="NavbarCtrl">\n' +
     '    <div class="container">\n' +
     '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left"\n' +
-    '             ng-src="{{AppSvc.properties.SITE_LOGO}}"\n' +
-    '             alt="{{AppSvc.properties.SITE_TITLE}}" ng-if="AppSvc.properties.SITE_LOGO"\n' +
+    '             ng-src="{{AppProperties.get(\'SITE_LOGO\')}}"\n' +
+    '             alt="{{AppProperties.get(\'SITE_TITLE\')}}" ng-if="AppProperties.get(\'SITE_LOGO\')"\n' +
     '             ng-click="NavbarSvc.goHome()"/>\n' +
     '        <div class="profile-content pull-left">\n' +
-    '            <h1 class="name cursor-pointer" ng-bind-html="AppSvc.properties.SITE_TITLE | unsafe"\n' +
+    '            <h1 class="name cursor-pointer" ng-bind-html="AppProperties.get(\'SITE_TITLE\') | unsafe"\n' +
     '                ng-click="NavbarSvc.goHome()"></h1>\n' +
-    '            <h2 class="desc cursor-pointer" ng-bind-html="AppSvc.properties.SITE_DESCRIPTION | unsafe"\n' +
+    '            <h2 class="desc cursor-pointer" ng-bind-html="AppProperties.get(\'SITE_DESCRIPTION\') | unsafe"\n' +
     '                ng-click="NavbarSvc.goHome()"></h2>\n' +
     '            <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">\n' +
     '                <li ng-class="$last ? \'last-item\' : \'\'"\n' +
@@ -2323,7 +2323,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                </li>\n' +
     '            </ul>\n' +
     '        </small>\n' +
-    '        <small class="copyright"><i class="fa fa-copyright"></i> {{AppSvc.properties.SITE_TITLE}}\n' +
+    '        <small class="copyright"><i class="fa fa-copyright"></i> {{AppProperties.get(\'SITE_TITLE\')}}\n' +
     '        </small>\n' +
     '    </div><!--//container-->\n' +
     '</footer><!--//footer-->\n' +

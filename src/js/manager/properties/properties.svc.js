@@ -1,4 +1,4 @@
-app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
+app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
     var service = {};
 
     service.item = {};
@@ -64,7 +64,7 @@ app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $
     service.updateItemOnList = function(item) {
         for (var i = 0; i < service.list.length; i++) {
             if (item.id === service.list[i].id) {
-                AppSvc.updateProperty(service.list[i].name, service.list[i].value);
+                AppProperties.set(service.list[i].name, service.list[i].value);
                 angular.extend(service.list[i], angular.copy(item));
             }
         }
@@ -114,12 +114,12 @@ app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $
             service.loaded = true;
             PropertiesRes.getList().then(function(data) {
                 service.list = angular.copy(data);
-                AppSvc.fillProperties(service.list);
+                AppProperties.load(service.list);
 
                 deferred.resolve(service.list);
             }, function(data) {
                 service.list = [];
-                AppSvc.fillProperties(service.list);
+                AppProperties.load(service.list);
                 deferred.resolve(service.list);
             });
         } else

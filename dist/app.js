@@ -79387,71 +79387,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading" translate>Other</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//section-->\n' +
-    '\n' +
-    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '');
-	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <form name="contactForm">\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="username" translate>You name</label>\n' +
-    '                                <input type="text" class="form-control" name="username" id="username"\n' +
-    '                                       ng-model="ContactSvc.item.username" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="email" translate>Email</label>\n' +
-    '                                <input type="email" class="form-control" name="email" id="email"\n' +
-    '                                       ng-model="ContactSvc.item.email" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="message" translate>Message</label>\n' +
-    '                                <textarea class="form-control" name="message" id="message"\n' +
-    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
-    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
-    '                            </button>\n' +
-    '                        </form>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
-    '</ul>');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +
     '    <div class="row">\n' +
@@ -79636,6 +79571,71 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
+	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading" translate>Other</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//section-->\n' +
+    '\n' +
+    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '');
+	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <form name="contactForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="username" translate>You name</label>\n' +
+    '                                <input type="text" class="form-control" name="username" id="username"\n' +
+    '                                       ng-model="ContactSvc.item.username" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email" translate>Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="ContactSvc.item.email" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="message" translate>Message</label>\n' +
+    '                                <textarea class="form-control" name="message" id="message"\n' +
+    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
+    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
+    '</ul>');
 	a.put('views/search.html', '<div class="form-search search-only" ng-controller="NavbarCtrl" ng-if="!NavbarSvc.items.search.hidden">\n' +
     '    <div class="input-group">\n' +
     '        <input type="text" class="form-control search-query"\n' +
@@ -79689,13 +79689,13 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<header class="header" ng-controller="NavbarCtrl">\n' +
     '    <div class="container">\n' +
     '        <img class="profile-image cursor-pointer img-responsive img-circle pull-left"\n' +
-    '             ng-src="{{AppSvc.properties.SITE_LOGO}}"\n' +
-    '             alt="{{AppSvc.properties.SITE_TITLE}}" ng-if="AppSvc.properties.SITE_LOGO"\n' +
+    '             ng-src="{{AppProperties.get(\'SITE_LOGO\')}}"\n' +
+    '             alt="{{AppProperties.get(\'SITE_TITLE\')}}" ng-if="AppProperties.get(\'SITE_LOGO\')"\n' +
     '             ng-click="NavbarSvc.goHome()"/>\n' +
     '        <div class="profile-content pull-left">\n' +
-    '            <h1 class="name cursor-pointer" ng-bind-html="AppSvc.properties.SITE_TITLE | unsafe"\n' +
+    '            <h1 class="name cursor-pointer" ng-bind-html="AppProperties.get(\'SITE_TITLE\') | unsafe"\n' +
     '                ng-click="NavbarSvc.goHome()"></h1>\n' +
-    '            <h2 class="desc cursor-pointer" ng-bind-html="AppSvc.properties.SITE_DESCRIPTION | unsafe"\n' +
+    '            <h2 class="desc cursor-pointer" ng-bind-html="AppProperties.get(\'SITE_DESCRIPTION\') | unsafe"\n' +
     '                ng-click="NavbarSvc.goHome()"></h2>\n' +
     '            <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">\n' +
     '                <li ng-class="$last ? \'last-item\' : \'\'"\n' +
@@ -79753,7 +79753,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                </li>\n' +
     '            </ul>\n' +
     '        </small>\n' +
-    '        <small class="copyright"><i class="fa fa-copyright"></i> {{AppSvc.properties.SITE_TITLE}}\n' +
+    '        <small class="copyright"><i class="fa fa-copyright"></i> {{AppProperties.get(\'SITE_TITLE\')}}\n' +
     '        </small>\n' +
     '    </div><!--//container-->\n' +
     '</footer><!--//footer-->\n' +
@@ -80156,7 +80156,7 @@ app.factory('PublicLinkRes', function($q, AppConst, AppRes) {
 
     return service;
 });
-app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppLang) {
+app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppLang, AppProperties) {
     var service = {};
 
     service.item = {
@@ -80171,25 +80171,12 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
         $location.path(AppLang.getUrlPrefix() + service.item.url_short);
     });
 
-    service.properties = AppConfig.properties;
-
-    service.fillProperties = function(list) {
-        service.properties = {};
-        for (var i = 0; i < list.length; i++) {
-            service.properties[list[i].name] = list[i].value;
-        }
-    };
-
-    service.updateProperty = function(name, value) {
-        service.properties[name] = value;
-    };
-
     service.setTitle = function(items) {
         if (items === undefined) {
-            service.item.title = service.properties.SITE_TITLE;
-            service.item.short_title = service.properties.SITE_TITLE;
+            service.item.title = AppProperties.get('SITE_TITLE');
+            service.item.short_title = AppProperties.get('SITE_TITLE');
         } else {
-            items.push(service.properties.SITE_TITLE);
+            items.push(AppProperties.get('SITE_TITLE'));
             service.item.title = angular.copy(items).join(' - ');
             service.item.short_title = items[0];
         }
@@ -80205,7 +80192,7 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
 
     service.setDescription = function(text) {
         if (text === undefined)
-            service.item.description = service.properties.SITE_DESCRIPTION;
+            service.item.description = AppProperties.get('SITE_DESCRIPTION');
         else
             service.item.description = text;
         $('meta[name="description"]').attr('content', service.item.description);
@@ -80215,7 +80202,7 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
 
     service.setImage = function(url) {
         if (url === undefined)
-            service.item.image = service.properties.SITE_LOGO;
+            service.item.image = AppProperties.get('SITE_LOGO');
         else
             service.item.image = url;
         $('link[rel="image_src"]').attr('href', service.item.image);
@@ -82029,7 +82016,7 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
     };
     return service;
 });
-app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
+app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
     var service = {};
 
     service.item = {};
@@ -82095,7 +82082,7 @@ app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $
     service.updateItemOnList = function(item) {
         for (var i = 0; i < service.list.length; i++) {
             if (item.id === service.list[i].id) {
-                AppSvc.updateProperty(service.list[i].name, service.list[i].value);
+                AppProperties.set(service.list[i].name, service.list[i].value);
                 angular.extend(service.list[i], angular.copy(item));
             }
         }
@@ -82145,12 +82132,12 @@ app.factory('PropertiesSvc', function(AppConst, PropertiesRes, $rootScope, $q, $
             service.loaded = true;
             PropertiesRes.getList().then(function(data) {
                 service.list = angular.copy(data);
-                AppSvc.fillProperties(service.list);
+                AppProperties.load(service.list);
 
                 deferred.resolve(service.list);
             }, function(data) {
                 service.list = [];
-                AppSvc.fillProperties(service.list);
+                AppProperties.load(service.list);
                 deferred.resolve(service.list);
             });
         } else
@@ -82322,13 +82309,14 @@ app.factory('ManagerSidebarSvc', function($q, TagSvc, PostSvc, ProjectSvc) {
     };
     return service;
 });
-app.controller('AppCtrl', function ($scope, AppSvc, AppLang, AppConst, UtilsSvc, AccountSvc, MessageSvc) {
+app.controller('AppCtrl', function ($scope, AppSvc, AppLang, AppConst, UtilsSvc, AccountSvc, MessageSvc, AppProperties) {
     $scope.AppConfig=AppConfig;
 
     $scope.UtilsSvc=UtilsSvc;
     $scope.AppConst=AppConst;
 	$scope.AppSvc=AppSvc;
     $scope.AppLang=AppLang;
+    $scope.AppProperties=AppProperties;
 	$scope.MessageSvc=MessageSvc;
 
     AppSvc.init();
@@ -82513,6 +82501,34 @@ app.factory('AppLang', function($rootScope, $timeout, gettext, gettextCatalog) {
                 $rootScope.$broadcast('lang.changed', code);
             });
         }
+    };
+
+    return service;
+});
+app.factory('AppProperties', function() {
+    var service = {},
+        list = AppConfig.properties;
+
+    service.load = function(newList) {
+        list = {};
+        for (var i = 0; i < newList.length; i++) {
+            list[newList[i].name] = newList[i].value;
+        }
+    };
+
+    service.set = function(name, value) {
+        list[name] = value;
+    };
+
+    service.get = function(name, defValue) {
+        if (defValue === undefined)
+            defValue = null;
+        if (list[name] !== undefined) {
+            return list[name];
+        } else {
+            list[name] = defValue;
+        }
+        return list[name];
     };
 
     return service;

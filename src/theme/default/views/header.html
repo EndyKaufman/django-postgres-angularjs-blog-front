@@ -2,13 +2,13 @@
 <header class="header" ng-controller="NavbarCtrl">
     <div class="container">
         <img class="profile-image cursor-pointer img-responsive img-circle pull-left"
-             ng-src="{{AppSvc.properties.SITE_LOGO}}"
-             alt="{{AppSvc.properties.SITE_TITLE}}" ng-if="AppSvc.properties.SITE_LOGO"
+             ng-src="{{AppProperties.get('SITE_LOGO')}}"
+             alt="{{AppProperties.get('SITE_TITLE')}}" ng-if="AppProperties.get('SITE_LOGO')"
              ng-click="NavbarSvc.goHome()"/>
         <div class="profile-content pull-left">
-            <h1 class="name cursor-pointer" ng-bind-html="AppSvc.properties.SITE_TITLE | unsafe"
+            <h1 class="name cursor-pointer" ng-bind-html="AppProperties.get('SITE_TITLE') | unsafe"
                 ng-click="NavbarSvc.goHome()"></h1>
-            <h2 class="desc cursor-pointer" ng-bind-html="AppSvc.properties.SITE_DESCRIPTION | unsafe"
+            <h2 class="desc cursor-pointer" ng-bind-html="AppProperties.get('SITE_DESCRIPTION') | unsafe"
                 ng-click="NavbarSvc.goHome()"></h2>
             <ul class="social list-inline" ng-if="PublicLinkSvc.list.length>0">
                 <li ng-class="$last ? 'last-item' : ''"
