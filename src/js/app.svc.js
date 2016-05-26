@@ -1,4 +1,4 @@
-app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout, $location) {
+app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppLang) {
     var service = {};
 
     service.item = {
@@ -8,6 +8,10 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
         type: '',
         url: ''
     };
+
+    $rootScope.$on('lang.changed', function() {
+        $location.path(AppLang.getUrlPrefix() + service.item.url_short);
+    });
 
     service.properties = AppConfig.properties;
 
@@ -20,32 +24,6 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
     service.updateProperty = function(name, value) {
         service.properties[name] = value;
-    };
-
-    service.langInited = false;
-    service.siteLang = AppConfig.lang;
-    service.currentLang = AppConfig.current_lang;
-    service.currentLangUrlPrefix = '';
-
-    service.setLangCode = function(code) {
-        if (code === undefined)
-            code = service.currentLang;
-
-        if (service.currentLang != code || service.langInited === false) {
-            service.langInited = true;
-            service.currentLang = code;
-            if (service.currentLang != service.siteLang)
-                service.currentLangUrlPrefix = '/' + service.currentLang;
-            else
-                service.currentLangUrlPrefix = '';
-
-            gettextCatalog.debug = true;
-            gettextCatalog.setCurrentLanguage(code);
-
-            $timeout(function() {
-                $location.path(service.currentLangUrlPrefix + service.item.url_short);
-            });
-        }
     };
 
     service.setTitle = function(items) {
@@ -98,18 +76,17 @@ app.factory('AppSvc', function($rootScope, $q, gettextCatalog, $route, $timeout,
 
     service.setUrl = function(url) {
         if (url === undefined) {
-            service.item.url = AppConfig.host_name + service.currentLangUrlPrefix;
+            service.item.url = AppConfig.host_name + AppLang.getUrlPrefix();
             service.item.url_short = '';
         } else {
-            service.item.url = [AppConfig.host_name, service.currentLangUrlPrefix + url].join('/');
+            service.item.url = [AppConfig.host_name, AppLang.getUrlPrefix() + url].join('/');
             service.item.url_short = '/' + url;
         }
         $('meta[property="og:url"]').attr('content', service.item.url);
         return service.item.url;
     };
 
-    service.init = function() {
-    };
+    service.init = function() {};
 
     return service;
 });

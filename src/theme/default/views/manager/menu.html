@@ -1,12 +1,12 @@
 <ul class="list-unstyled">
     <li ng-if="$routeParams.subNavId!='meta_tag'">
         <i class="fa fa-link"></i>
-        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/manager/meta_tag'}}"
+        <a ng-href="{{AppLang.getUrlPrefix()+'/manager/meta_tag'}}"
            ng-bind="AppConst.manager.meta_tag.title | translate"></a>
     </li>
     <li ng-if="$routeParams.subNavId!='tag'">
         <i class="fa fa-link"></i>
-        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/manager/tag'}}"
+        <a ng-href="{{AppLang.getUrlPrefix()+'/manager/tag'}}"
            ng-bind="AppConst.manager.tag.title | translate"></a>
     </li>
     <li ng-if="$routeParams.subNavId!='public_link'">
@@ -15,17 +15,17 @@
            ng-bind="AppConst.manager.public_link.title | translate"></a></li>
     <li ng-if="$routeParams.subNavId!='properties'">
         <i class="fa fa-link"></i>
-        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/manager/properties'}}"
+        <a ng-href="{{AppLang.getUrlPrefix()+'/manager/properties'}}"
            ng-bind="AppConst.manager.properties.title | translate"></a>
     </li>
     <li ng-if="$routeParams.subNavId!='users'">
         <i class="fa fa-link"></i>
-        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/manager/users'}}"
+        <a ng-href="{{AppLang.getUrlPrefix()+'/manager/users'}}"
            ng-bind="AppConst.manager.users.title | translate"></a>
     </li>
     <li ng-if="$routeParams.subNavId!='html_cache'">
         <i class="fa fa-link"></i>
-        <a ng-href="{{AppSvc.currentLangUrlPrefix+'/manager/html_cache'}}"
+        <a ng-href="{{AppLang.getUrlPrefix()+'/manager/html_cache'}}"
            ng-bind="AppConst.manager.html_cache.title | translate"></a>
     </li>
 </ul>

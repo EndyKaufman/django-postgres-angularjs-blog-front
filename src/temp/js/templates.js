@@ -918,12 +918,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/tag/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/project\'}}"><translate>All projects</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/tag/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
@@ -968,12 +968,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/project\'}}"><translate>All projects</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
@@ -984,7 +984,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                    <div class="section-inner">\n' +
     '                        <h1 class="heading">\n' +
     '                            <span translate>Edit project</span>\n' +
-    '                            <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/\'+ProjectSvc.item.name}}"\n' +
+    '                            <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+ProjectSvc.item.name}}"\n' +
     '                               class="btn btn-cta-default pull-right btn-xs"\n' +
     '                               id="projectUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>\n' +
     '                        </h1>\n' +
@@ -1072,14 +1072,14 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
+	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
     '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
     '         alt="{{item.title}}"/>\n' +
     '</a>\n' +
     '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
     '    <div class="pull-right">\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/update/\'+item.name}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+item.name}}"\n' +
     '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
     '           id="{{\'project\'+$index+\'Update\'}}">\n' +
     '            <i class="fa fa-pencil-square-o"></i>\n' +
@@ -1092,7 +1092,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </a>\n' +
     '    </div>\n' +
     '    <h3 class="title">\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
     '    </h3>\n' +
     '    <p ng-bind-html="item.description | unsafe"></p>\n' +
     '    <p ng-if="item.tags.length>0">\n' +
@@ -1103,7 +1103,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </span>\n' +
     '    </p>\n' +
     '    <p>\n' +
-    '        <a class="more-link" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/\'+item.name}}" id="{{\'project\'+$index+\'Detail\'}}"><i\n' +
+    '        <a class="more-link" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" id="{{\'project\'+$index+\'Detail\'}}"><i\n' +
     '                class="fa fa-link"></i> <translate>Detail...</translate></a>\n' +
     '    </p>\n' +
     '</div><!--//desc-->\n' +
@@ -1111,7 +1111,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <hr class="divider" ng-if="!$last"/>\n' +
     '</div><!--//desc-->');
 	a.put('views/project/list-header.html', '<span ng-bind-html="ProjectSvc.title | unsafe"></span>\n' +
-    '<a ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/create\'}}"\n' +
+    '<a ng-href="{{AppLang.getUrlPrefix()+\'/project/create\'}}"\n' +
     '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  <translate>Create</translate></a>');
 	a.put('views/project/item.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
@@ -1120,7 +1120,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading">\n' +
     '                        <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
-    '                        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/project/update/\'+ProjectSvc.item.name}}"\n' +
+    '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+ProjectSvc.item.name}}"\n' +
     '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
@@ -1164,7 +1164,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/project/item-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in ProjectSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/tag/\'+tag.text}}"\n' +
+    '    <li ng-repeat="tag in ProjectSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}"\n' +
     '                                                                             ng-bind="tag.text"></a></li>\n' +
     '</ul>');
 	a.put('views/project/item-content.html', '<div ng-if="ProjectSvc.item.images.length>0">\n' +
@@ -1265,7 +1265,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                    <div class="section-inner">\n' +
     '                        <h1 class="heading">\n' +
     '                            <span translate>Edit post</span>\n' +
-    '                            <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/\'+PostSvc.item.name}}"\n' +
+    '                            <a ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+PostSvc.item.name}}"\n' +
     '                               class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
     '                               id="postUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>\n' +
     '                        </h1>\n' +
@@ -1353,14 +1353,14 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
+	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
     '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
     '         alt="{{item.title}}"/>\n' +
     '</a>\n' +
     '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
     '    <div class="pull-right">\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/update/\'+item.name}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/update/\'+item.name}}"\n' +
     '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
     '           id="{{\'post\'+$index+\'Update\'}}">\n' +
     '            <i class="fa fa-pencil-square-o"></i>\n' +
@@ -1373,18 +1373,18 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </a>\n' +
     '    </div>\n' +
     '    <h3 class="title">\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
     '    </h3>\n' +
     '    <p ng-bind-html="item.description | unsafe"></p>\n' +
     '    <p ng-if="item.tags.length>0">\n' +
     '        <span ng-repeat="tag in item.tags">\n' +
     '            <i class="fa fa-tag"></i>\n' +
-    '            <a class="list-link" ng-href="{{AppSvc.currentLangUrlPrefix+\'/tag/\'+tag.text}}"\n' +
+    '            <a class="list-link" ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}"\n' +
     '               ng-bind="tag.text"></a>\n' +
     '        </span>\n' +
     '    </p>\n' +
     '    <p>\n' +
-    '        <a class="more-link" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/\'+item.name}}" id="{{\'post\'+$index+\'Detail\'}}"><i\n' +
+    '        <a class="more-link" ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" id="{{\'post\'+$index+\'Detail\'}}"><i\n' +
     '                class="fa fa-link"></i> <translate>Detail...</translate></a>\n' +
     '    </p>\n' +
     '</div><!--//desc-->\n' +
@@ -1392,7 +1392,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <hr class="divider" ng-if="!$last"/>\n' +
     '</div><!--//desc-->');
 	a.put('views/post/list-header.html', '<span ng-bind-html="PostSvc.title | unsafe"></span>\n' +
-    '<a ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/create\'}}"\n' +
+    '<a ng-href="{{AppLang.getUrlPrefix()+\'/post/create\'}}"\n' +
     '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postCreate"><i class="fa fa-plus"></i>  <translate>Create</translate></a>');
 	a.put('views/post/item.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
@@ -1401,7 +1401,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading">\n' +
     '                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>\n' +
-    '                        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/post/update/\'+PostSvc.item.name}}"\n' +
+    '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/update/\'+PostSvc.item.name}}"\n' +
     '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
@@ -1445,7 +1445,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/post/item-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in PostSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/tag/\'+tag.text}}"\n' +
+    '    <li ng-repeat="tag in PostSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}"\n' +
     '                                                                             ng-bind="tag.text"></a></li>\n' +
     '</ul>');
 	a.put('views/post/item-content.html', '<div ng-if="PostSvc.item.images.length>0">\n' +
@@ -1708,12 +1708,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/menu.html', '<ul class="list-unstyled">\n' +
     '    <li ng-if="$routeParams.subNavId!=\'meta_tag\'">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/manager/meta_tag\'}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/meta_tag\'}}"\n' +
     '           ng-bind="AppConst.manager.meta_tag.title | translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'tag\'">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/manager/tag\'}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/tag\'}}"\n' +
     '           ng-bind="AppConst.manager.tag.title | translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'public_link\'">\n' +
@@ -1722,17 +1722,17 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '           ng-bind="AppConst.manager.public_link.title | translate"></a></li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'properties\'">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/manager/properties\'}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/properties\'}}"\n' +
     '           ng-bind="AppConst.manager.properties.title | translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'users\'">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/manager/users\'}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/users\'}}"\n' +
     '           ng-bind="AppConst.manager.users.title | translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'html_cache\'">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/manager/html_cache\'}}"\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/html_cache\'}}"\n' +
     '           ng-bind="AppConst.manager.html_cache.title | translate"></a>\n' +
     '    </li>\n' +
     '</ul>');
@@ -1803,7 +1803,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//masonry-->');
 	a.put('views/home/list-tags.html', '<ul class="list-unstyled">\n' +
     '    <li ng-repeat="tag in TagSvc.list | limitTo:TagSvc.limitOnHome">\n' +
-    '        <i class="fa fa-tag"></i> <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
+    '        <i class="fa fa-tag"></i> <a ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}" ng-class="tag.text==TagSvc.tagText?\'active\':\'\'"\n' +
     '                                     ng-bind="tag.text"></a></li>\n' +
     '</ul>\n' +
     '<a class="btn btn-default btn-block" ng-click="TagSvc.limitOnHome=10000" ng-if="TagSvc.limitOnHome<10000"><translate>Show all</translate> <i\n' +
@@ -1812,12 +1812,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/home/list-projects.html', '<div class="item row" ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/project\'}}"><translate>All projects</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/home/list-posts.html', '<div class="item row" ng-repeat="item in PostSvc.list | limitTo:PostSvc.limitOnHome">\n' +
     '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
     '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppSvc.currentLangUrlPrefix+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/file/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -2161,23 +2161,23 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/account/menu.html', '<ul class="list-unstyled">\n' +
     '    <li ng-if="$routeParams.subNavId!=\'profile\' && AccountSvc.isLogged()">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/account/profile\'}}" ng-bind="AppConst.account.profile.title |  translate"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/account/profile\'}}" ng-bind="AppConst.account.profile.title |  translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'user_app\' && AccountSvc.isLogged()">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/account/user_app\'}}" ng-bind="AppConst.account.user_app.title |  translate"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/account/user_app\'}}" ng-bind="AppConst.account.user_app.title |  translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'login\' && !AccountSvc.isLogged()">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/account/login\'}}" ng-bind="AppConst.account.login.title |  translate"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/account/login\'}}" ng-bind="AppConst.account.login.title |  translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'reg\' && !AccountSvc.isLogged()">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/account/reg\'}}" ng-bind="AppConst.account.reg.title | translate"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/account/reg\'}}" ng-bind="AppConst.account.reg.title | translate"></a>\n' +
     '    </li>\n' +
     '    <li ng-if="$routeParams.subNavId!=\'recovery\' && !AccountSvc.isLogged()">\n' +
     '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppSvc.currentLangUrlPrefix+\'/account/recovery\'}}" ng-bind="AppConst.account.recovery.title | translate"></a></li>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/account/recovery\'}}" ng-bind="AppConst.account.recovery.title | translate"></a></li>\n' +
     '</ul>');
 	a.put('views/account/login.html', '<div ng-include="\'views/not-access.html\'" ng-if="AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="!AccountSvc.isLogged()">\n' +
@@ -2275,9 +2275,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            </ul>\n' +
     '        </div><!--//profile-->\n' +
     '\n' +
-    '        <div ng-repeat="(lang, title) in AppConst.langs" ng-if="AppSvc.currentLang!=lang">\n' +
+    '        <div ng-repeat="(lang, title) in AppLang.langs" ng-if="AppLang.getCurrent()!=lang">\n' +
     '            <a class="btn btn-cta-secondary pull-right"\n' +
-    '               ng-click="AppSvc.setLangCode(lang)"\n' +
+    '               ng-click="AppLang.setCurrent(lang)"\n' +
     '               ng-bind-html="title | translate"\n' +
     '               id="{{lang+\'LangNav\'}}"></a>\n' +
     '        </div>\n' +
@@ -2289,7 +2289,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '               ng-if="item.click" id="{{item.name+\'Nav\'}}"\n' +
     '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
     '            <a class="btn btn-cta-primary pull-right"\n' +
-    '               ng-href="{{AppSvc.currentLangUrlPrefix+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
+    '               ng-href="{{AppLang.getUrlPrefix()+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="!item.click" id="{{item.name+\'Nav\'}}"\n' +
     '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
@@ -2303,7 +2303,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '               ng-if="item.click" id="{{item.name+\'Nav\'}}"\n' +
     '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
     '            <a class="btn btn-cta-primary pull-right"\n' +
-    '               ng-href="{{AppSvc.currentLangUrlPrefix+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
+    '               ng-href="{{AppLang.getUrlPrefix()+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="!item.click" id="{{item.name+\'Nav\'}}"\n' +
     '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +

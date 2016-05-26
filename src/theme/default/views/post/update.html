@@ -6,7 +6,7 @@
                     <div class="section-inner">
                         <h1 class="heading">
                             <span translate>Edit post</span>
-                            <a ng-href="{{AppSvc.currentLangUrlPrefix+'/post/'+PostSvc.item.name}}"
+                            <a ng-href="{{AppLang.getUrlPrefix()+'/post/'+PostSvc.item.name}}"
                                class="btn btn-cta-default pull-right btn-xs" ng-if="AccountSvc.isAdmin()"
                                id="postUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>
                         </h1>

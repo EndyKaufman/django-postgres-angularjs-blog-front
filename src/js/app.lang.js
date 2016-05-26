@@ -1,10 +1,15 @@
-app.factory('AppLang', function($rootScope, $timeout) {
+app.factory('AppLang', function($rootScope, $timeout, gettext, gettextCatalog) {
     var
         service = {},
         inited = false,
         siteLang = AppConfig.lang,
         currentLang = AppConfig.current_lang,
         currentLangUrlPrefix = '';
+
+    service.langs = {
+        'ru': gettext('RU'),
+        'en': gettext('EN')
+    };
 
     service.getUrlPrefix = function() {
         return currentLangUrlPrefix;
@@ -16,7 +21,7 @@ app.factory('AppLang', function($rootScope, $timeout) {
 
     service.setCurrent = function(code) {
         if (code === undefined)
-            code = siteLang;
+            code = currentLang;
 
         if (currentLang != code || inited === false) {
             inited = true;

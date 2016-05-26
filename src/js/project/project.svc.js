@@ -1,5 +1,5 @@
 app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppConst,
-    ProjectRes, TagSvc, MessageSvc, AppSvc, gettextCatalog) {
+    ProjectRes, TagSvc, MessageSvc, AppSvc, gettextCatalog, AppLang) {
     var service = {};
 
     service.item = {};
@@ -46,11 +46,11 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
     };
 
     service.goList = function() {
-        $location.path(AppSvc.currentLangUrlPrefix + '/project');
+        $location.path(AppLang.getUrlPrefix() + '/project');
     };
 
     service.goItem = function(projectName) {
-        $location.path(AppSvc.currentLangUrlPrefix + '/project/' + projectName);
+        $location.path(AppLang.getUrlPrefix() + '/project/' + projectName);
     };
 
     service.updateItemOnList = function(item) {
@@ -134,7 +134,7 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
     service.slugName = function(value) {
         if (service.item.id === undefined)
             service.item.name = getSlug(value, {
-                lang: AppSvc.currentLang,
+                lang: AppLang.getCurrent(),
                 uric: true
             });
     };

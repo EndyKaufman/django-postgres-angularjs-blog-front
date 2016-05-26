@@ -1,9 +1,5 @@
 app.factory('AppConst', function($rootScope,
     HomeConst, AccountConst, TagConst, ProjectConst, PostConst, SearchConst, ContactConst, ManagerConst, NavbarConst, FileConst, gettext) {
-    var langs = {
-        'ru': gettext('RU'),
-        'en': gettext('EN')
-    };
     var navbar = {
         left: [{
             name: 'project'
@@ -41,7 +37,6 @@ app.factory('AppConst', function($rootScope,
         }]
     };
     var service = {
-        langs: langs,
         home: HomeConst,
         navbar: angular.extend({}, NavbarConst, navbar),
         manager: ManagerConst,

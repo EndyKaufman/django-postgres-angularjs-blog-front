@@ -18,9 +18,9 @@
             </ul>
         </div><!--//profile-->
 
-        <div ng-repeat="(lang, title) in AppConst.langs" ng-if="AppSvc.currentLang!=lang">
+        <div ng-repeat="(lang, title) in AppLang.langs" ng-if="AppLang.getCurrent()!=lang">
             <a class="btn btn-cta-secondary pull-right"
-               ng-click="AppSvc.setLangCode(lang)"
+               ng-click="AppLang.setCurrent(lang)"
                ng-bind-html="title | translate"
                id="{{lang+'LangNav'}}"></a>
         </div>
@@ -32,7 +32,7 @@
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="{{AppSvc.currentLangUrlPrefix+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
+               ng-href="{{AppLang.getUrlPrefix()+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
@@ -46,7 +46,7 @@
                ng-if="item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
-               ng-href="{{AppSvc.currentLangUrlPrefix+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
+               ng-href="{{AppLang.getUrlPrefix()+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
                ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>

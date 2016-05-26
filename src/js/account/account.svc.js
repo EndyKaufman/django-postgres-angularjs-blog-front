@@ -1,4 +1,4 @@
-app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageSvc, $rootScope, NavbarSvc, AppSvc, $routeParams, $route, gettextCatalog) {
+app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, MessageSvc, $rootScope, NavbarSvc, AppSvc, $routeParams, $route, gettextCatalog) {
     var service = {};
 
     $rootScope.$on('account.do.logout', function(event, data) {
@@ -8,7 +8,7 @@ app.factory('AccountSvc', function($q, $location, AppConst, AccountRes, MessageS
     service.item = {};
 
     service.goReset = function() {
-        $location.path(AppSvc.currentLangUrlPrefix + '/account/reset');
+        $location.path(AppLang.getUrlPrefix() + '/account/reset');
     };
 
     service.setMeta = function() {

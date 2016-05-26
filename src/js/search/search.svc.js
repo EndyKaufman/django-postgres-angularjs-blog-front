@@ -1,4 +1,5 @@
-app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppConst, NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc, gettextCatalog) {
+app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppConst,
+    NavbarSvc, TagSvc, ProjectRes, PostRes, AppSvc, gettextCatalog, AppLang) {
     var service = {};
 
     service.allList = [];
@@ -17,7 +18,7 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
     });
 
     service.doSearch = function(searchText) {
-        $location.path(AppSvc.currentLangUrlPrefix + '/search/' + searchText);
+        $location.path(AppLang.getUrlPrefix() + '/search/' + searchText);
     };
 
     service.setMeta = function() {

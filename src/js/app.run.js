@@ -1,4 +1,4 @@
-app.run(function(AppSvc, AppConst, $route, $rootScope, $timeout) {
+app.run(function(AppLang, $route, $rootScope, $timeout) {
 
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         $timeout(function() {
@@ -13,12 +13,12 @@ app.run(function(AppSvc, AppConst, $route, $rootScope, $timeout) {
                 $route.current.$$route.params.lang !== undefined)
                 lang=$route.current.$$route.params.lang;
 
-            if (lang!==null && AppConst.langs[lang]!==undefined)
-                AppSvc.setLangCode(lang);
+            if (lang!==null && AppLang.langs[lang]!==undefined)
+                AppLang.setCurrent(lang);
             else
-                AppSvc.setLangCode();
+                AppLang.setCurrent();
         });
     });
 
-    AppSvc.setLangCode();
+    AppLang.setCurrent();
 });
