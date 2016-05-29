@@ -13,8 +13,7 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
                     response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
                     deferred.resolve(response.data);
                 } else {
-                    MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data);
+                    deferred.resolve(response.data);
                 }
             },
             function(response) {
@@ -36,13 +35,11 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
         data = angular.copy(data);
         $http.post(url, data).then(
             function(response) {
-                console.log(response);
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
                     deferred.resolve(response.data);
                 } else {
-                    MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data);
+                    deferred.resolve(response.data);
                 }
             },
             function(response) {

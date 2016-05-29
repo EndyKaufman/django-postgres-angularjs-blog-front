@@ -17,6 +17,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         title: gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_title),
         currentUrlIndex: 0,
         urls: [],
+        timeout: 0,
         doUrl: function(callback) {
             var $this = this;
             $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_process) + '(' + $this.currentUrlIndex + '/' + $this.urls.length + ')';
@@ -24,21 +25,23 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
             HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response) {
                 $this.currentUrlIndex++;
                 $timeout(function() {
+                    $this.timeout = 5000;
                     if ($this.currentUrlIndex == $this.urls.length) {
                         callback();
                     } else {
                         $this.doUrl(callback);
                     }
-                }, 5000);
+                }, $this.timeout);
             }, function(response) {
                 $this.currentUrlIndex++;
                 $timeout(function() {
+                    $this.timeout = 5000;
                     if ($this.currentUrlIndex == $this.urls.length) {
                         callback();
                     } else {
                         $this.doUrl(callback);
                     }
-                }, 5000);
+                }, $this.timeout);
             });
         },
         do: function() {
