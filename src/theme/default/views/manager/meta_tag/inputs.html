@@ -3,16 +3,20 @@
     <input class="form-control" type="text" id="MetaTagName" ng-model="MetaTagSvc.item.name"/>
 </div>
 <div class="form-group">
-    <label for="MetaTagContent" translate>Content</label>
-    <input type="text" class="form-control" id="MetaTagContent"
-           ng-model="MetaTagSvc.item.content"/>
-</div>
-<div class="form-group">
-    <label for="MetaTagAttributes" translate>Attributes</label>
-    <input type="text" class="form-control" id="MetaTagAttributes"
-           ng-model="MetaTagSvc.item.attributes"/>
-</div>
-<div class="form-group">
     <label for="MetaTagPosition" translate>Position</label>
     <input class="form-control" type="text" id="MetaTagPosition" ng-model="MetaTagSvc.item.position"/>
+</div>
+<div data-nq-tabset="" data-tabset-model="MetaTagTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="MetaTagContent_{{lang}}" translate>Content</label>
+        <input type="text" class="form-control" id="MetaTagContent_{{lang}}"
+               ng-model="MetaTagSvc.item['content_'+lang]"/>
+    </div>
+    <div class="form-group">
+        <label for="MetaTagAttributes_{{lang}}" translate>Attributes</label>
+        <input type="text" class="form-control" id="MetaTagAttributes_{{lang}}"
+               ng-model="MetaTagSvc.item['attributes_'+lang]"/>
+    </div>
+  </div>
 </div>

@@ -36,7 +36,7 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
 
         $q.all([
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
             service.setMeta();
         });
     };
@@ -51,8 +51,8 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
     service.doReg = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionReg(service.item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 AppConfig.user = service.item;
 
                 MessageSvc.info('account/create/success');
@@ -64,7 +64,7 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
     service.doRecovery = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionRecovery(service.item.email).then(
-            function(data) {
+            function(response) {
 
                 MessageSvc.info('account/recovery/check_email', {
                     values: [service.item.email]
@@ -77,8 +77,8 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
     service.doReset = function() {
         $rootScope.$broadcast('show-errors-check-validity');
         AccountRes.actionReset(service.item.code, service.item.password).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 AppConfig.user = service.item;
 
                 MessageSvc.info('account/login/success');
@@ -89,8 +89,8 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
 
     service.doLogin = function() {
         AccountRes.actionLogin(service.item.email, service.item.password).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 AppConfig.user = service.item;
 
                 MessageSvc.info('account/login/success');
@@ -102,7 +102,7 @@ app.factory('AccountSvc', function(AppLang,$q, $location, AppConst, AccountRes, 
         MessageSvc.confirm('account/logout/confirm', {},
             function() {
                 AccountRes.actionLogout().then(
-                    function(data) {
+                    function(response) {
                         service.clearItem();
 
                         MessageSvc.info('account/logout/success');

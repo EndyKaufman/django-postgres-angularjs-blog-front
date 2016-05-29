@@ -30,12 +30,12 @@
                ng-click="item.click()"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="item.click" id="{{item.name+'Nav'}}"
-               ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
+               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
                ng-href="{{AppLang.getUrlPrefix()+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
-               ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
+               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? 'active' : ''"></a>
 
         </div>
 
@@ -44,12 +44,12 @@
                ng-click="item.click()"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="item.click" id="{{item.name+'Nav'}}"
-               ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
+               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? 'active' : ''"></a>
             <a class="btn btn-cta-primary pull-right"
                ng-href="{{AppLang.getUrlPrefix()+'/'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"
                ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"
                ng-if="!item.click" id="{{item.name+'Nav'}}"
-               ng-class="item.name==$routeParams.navId ? 'active' : ''"></a>
+               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? 'active' : ''"></a>
         </div>
     </div><!--//container-->
 </header><!--//header-->

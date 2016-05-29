@@ -20,38 +20,46 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
     '    </tags-input>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="ItemDescription" translate>Description</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"\n' +
-    '                          ng-model="ProjectSvc.item.description" required></textarea>\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
+    '                              ng-model="ProjectSvc.item[\'description_\'+lang]" required></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
-	a.put('views/project/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemTitle" translate>Title</label>\n' +
-    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="ProjectSvc.item.title"\n' +
-    '           ng-change="ProjectSvc.slugName(ProjectSvc.item.title)" required>\n' +
-    '    <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
-    '    <label for="ItemText" translate>Text</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemText"\n' +
-    '                          ng-model="ProjectSvc.item.text" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
-    '    <label for="ItemHtml" translate>Html</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemHtml"\n' +
-    '                          ng-model="ProjectSvc.item.html" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
-    '    <label for="ItemUrl" translate>Url</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemUrl"\n' +
-    '                          ng-model="ProjectSvc.item.url" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
-    '    <label for="ItemMarkdown" translate>Markdown</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemMarkdown"\n' +
-    '                          ng-model="ProjectSvc.item.markdown" rows="15"></textarea>\n' +
+	a.put('views/project/inputs/central.html', '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group has-feedback" show-errors>\n' +
+    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
+    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="ProjectSvc.item[\'title_\'+lang]"\n' +
+    '               ng-change="ProjectSvc.slugName(ProjectSvc.item[\'title\'+lang])" required>\n' +
+    '        <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '              ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '              aria-hidden="true"></span>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
+    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
+    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
+    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
+    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>\n' +
     '<div class="form-group" ng-repeat="image in ProjectSvc.item.images track by image.id">\n' +
     '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
@@ -92,38 +100,47 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
     '    </tags-input>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="ItemDescription" translate>Description</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"\n' +
-    '                          ng-model="PostSvc.item.description" required></textarea>\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
+    '                              ng-model="PostSvc.item[\'description_\'+lang]" required></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
-	a.put('views/post/inputs/central.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemTitle" translate>Title</label>\n' +
-    '    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="PostSvc.item.title"\n' +
-    '           ng-change="PostSvc.slugName(PostSvc.item.title)" required>\n' +
-    '    <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
-    '    <label for="ItemText" translate>Text</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemText"\n' +
-    '                          ng-model="PostSvc.item.text" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
-    '    <label for="ItemHtml" translate>Html</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemHtml"\n' +
-    '                          ng-model="PostSvc.item.html" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
-    '    <label for="ItemUrl" translate>Url</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemUrl"\n' +
-    '                          ng-model="PostSvc.item.url" rows="15"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
-    '    <label for="ItemMarkdown" translate>Markdown</label>\n' +
-    '                <textarea type="text" class="form-control" id="ItemMarkdown"\n' +
-    '                          ng-model="PostSvc.item.markdown" rows="15"></textarea>\n' +
+	a.put('views/post/inputs/central.html', '\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group has-feedback" show-errors>\n' +
+    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
+    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="PostSvc.item[\'title_\'+lang]"\n' +
+    '               ng-change="PostSvc.slugName(PostSvc.item[\'title\'+lang])" required>\n' +
+    '        <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '              ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '              aria-hidden="true"></span>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
+    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
+    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
+    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
+    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>\n' +
     '<div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">\n' +
     '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
@@ -182,7 +199,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        ng-class="(TagSvc.item.id==item.id)?\'bold\':\'\'">\n' +
     '        <td ng-bind="item.id" ng-click="TagSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="item.text" ng-click="TagSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item.description" ng-click="TagSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item[\'description_\'+AppLang.getCurrent()]" ng-click="TagSvc.selectItem(item)"></td>\n' +
     '        <td class="text-right">\n' +
     '            <button ng-click="TagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
     '                    id="{{\'tag\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
@@ -204,10 +221,14 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <input type="text" class="form-control" id="TagText"\n' +
     '           ng-model="TagSvc.item.text"/>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="TagDescription" translate>Description</label>\n' +
-    '    <textarea class="form-control" id="TagDescription"\n' +
-    '              ng-model="TagSvc.item.description"></textarea>\n' +
+    '<div data-nq-tabset="" data-tabset-model="TagDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="TagDescription_{{lang}}" translate>Description</label>\n' +
+    '        <textarea class="form-control" id="TagDescription_{{lang}}"\n' +
+    '                  ng-model="TagSvc.item[\'description_\'+lang]"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
 	a.put('views/manager/tag/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -280,7 +301,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <td ng-click="PublicLinkSvc.selectItem(item)">\n' +
     '            <i class="{{(item.icon==\'\')?\'fa\':item.icon}}"></i>\n' +
     '        </td>\n' +
-    '        <td class="break-word" ng-bind="item.title" ng-click="PublicLinkSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item[\'title_\'+AppLang.getCurrent()]" ng-click="PublicLinkSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="(item.in_header==1)?\'Yes\':\'No\'" ng-click="PublicLinkSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="(item.in_contact)?\'Yes\':\'No\'" ng-click="PublicLinkSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="(item.in_footer)?\'Yes\':\'No\'" ng-click="PublicLinkSvc.selectItem(item)"></td>\n' +
@@ -304,15 +325,19 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <label for="PublicLinkSrc" translate>Src</label>\n' +
     '    <input class="form-control" type="text" id="PublicLinkSrc" ng-model="PublicLinkSvc.item.src"/>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="PublicLinkTitle" translate>Title</label>\n' +
-    '    <input type="text" class="form-control" id="PublicLinkTitle"\n' +
-    '           ng-model="PublicLinkSvc.item.title"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="PublicLinkDescription" translate>Description</label>\n' +
-    '    <textarea class="form-control" id="PublicLinkDescription"\n' +
-    '              ng-model="PublicLinkSvc.item.description"></textarea>\n' +
+    '<div data-nq-tabset="" data-tabset-model="PublicLinkTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="PublicLinkTitle_{{lang}}" translate>Title</label>\n' +
+    '        <input type="text" class="form-control" id="PublicLinkTitle_{{lang}}"\n' +
+    '               ng-model="PublicLinkSvc.item[\'title_\'+lang]"/>\n' +
+    '    </div>\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="PublicLinkDescription_{{lang}}" translate>Description</label>\n' +
+    '        <textarea class="form-control" id="PublicLinkDescription_{{lang}}"\n' +
+    '                  ng-model="PublicLinkSvc.item[\'description_\'+lang]"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>\n' +
     '<div class="form-group">\n' +
     '    <label for="PublicLinkIcon" translate>Icon</label>\n' +
@@ -412,7 +437,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        ng-class="(PropertiesSvc.item.id==item.id)?\'bold\':\'\'">\n' +
     '        <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item[\'value_\'+AppLang.getCurrent()]" ng-click="PropertiesSvc.selectItem(item)"></td>\n' +
     '        <td class="text-right">\n' +
     '            <button ng-click="PropertiesSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
     '                    id="{{\'properties\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
@@ -430,18 +455,24 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
     '</button>');
 	a.put('views/manager/properties/inputs.html', '<div class="form-group">\n' +
-    '    <label for="PropertiesComment" translate>Comment</label>\n' +
-    '    <textarea class="form-control" id="PropertiesComment"\n' +
-    '              ng-model="PropertiesSvc.item.comment" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
     '    <label for="PropertiesName" translate>Name</label>\n' +
     '    <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="PropertiesValue" translate>Value</label>\n' +
-    '    <textarea class="form-control" id="PropertiesValue"\n' +
-    '              ng-model="PropertiesSvc.item.value"></textarea>\n' +
+    '\n' +
+    '<div data-nq-tabset="" data-tabset-model="PropertiesCommentTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="PropertiesValue_{{lang}}" translate>Value</label>\n' +
+    '        <textarea class="form-control" id="PropertiesValue_{{lang}}"\n' +
+    '                  ng-model="PropertiesSvc.item[\'value_\'+lang]"></textarea>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="PropertiesComment_{{lang}}" translate>Comment</label>\n' +
+    '        <textarea class="form-control" id="PropertiesComment_{{lang}}"\n' +
+    '                  ng-model="PropertiesSvc.item[\'comment_\'+lang]" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
 	a.put('views/manager/properties/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -509,7 +540,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        ng-class="(MetaTagSvc.item.id==item.id)?\'bold\':\'\'">\n' +
     '        <td ng-bind="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="item.name" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item.content" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item[\'content_\'+AppLang.getCurrent()]" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
     '        <td class="text-right">\n' +
     '            <button ng-click="MetaTagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
     '                    id="{{\'meta_tag\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
@@ -531,18 +562,22 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <input class="form-control" type="text" id="MetaTagName" ng-model="MetaTagSvc.item.name"/>\n' +
     '</div>\n' +
     '<div class="form-group">\n' +
-    '    <label for="MetaTagContent" translate>Content</label>\n' +
-    '    <input type="text" class="form-control" id="MetaTagContent"\n' +
-    '           ng-model="MetaTagSvc.item.content"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="MetaTagAttributes" translate>Attributes</label>\n' +
-    '    <input type="text" class="form-control" id="MetaTagAttributes"\n' +
-    '           ng-model="MetaTagSvc.item.attributes"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
     '    <label for="MetaTagPosition" translate>Position</label>\n' +
     '    <input class="form-control" type="text" id="MetaTagPosition" ng-model="MetaTagSvc.item.position"/>\n' +
+    '</div>\n' +
+    '<div data-nq-tabset="" data-tabset-model="MetaTagTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="MetaTagContent_{{lang}}" translate>Content</label>\n' +
+    '        <input type="text" class="form-control" id="MetaTagContent_{{lang}}"\n' +
+    '               ng-model="MetaTagSvc.item[\'content_\'+lang]"/>\n' +
+    '    </div>\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="MetaTagAttributes_{{lang}}" translate>Attributes</label>\n' +
+    '        <input type="text" class="form-control" id="MetaTagAttributes_{{lang}}"\n' +
+    '               ng-model="MetaTagSvc.item[\'attributes_\'+lang]"/>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
 	a.put('views/manager/meta_tag/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -1075,7 +1110,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
     '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
-    '         alt="{{item.title}}"/>\n' +
+    '         alt="{{item[\'title_\'+AppLang.getCurrent()]}}"/>\n' +
     '</a>\n' +
     '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
     '    <div class="pull-right">\n' +
@@ -1092,9 +1127,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </a>\n' +
     '    </div>\n' +
     '    <h3 class="title">\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-bind-html="item[\'title_\'+AppLang.getCurrent()] | unsafe"></a>\n' +
     '    </h3>\n' +
-    '    <p ng-bind-html="item.description | unsafe"></p>\n' +
+    '    <p ng-bind-html="item[\'description_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
     '    <p ng-if="item.tags.length>0">\n' +
     '        <span ng-repeat="tag in item.tags">\n' +
     '            <i class="fa fa-tag"></i>\n' +
@@ -1119,7 +1154,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading">\n' +
-    '                        <span ng-bind-html="ProjectSvc.item.title | unsafe"></span>\n' +
+    '                        <span ng-bind-html="ProjectSvc.item[\'title_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
     '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+ProjectSvc.item.name}}"\n' +
     '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
     '                    </h1>\n' +
@@ -1137,7 +1172,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h2 class="heading" translate>Description</h2>\n' +
     '                    <div class="content">\n' +
-    '                        <span ng-bind-html="ProjectSvc.item.description | unsafe"></span>\n' +
+    '                        <span ng-bind-html="ProjectSvc.item[\'description_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </aside><!--//section-->\n' +
@@ -1189,17 +1224,17 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div>\n' +
     '</div>\n' +
     '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item.text">\n' +
-    '        <p ng-bind-html="ProjectSvc.item.text | unsafe"></p>\n' +
+    '    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item[\'text_\'+AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="ProjectSvc.item[\'text_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
     '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item.html">\n' +
-    '        <p ng-bind-html="ProjectSvc.item.html | unsafe"></p>\n' +
+    '    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item[\'html_\'+AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="ProjectSvc.item[\'html_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
     '    </div>\n' +
     '    <div ng-if="ProjectSvc.item.type==3 && ProjectSvc.item.url">\n' +
     '        <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>\n' +
     '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">\n' +
-    '        <p markdown-to-html="ProjectSvc.item.markdown">\n' +
+    '    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
+    '        <p markdown-to-html="ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
     '        </p>\n' +
     '    </div>\n' +
     '</div><!--//desc-->');
@@ -1356,7 +1391,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/post/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" ng-if="item.images.length>0">\n' +
     '    <img class="img-responsive post-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
     '         ng-if="item.images.length>0"\n' +
-    '         alt="{{item.title}}"/>\n' +
+    '         alt="{{item[\'title_\'+AppLang.getCurrent()]}}"/>\n' +
     '</a>\n' +
     '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
     '    <div class="pull-right">\n' +
@@ -1373,9 +1408,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        </a>\n' +
     '    </div>\n' +
     '    <h3 class="title">\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" ng-bind-html="item.title | unsafe"></a>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/\'+item.name}}" ng-bind-html="item[\'title_\'+AppLang.getCurrent()] | unsafe"></a>\n' +
     '    </h3>\n' +
-    '    <p ng-bind-html="item.description | unsafe"></p>\n' +
+    '    <p ng-bind-html="item[\'description_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
     '    <p ng-if="item.tags.length>0">\n' +
     '        <span ng-repeat="tag in item.tags">\n' +
     '            <i class="fa fa-tag"></i>\n' +
@@ -1400,7 +1435,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading">\n' +
-    '                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>\n' +
+    '                        <span ng-bind-html="PostSvc.item[\'title_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
     '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/post/update/\'+PostSvc.item.name}}"\n' +
     '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
     '                    </h1>\n' +
@@ -1418,7 +1453,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h2 class="heading" translate>Description</h2>\n' +
     '                    <div class="content">\n' +
-    '                        <span ng-bind-html="PostSvc.item.description | unsafe"></span>\n' +
+    '                        <span ng-bind-html="PostSvc.item[\'description_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </aside><!--//section-->\n' +
@@ -1470,17 +1505,17 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </div>\n' +
     '</div>\n' +
     '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <div ng-if="PostSvc.item.type==1 && PostSvc.item.text">\n' +
-    '        <p ng-bind-html="PostSvc.item.text | unsafe"></p>\n' +
+    '    <div ng-if="PostSvc.item.type==1 && PostSvc.item[\'text_\'+AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="PostSvc.item[\'text_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
     '    </div>\n' +
-    '    <div ng-if="PostSvc.item.type==2 && PostSvc.item.html">\n' +
-    '        <p ng-bind-html="PostSvc.item.html | unsafe"></p>\n' +
+    '    <div ng-if="PostSvc.item.type==2 && PostSvc.item[\'html_\'++AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="PostSvc.item[\'html_\'++AppLang.getCurrent()] | unsafe"></p>\n' +
     '    </div>\n' +
     '    <div ng-if="PostSvc.item.type==3 && PostSvc.item.url">\n' +
     '        <p ng-bind-html="PostSvc.item.url | unsafe"></p>\n' +
     '    </div>\n' +
-    '    <div ng-if="PostSvc.item.type==4 && PostSvc.item.markdown">\n' +
-    '        <p markdown-to-html="PostSvc.item.markdown">\n' +
+    '    <div ng-if="PostSvc.item.type==4 && PostSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
+    '        <p markdown-to-html="PostSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
     '        </p>\n' +
     '    </div>\n' +
     '</div><!--//desc-->');
@@ -1905,7 +1940,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        ng-class="(FileSvc.item.id==item.id)?\'bold\':\'\'">\n' +
     '        <td ng-bind="item.id" ng-click="FileSvc.selectItem(item)"></td>\n' +
     '        <td class="break-word" ng-bind="item.src" ng-click="FileSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.comment" ng-click="FileSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item[\'comment_\'+AppLang.getCurrent()]" ng-click="FileSvc.selectItem(item)"></td>\n' +
     '        <td class="text-right">\n' +
     '            <button ng-click="FileSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
     '                    id="{{\'file\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
@@ -1926,10 +1961,14 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <input class="form-control" type="text" id="FileUpload"\n' +
     '                  ng-model="FileSvc.item.src" disabled/>\n' +
     '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="FileComment" translate>Comment</label>\n' +
-    '        <textarea type="text" class="form-control" id="FileComment"\n' +
-    '                  ng-model="FileSvc.item.comment"></textarea>\n' +
+    '<div data-nq-tabset="" data-tabset-model="FileCommentTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="FileComment_{{lang}}" translate>Comment</label>\n' +
+    '            <textarea type="text" class="form-control" id="FileComment_{{lang}}"\n' +
+    '                      ng-model="FileSvc.item[\'comment_\'+lang]"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
     '</div>');
 	a.put('views/file/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
@@ -2020,7 +2059,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//masonry-->');
 	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
     '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item.title"></a></li>\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item[\'title\'+AppLang.getCurrent()]"></a></li>\n' +
     '</ul>');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +
@@ -2287,12 +2326,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '               ng-click="item.click()"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="item.click" id="{{item.name+\'Nav\'}}"\n' +
-    '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
+    '               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? \'active\' : \'\'"></a>\n' +
     '            <a class="btn btn-cta-primary pull-right"\n' +
     '               ng-href="{{AppLang.getUrlPrefix()+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="!item.click" id="{{item.name+\'Nav\'}}"\n' +
-    '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
+    '               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? \'active\' : \'\'"></a>\n' +
     '\n' +
     '        </div>\n' +
     '\n' +
@@ -2301,12 +2340,12 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '               ng-click="item.click()"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="item.click" id="{{item.name+\'Nav\'}}"\n' +
-    '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
+    '               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? \'active\' : \'\'"></a>\n' +
     '            <a class="btn btn-cta-primary pull-right"\n' +
     '               ng-href="{{AppLang.getUrlPrefix()+\'/\'+(AppConst[item.name].strings.url || AppConst[item.parent][item.name].url || item.name)}}"\n' +
     '               ng-bind-html="(AppConst[item.name].strings.title || AppConst[item.parent][item.name].title) | unsafe | translate"\n' +
     '               ng-if="!item.click" id="{{item.name+\'Nav\'}}"\n' +
-    '               ng-class="item.name==$routeParams.navId ? \'active\' : \'\'"></a>\n' +
+    '               ng-class="[$routeParams.navId, $routeParams.subNavId].indexOf(item.name)!==-1 ? \'active\' : \'\'"></a>\n' +
     '        </div>\n' +
     '    </div><!--//container-->\n' +
     '</header><!--//header-->');
@@ -2318,7 +2357,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_footer">\n' +
     '                    <a ng-href="{{item.src}}" target="_blank">\n' +
     '                        <i class="" ng-class="item.icon"></i>\n' +
-    '                        <span ng-bind="item.title"></span>\n' +
+    '                        <span ng-bind="item[\'title_\'+AppLang.getCurrent()]"></span>\n' +
     '                    </a>\n' +
     '                </li>\n' +
     '            </ul>\n' +

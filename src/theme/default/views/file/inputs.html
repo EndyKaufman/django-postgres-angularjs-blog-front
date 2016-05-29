@@ -7,8 +7,12 @@
     <input class="form-control" type="text" id="FileUpload"
                   ng-model="FileSvc.item.src" disabled/>
 </div>
-<div class="form-group">
-    <label for="FileComment" translate>Comment</label>
-        <textarea type="text" class="form-control" id="FileComment"
-                  ng-model="FileSvc.item.comment"></textarea>
+<div data-nq-tabset="" data-tabset-model="FileCommentTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="FileComment_{{lang}}" translate>Comment</label>
+            <textarea type="text" class="form-control" id="FileComment_{{lang}}"
+                      ng-model="FileSvc.item['comment_'+lang]"></textarea>
+    </div>
+  </div>
 </div>

@@ -6,7 +6,7 @@
                 <li ng-repeat="item in PublicLinkSvc.list | orderBy:'position'" ng-if="item.in_footer">
                     <a ng-href="{{item.src}}" target="_blank">
                         <i class="" ng-class="item.icon"></i>
-                        <span ng-bind="item.title"></span>
+                        <span ng-bind="item['title_'+AppLang.getCurrent()]"></span>
                     </a>
                 </li>
             </ul>

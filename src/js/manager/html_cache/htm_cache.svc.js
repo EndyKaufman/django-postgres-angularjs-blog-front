@@ -1,4 +1,5 @@
-app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettextCatalog, gettext) {
+app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $modalBox, $modal,
+    $routeParams, MessageSvc, AppSvc, ManagerSvc, gettextCatalog, gettext, $timeout) {
     var service = {};
 
     service.item = {};
@@ -20,20 +21,24 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
             var $this = this;
             $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_process) + '(' + $this.currentUrlIndex + '/' + $this.urls.length + ')';
             $this.disabled = true;
-            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(data) {
+            HtmlCacheRes.getPage($this.urls[$this.currentUrlIndex]).then(function(response) {
                 $this.currentUrlIndex++;
-                if ($this.currentUrlIndex == $this.urls.length) {
-                    callback();
-                } else {
-                    $this.doUrl(callback);
-                }
-            }, function(data) {
+                $timeout(function() {
+                    if ($this.currentUrlIndex == $this.urls.length) {
+                        callback();
+                    } else {
+                        $this.doUrl(callback);
+                    }
+                }, 5000);
+            }, function(response) {
                 $this.currentUrlIndex++;
-                if ($this.currentUrlIndex == $this.urls.length) {
-                    callback();
-                } else {
-                    $this.doUrl(callback);
-                }
+                $timeout(function() {
+                    if ($this.currentUrlIndex == $this.urls.length) {
+                        callback();
+                    } else {
+                        $this.doUrl(callback);
+                    }
+                }, 5000);
             });
         },
         do: function() {
@@ -41,18 +46,26 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
             $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_process);
             $this.disabled = true;
 
-            HtmlCacheRes.getSiteMap().then(function(data) {
-                var locs = $(data).find('loc');
+            HtmlCacheRes.getSiteMap().then(function(response) {
+                var locs = $(response.data).find('loc');
 
                 $this.urls = [];
-                var url = '';
-                for (var i = 0; i < locs.length; i++) {
+                var url = '',
+                    i = 0;
+                for (i = 0; i < locs.length; i++) {
                     url = $(locs[i]).text();
-                    if (service.getItemByUrl(url) === false)
+                    if (service.getItemByUrl(url) === false && $this.urls.indexOf(url) === -1)
                         $this.urls.push(url);
                 }
 
-                $this.currentUrlIndex=0;
+                var hrefs = $(response.data).find('xhtml:link');
+                for (i = 0; i < hrefs.length; i++) {
+                    url = $(hrefs[i]).attr('href');
+                    if (service.getItemByUrl(url) === false && $this.urls.indexOf(url) === -1)
+                        $this.urls.push(url);
+                }
+
+                $this.currentUrlIndex = 0;
 
                 $this.doUrl(function() {
                     $this.title = gettextCatalog.getString(AppConst.manager.html_cache.strings.scanSitemap_title);
@@ -134,8 +147,8 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         HtmlCacheRes.actionCreate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
             }
         );
@@ -143,8 +156,8 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         HtmlCacheRes.actionUpdate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
             }
         );
@@ -155,7 +168,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
             },
             function() {
                 HtmlCacheRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -172,10 +185,10 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            HtmlCacheRes.getList().then(function(data) {
-                service.list = angular.copy(data);
+            HtmlCacheRes.getList().then(function(response) {
+                service.list = angular.copy(response.data);
                 deferred.resolve(service.list);
-            }, function(data) {
+            }, function(response) {
                 service.list = [];
                 deferred.resolve(service.list);
             });
@@ -189,7 +202,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
 
         $q.all([
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
 
         });
     };

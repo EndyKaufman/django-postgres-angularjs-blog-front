@@ -20,8 +20,12 @@
         <auto-complete source="TagSvc.searchTag($query)"></auto-complete>
     </tags-input>
 </div>
-<div class="form-group">
-    <label for="ItemDescription" translate>Description</label>
-                <textarea type="text" class="form-control" id="ItemDescription" name="ItemDescription"
-                          ng-model="PostSvc.item.description" required></textarea>
+<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="ItemDescription_{{lang}}" translate>Description</label>
+                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"
+                              ng-model="PostSvc.item['description_'+lang]" required></textarea>
+    </div>
+  </div>
 </div>

@@ -111,8 +111,8 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         FileRes.actionCreate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
             }
         );
@@ -120,8 +120,8 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         FileRes.actionUpdate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
             }
         );
@@ -132,7 +132,7 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
             },
             function() {
                 FileRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -149,11 +149,11 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            FileRes.getList().then(function(data) {
-                service.list = angular.copy(data);
+            FileRes.getList().then(function(response) {
+                service.list = angular.copy(response.data);
                 deferred.resolve(service.list);
                 $rootScope.$broadcast('file.load', service.list);
-            }, function(data) {
+            }, function(response) {
                 service.list = [];
                 deferred.resolve(service.list);
             });
@@ -164,11 +164,11 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
 
     service.doSearch = function(text) {
         var deferred = $q.defer();
-        FileRes.getSearch(text).then(function(data) {
-            service.list = angular.copy(data);
+        FileRes.getSearch(text).then(function(response) {
+            service.list = angular.copy(response.data);
             deferred.resolve(service.list);
             $rootScope.$broadcast('file.load', service.list);
-        }, function(data) {
+        }, function(response) {
             service.list = [];
             deferred.resolve(service.list);
         });

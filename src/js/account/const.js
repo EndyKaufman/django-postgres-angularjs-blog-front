@@ -1,5 +1,8 @@
 app.factory('AccountConst', function(gettext) {
     return {
+        strings: {
+            'mail/subject/reset_password': gettext('Reset password')
+        },
         reg: {
             title: gettext('Registration form'),
             url: 'account/reg',

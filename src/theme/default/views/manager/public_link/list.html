@@ -17,7 +17,7 @@
         <td ng-click="PublicLinkSvc.selectItem(item)">
             <i class="{{(item.icon=='')?'fa':item.icon}}"></i>
         </td>
-        <td class="break-word" ng-bind="item.title" ng-click="PublicLinkSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item['title_'+AppLang.getCurrent()]" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td ng-bind="(item.in_header==1)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td ng-bind="(item.in_contact)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>
         <td ng-bind="(item.in_footer)?'Yes':'No'" ng-click="PublicLinkSvc.selectItem(item)"></td>

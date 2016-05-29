@@ -84,8 +84,8 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         TagRes.actionCreate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
             }
         );
@@ -93,8 +93,8 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         TagRes.actionUpdate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
             }
         );
@@ -105,7 +105,7 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
             },
             function() {
                 TagRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -149,22 +149,22 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
                 service.load(),
                 ProjectRes.getListByTag($routeParams.tagText),
                 PostRes.getListByTag($routeParams.tagText)
-            ]).then(function(dataList) {
+            ]).then(function(responseList) {
                 $rootScope.$broadcast('project.init.meta');
                 $rootScope.$broadcast('post.init.meta');
 
-                for (var i = 1; i < dataList.length; i++) {
-                    if (dataList[i] && dataList[i].length > 0)
-                        service.allListSumSize = service.allListSumSize + dataList[i].length;
+                for (var i = 1; i < responseList.length; i++) {
+                    if (responseList[i] && responseList[i].length > 0)
+                        service.allListSumSize = service.allListSumSize + responseList[i].length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: dataList[i]
+                            list: responseList[i]
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: dataList[i]
+                            list: responseList[i]
                         });
                 }
             });
@@ -173,7 +173,7 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
 
             $q.all([
                 service.load()
-            ]).then(function(dataList) {
+            ]).then(function(responseList) {
 
             });
         }
@@ -192,11 +192,11 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            TagRes.getList().then(function(data) {
-                    service.list = angular.copy(data);
+            TagRes.getList().then(function(response) {
+                    service.list = angular.copy(response.data);
                     deferred.resolve(service.list);
                 },
-                function(data) {
+                function(response) {
                     service.list = [];
                     deferred.resolve(service.list);
                 });

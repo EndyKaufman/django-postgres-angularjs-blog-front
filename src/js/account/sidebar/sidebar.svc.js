@@ -6,7 +6,7 @@ app.factory('AccountSidebarSvc', function($q, TagSvc, PostSvc, ProjectSvc) {
             TagSvc.load(),
             ProjectSvc.load(),
             PostSvc.load()
-        ]).then(function(dataList) {});
+        ]).then(function(responseList) {});
     };
     return service;
 });

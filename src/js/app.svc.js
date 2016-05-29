@@ -19,7 +19,7 @@ app.factory('AppSvc', function($rootScope, $q, $route, $timeout, $location, AppL
             service.item.short_title = AppProperties.get('SITE_TITLE');
         } else {
             items.push(AppProperties.get('SITE_TITLE'));
-            service.item.title = angular.copy(items).join(' - ');
+            service.item.title = items[0];
             service.item.short_title = items[0];
         }
         $('title').html(service.item.title);

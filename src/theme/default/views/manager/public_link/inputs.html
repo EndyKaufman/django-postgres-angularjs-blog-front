@@ -2,15 +2,19 @@
     <label for="PublicLinkSrc" translate>Src</label>
     <input class="form-control" type="text" id="PublicLinkSrc" ng-model="PublicLinkSvc.item.src"/>
 </div>
-<div class="form-group">
-    <label for="PublicLinkTitle" translate>Title</label>
-    <input type="text" class="form-control" id="PublicLinkTitle"
-           ng-model="PublicLinkSvc.item.title"/>
-</div>
-<div class="form-group">
-    <label for="PublicLinkDescription" translate>Description</label>
-    <textarea class="form-control" id="PublicLinkDescription"
-              ng-model="PublicLinkSvc.item.description"></textarea>
+<div data-nq-tabset="" data-tabset-model="PublicLinkTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="PublicLinkTitle_{{lang}}" translate>Title</label>
+        <input type="text" class="form-control" id="PublicLinkTitle_{{lang}}"
+               ng-model="PublicLinkSvc.item['title_'+lang]"/>
+    </div>
+    <div class="form-group">
+        <label for="PublicLinkDescription_{{lang}}" translate>Description</label>
+        <textarea class="form-control" id="PublicLinkDescription_{{lang}}"
+                  ng-model="PublicLinkSvc.item['description_'+lang]"></textarea>
+    </div>
+  </div>
 </div>
 <div class="form-group">
     <label for="PublicLinkIcon" translate>Icon</label>

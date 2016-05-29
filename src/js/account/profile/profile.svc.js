@@ -6,8 +6,8 @@ app.factory('ProfileSvc', function(AppConst, ProfileRes, $rootScope, $q, $modalB
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         ProfileRes.actionUpdate(item).then(
-            function(data) {
-                AccountSvc.item = angular.copy(data[0]);
+            function(response) {
+                AccountSvc.item = angular.copy(response.data[0]);
                 AppConfig.user = AccountSvc.item;
 
                 MessageSvc.info('account/update/success');
@@ -19,7 +19,7 @@ app.factory('ProfileSvc', function(AppConst, ProfileRes, $rootScope, $q, $modalB
         MessageSvc.confirm('account/delete/confirm', {},
             function() {
                 ProfileRes.actionDelete().then(
-                    function(data) {
+                    function(response) {
                         AccountSvc.clearItem();
 
                         MessageSvc.info('account/delete/success');

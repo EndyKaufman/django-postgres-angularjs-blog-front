@@ -12,7 +12,7 @@
         ng-class="(PropertiesSvc.item.id==item.id)?'bold':''">
         <td ng-bind="item.id" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td ng-bind="item.name" ng-click="PropertiesSvc.selectItem(item)"></td>
-        <td class="break-word" ng-bind="item.value" ng-click="PropertiesSvc.selectItem(item)"></td>
+        <td class="break-word" ng-bind="item['value_'+AppLang.getCurrent()]" ng-click="PropertiesSvc.selectItem(item)"></td>
         <td class="text-right">
             <button ng-click="PropertiesSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"
                     id="{{'properties'+item.id+'Update'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>

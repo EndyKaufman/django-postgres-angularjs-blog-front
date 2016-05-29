@@ -4,7 +4,7 @@
             <section class="latest section">
                 <div class="section-inner">
                     <h1 class="heading">
-                        <span ng-bind-html="PostSvc.item.title | unsafe"></span>
+                        <span ng-bind-html="PostSvc.item['title_'+AppLang.getCurrent()] | unsafe"></span>
                         <a ng-href="{{AppLang.getUrlPrefix()+'/post/update/'+PostSvc.item.name}}"
                            class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="postUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>
                     </h1>
@@ -22,7 +22,7 @@
                 <div class="section-inner">
                     <h2 class="heading" translate>Description</h2>
                     <div class="content">
-                        <span ng-bind-html="PostSvc.item.description | unsafe"></span>
+                        <span ng-bind-html="PostSvc.item['description_'+AppLang.getCurrent()] | unsafe"></span>
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </aside><!--//section-->

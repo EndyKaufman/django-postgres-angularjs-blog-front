@@ -19,7 +19,7 @@ app.factory('ContactSvc', function($q, $location, AppConst, ContactRes, MessageS
     service.doSend = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         ContactRes.actionSend(item).then(
-            function(data) {
+            function(response) {
                 service.clearItem();
 
                 MessageSvc.info('contact/send/success', {

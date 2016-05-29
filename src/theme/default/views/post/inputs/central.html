@@ -1,30 +1,35 @@
-<div class="form-group has-feedback" show-errors>
-    <label for="ItemTitle" translate>Title</label>
-    <input type="text" class="form-control" id="ItemTitle" name="ItemTitle" ng-model="PostSvc.item.title"
-           ng-change="PostSvc.slugName(PostSvc.item.title)" required>
-    <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"
-          ng-class="!postForm.ItemTitle.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
-          aria-hidden="true"></span>
-</div>
-<div class="form-group has-feedback" ng-if="PostSvc.item.type==1">
-    <label for="ItemText" translate>Text</label>
-                <textarea type="text" class="form-control" id="ItemText"
-                          ng-model="PostSvc.item.text" rows="15"></textarea>
-</div>
-<div class="form-group has-feedback" ng-if="PostSvc.item.type==2">
-    <label for="ItemHtml" translate>Html</label>
-                <textarea type="text" class="form-control" id="ItemHtml"
-                          ng-model="PostSvc.item.html" rows="15"></textarea>
-</div>
-<div class="form-group has-feedback" ng-if="PostSvc.item.type==3">
-    <label for="ItemUrl" translate>Url</label>
-                <textarea type="text" class="form-control" id="ItemUrl"
-                          ng-model="PostSvc.item.url" rows="15"></textarea>
-</div>
-<div class="form-group has-feedback" ng-if="PostSvc.item.type==4">
-    <label for="ItemMarkdown" translate>Markdown</label>
-                <textarea type="text" class="form-control" id="ItemMarkdown"
-                          ng-model="PostSvc.item.markdown" rows="15"></textarea>
+
+<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group has-feedback" show-errors>
+        <label for="ItemTitle_{{lang}}" translate>Title</label>
+        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="PostSvc.item['title_'+lang]"
+               ng-change="PostSvc.slugName(PostSvc.item['title'+lang])" required>
+        <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"
+              ng-class="!postForm.ItemTitle.$valid ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'"
+              aria-hidden="true"></span>
+    </div>
+    <div class="form-group has-feedback" ng-if="PostSvc.item.type==1">
+        <label for="ItemText_{{lang}}" translate>Text</label>
+                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"
+                              ng-model="PostSvc.item['text_'+lang]" rows="15"></textarea>
+    </div>
+    <div class="form-group has-feedback" ng-if="PostSvc.item.type==2">
+        <label for="ItemHtml_{{lang}}" translate>Html</label>
+                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"
+                              ng-model="PostSvc.item['html_'+lang]" rows="15"></textarea>
+    </div>
+    <div class="form-group has-feedback" ng-if="PostSvc.item.type==3">
+        <label for="ItemUrl_{{lang}}" translate>Url</label>
+                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"
+                              ng-model="PostSvc.item['url_'+lang]" rows="15"></textarea>
+    </div>
+    <div class="form-group has-feedback" ng-if="PostSvc.item.type==4">
+        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>
+                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"
+                              ng-model="PostSvc.item['markdown_'+lang]" rows="15"></textarea>
+    </div>
+  </div>
 </div>
 <div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">
     <label for="{{'ItemImage'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>

@@ -20,17 +20,17 @@
     </div>
 </div>
 <div class="desc col-md-12 col-sm-12 col-xs-12">
-    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item.text">
-        <p ng-bind-html="ProjectSvc.item.text | unsafe"></p>
+    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item['text_'+AppLang.getCurrent()]">
+        <p ng-bind-html="ProjectSvc.item['text_'+AppLang.getCurrent()] | unsafe"></p>
     </div>
-    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item.html">
-        <p ng-bind-html="ProjectSvc.item.html | unsafe"></p>
+    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item['html_'+AppLang.getCurrent()]">
+        <p ng-bind-html="ProjectSvc.item['html_'+AppLang.getCurrent()] | unsafe"></p>
     </div>
     <div ng-if="ProjectSvc.item.type==3 && ProjectSvc.item.url">
         <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>
     </div>
-    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item.markdown">
-        <p markdown-to-html="ProjectSvc.item.markdown">
+    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item['markdown_'+AppLang.getCurrent()]">
+        <p markdown-to-html="ProjectSvc.item['markdown_'+AppLang.getCurrent()]">
         </p>
     </div>
 </div><!--//desc-->

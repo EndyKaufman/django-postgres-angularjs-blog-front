@@ -16,8 +16,8 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
 
     service.setMeta = function() {
         if (service.postName !== undefined) {
-            AppSvc.setTitle([service.item.title, service.title]);
-            AppSvc.setDescription(service.item.description);
+            AppSvc.setTitle([service.item['title_'+AppLang.getCurrent()], service.title]);
+            AppSvc.setDescription(service.item['description_'+AppLang.getCurrent()]);
             AppSvc.setUrl('post/' + service.postName);
             if (service.item.images.length > 0)
                 AppSvc.setImage(service.item.images[0].src_url);
@@ -40,7 +40,7 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         $q.all([
             TagSvc.load(),
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
             service.setMeta();
         });
     };
@@ -65,10 +65,10 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         service.slugName(item.name);
         $rootScope.$broadcast('show-errors-check-validity');
         PostRes.actionCreate(item).then(
-            function(data, response) {
+            function(response) {
                 if (response.data.reload_source.tag === true)
                     TagSvc.load(true);
-                service.item = angular.copy(data[0]);
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
             }
         );
@@ -77,10 +77,10 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         service.slugName(item.name);
         $rootScope.$broadcast('show-errors-check-validity');
         PostRes.actionUpdate(item).then(
-            function(data, response) {
-                if (response.data.reload_source.tag === true)
+            function(response) {
+                if (response.reload_source.tag === true)
                     TagSvc.load(true);
-                service.item = angular.copy(data[0]);
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
 
                 MessageSvc.info('post/update/success', {
@@ -96,7 +96,7 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
             },
             function() {
                 PostRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -152,22 +152,24 @@ app.factory('PostSvc', function($routeParams, $rootScope, $q, $location, AppCons
         if (service.postName !== undefined) {
             if (service.item.name !== service.postName)
                 PostRes.getItem(service.postName).then(
-                    function(data) {
-                        service.item = angular.copy(data[0]);
+                    function(response) {
+                        service.item = angular.copy(response.data[0]);
                         deferred.resolve(service.item);
                     },
-                    function(data) {
+                    function(response) {
                         service.clearItem();
                         deferred.resolve(service.item);
                     }
                 );
+            else
+                deferred.resolve(service.item);
         } else {
             if (service.loaded !== true || reload === true) {
                 service.loaded = true;
-                PostRes.getList().then(function(data) {
-                    service.list = angular.copy(data);
+                PostRes.getList().then(function(response) {
+                    service.list = angular.copy(response.data);
                     deferred.resolve(service.list);
-                }, function(data) {
+                }, function(response) {
                     service.list = [];
                     deferred.resolve(service.list);
                 });

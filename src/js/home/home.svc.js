@@ -17,7 +17,7 @@ app.factory('HomeSvc', function($q, NavbarSvc, PropertiesSvc, AppSvc, TagSvc, Po
             TagSvc.load(),
             ProjectSvc.load(),
             PostSvc.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
             ProjectSvc.initMeta();
             PostSvc.initMeta();
 

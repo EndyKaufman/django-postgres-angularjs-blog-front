@@ -73,8 +73,8 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PropertiesRes.actionCreate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
                 service.updateItemOnList(service.item);
             }
@@ -83,8 +83,8 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PropertiesRes.actionUpdate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
             }
         );
@@ -95,7 +95,7 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
             },
             function() {
                 PropertiesRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -112,12 +112,12 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            PropertiesRes.getList().then(function(data) {
-                service.list = angular.copy(data);
+            PropertiesRes.getList().then(function(response) {
+                service.list = angular.copy(response.data);
                 AppProperties.load(service.list);
 
                 deferred.resolve(service.list);
-            }, function(data) {
+            }, function(response) {
                 service.list = [];
                 AppProperties.load(service.list);
                 deferred.resolve(service.list);
@@ -132,7 +132,7 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
 
         $q.all([
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
 
         });
     };

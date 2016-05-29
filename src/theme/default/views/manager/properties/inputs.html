@@ -1,14 +1,20 @@
 <div class="form-group">
-    <label for="PropertiesComment" translate>Comment</label>
-    <textarea class="form-control" id="PropertiesComment"
-              ng-model="PropertiesSvc.item.comment" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>
-</div>
-<div class="form-group">
     <label for="PropertiesName" translate>Name</label>
     <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>
 </div>
-<div class="form-group">
-    <label for="PropertiesValue" translate>Value</label>
-    <textarea class="form-control" id="PropertiesValue"
-              ng-model="PropertiesSvc.item.value"></textarea>
+
+<div data-nq-tabset="" data-tabset-model="PropertiesCommentTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="PropertiesValue_{{lang}}" translate>Value</label>
+        <textarea class="form-control" id="PropertiesValue_{{lang}}"
+                  ng-model="PropertiesSvc.item['value_'+lang]"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="PropertiesComment_{{lang}}" translate>Comment</label>
+        <textarea class="form-control" id="PropertiesComment_{{lang}}"
+                  ng-model="PropertiesSvc.item['comment_'+lang]" ng-disabled="PropertiesSvc.item.only_update==1"></textarea>
+    </div>
+  </div>
 </div>

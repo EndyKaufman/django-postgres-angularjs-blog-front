@@ -4,9 +4,10 @@ app.factory('AppProperties', function() {
 
     service.load = function(newList) {
         list = {};
-        for (var i = 0; i < newList.length; i++) {
-            list[newList[i].name] = newList[i].value;
-        }
+        if (newList.length)
+            for (var i = 0; i < newList.length; i++) {
+                list[newList[i].name] = newList[i].value;
+            }
     };
 
     service.set = function(name, value) {

@@ -77,8 +77,8 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PublicLinkRes.actionCreate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
             }
         );
@@ -86,8 +86,8 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
     service.doUpdate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         PublicLinkRes.actionUpdate(item).then(
-            function(data) {
-                service.item = angular.copy(data[0]);
+            function(response) {
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
             }
         );
@@ -98,7 +98,7 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
             },
             function() {
                 PublicLinkRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -115,10 +115,10 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
         var deferred = $q.defer();
         if (service.loaded !== true || reload === true) {
             service.loaded = true;
-            PublicLinkRes.getList().then(function(data) {
-                service.list = angular.copy(data);
+            PublicLinkRes.getList().then(function(response) {
+                service.list = angular.copy(response.data);
                 deferred.resolve(service.list);
-            }, function(data) {
+            }, function(response) {
                 service.list = [];
                 deferred.resolve(service.list);
             });
@@ -132,7 +132,7 @@ app.factory('PublicLinkSvc', function(AppConst, PublicLinkRes, $rootScope, $q, $
 
         $q.all([
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
 
         });
     };

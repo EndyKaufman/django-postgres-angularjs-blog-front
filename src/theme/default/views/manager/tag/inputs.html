@@ -3,8 +3,12 @@
     <input type="text" class="form-control" id="TagText"
            ng-model="TagSvc.item.text"/>
 </div>
-<div class="form-group">
-    <label for="TagDescription" translate>Description</label>
-    <textarea class="form-control" id="TagDescription"
-              ng-model="TagSvc.item.description"></textarea>
+<div data-nq-tabset="" data-tabset-model="TagDescriptionTabset">
+  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">
+    <div class="form-group">
+        <label for="TagDescription_{{lang}}" translate>Description</label>
+        <textarea class="form-control" id="TagDescription_{{lang}}"
+                  ng-model="TagSvc.item['description_'+lang]"></textarea>
+    </div>
+  </div>
 </div>

@@ -45,22 +45,22 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
                 TagSvc.load(),
                 ProjectRes.getSearch($routeParams.searchText),
                 PostRes.getSearch($routeParams.searchText)
-            ]).then(function(dataList) {
+            ]).then(function(responseList) {
                 $rootScope.$broadcast('project.init.meta');
                 $rootScope.$broadcast('post.init.meta');
 
-                for (var i = 1; i < dataList.length; i++) {
-                    if (dataList[i] && dataList[i].length > 0)
-                        service.allListSumSize = service.allListSumSize + dataList[i].length;
+                for (var i = 1; i < responseList.length; i++) {
+                    if (responseList[i] && responseList[i].length > 0)
+                        service.allListSumSize = service.allListSumSize + responseList[i].length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: dataList[i]
+                            list: responseList[i]
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: dataList[i]
+                            list: responseList[i]
                         });
                 }
             });

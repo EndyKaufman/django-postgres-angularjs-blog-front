@@ -16,8 +16,8 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
 
     service.setMeta = function() {
         if (service.projectName !== undefined) {
-            AppSvc.setTitle([service.item.title, service.title]);
-            AppSvc.setDescription(service.item.description);
+            AppSvc.setTitle([service.item['title_' + AppLang.getCurrent()], service.title]);
+            AppSvc.setDescription(service.item['description_' + AppLang.getCurrent()]);
             AppSvc.setUrl('project/' + service.projectName);
             if (service.item.images.length > 0)
                 AppSvc.setImage(service.item.images[0].src_url);
@@ -38,11 +38,11 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
         service.initMeta();
 
         $q.all([
-            TagSvc.load(),
+            //TagSvc.load(),
             service.load()
-        ]).then(function(dataList) {
+        ]).then(function(responseList) {
             service.setMeta();
-        });
+        }, function() {});
     };
 
     service.goList = function() {
@@ -64,10 +64,10 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
     service.doCreate = function(item) {
         service.slugName(item.name);
         ProjectRes.actionCreate(item).then(
-            function(data, response) {
-                if (response.data.reload_source.tag === true)
+            function(response) {
+                if (response.reload_source.tag === true)
                     TagSvc.load(true);
-                service.item = angular.copy(data[0]);
+                service.item = angular.copy(response.data[0]);
                 service.list.push(service.item);
 
                 MessageSvc.info('project/create/success', {
@@ -81,10 +81,10 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
         service.slugName(item.name);
         $rootScope.$broadcast('show-errors-check-validity');
         ProjectRes.actionUpdate(item).then(
-            function(data, response) {
-                if (response.data.reload_source.tag === true)
+            function(response) {
+                if (response.reload_source.tag === true)
                     TagSvc.load(true);
-                service.item = angular.copy(data[0]);
+                service.item = angular.copy(response.data[0]);
                 service.updateItemOnList(service.item);
 
                 MessageSvc.info('project/update/success', {
@@ -100,7 +100,7 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
             },
             function() {
                 ProjectRes.actionDelete(item).then(
-                    function(data) {
+                    function(response) {
                         for (var i = 0; i < service.list.length; i++) {
                             if (service.list[i].id == item.id) {
                                 service.list.splice(i, 1);
@@ -156,22 +156,24 @@ app.factory('ProjectSvc', function($routeParams, $rootScope, $q, $location, AppC
         if (service.projectName !== undefined) {
             if (service.item.name !== service.projectName)
                 ProjectRes.getItem(service.projectName).then(
-                    function(data) {
-                        service.item = angular.copy(data[0]);
+                    function(response) {
+                        service.item = angular.copy(response.data[0]);
                         deferred.resolve(service.item);
                     },
-                    function(data) {
+                    function(response) {
                         service.clearItem();
                         deferred.resolve(service.item);
                     }
                 );
+            else
+                deferred.resolve(service.item);
         } else {
             if (service.loaded !== true || reload === true) {
                 service.loaded = true;
-                ProjectRes.getList().then(function(data) {
-                    service.list = angular.copy(data);
+                ProjectRes.getList().then(function(response) {
+                    service.list = angular.copy(response.data);
                     deferred.resolve(service.list);
-                }, function(data) {
+                }, function(response) {
                     service.list = [];
                     deferred.resolve(service.list);
                 });

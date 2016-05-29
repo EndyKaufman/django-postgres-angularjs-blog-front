@@ -11,16 +11,17 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
             function(response) {
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
-                    deferred.resolve(response.data.data, response);
+                    deferred.resolve(response.data);
                 } else {
-                    deferred.resolve(response.data, response);
+                    MessageSvc.error(response.data.code, response.data);
+                    deferred.reject(response.data);
                 }
             },
             function(response) {
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined) {
                     MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data, response);
+                    deferred.reject(response.data);
                 } else
                     deferred.reject(null);
             }
@@ -35,18 +36,20 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
         data = angular.copy(data);
         $http.post(url, data).then(
             function(response) {
+                console.log(response);
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined && response.data.code == 'ok') {
-                    deferred.resolve(response.data.data, response);
+                    deferred.resolve(response.data);
                 } else {
-                    deferred.resolve(response.data, response);
+                    MessageSvc.error(response.data.code, response.data);
+                    deferred.reject(response.data);
                 }
             },
             function(response) {
                 if (response !== null && response !== undefined && response.data !== undefined &&
                     response.data !== null && response.data.code !== undefined) {
                     MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data, response);
+                    deferred.reject(response.data);
                 } else
                     deferred.reject(null);
             }
