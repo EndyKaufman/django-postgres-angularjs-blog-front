@@ -1,7 +1,8 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th translate>#</th>
+        <td style="width:10px"><input type="checkbox" ng-model="CHECKED" ng-click="HtmlCacheSvc.doCheckAll(CHECKED)" ng-true-value="true" ng-false-value="false"></td>
+        <th style="width:20px" translate>ID</th>
         <th style="width:200px" translate>Name</th>
         <th translate>Empty</th>
         <th class="text-right" style="width:200px" translate>Actions</th>
@@ -10,6 +11,7 @@
     <tbody>
     <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:'position'"
         ng-class="(HtmlCacheSvc.item.id==item.id)?'bold':''">
+        <td><input type="checkbox" ng-model="item.CHECKED" ng-click="HtmlCacheSvc.collectCheckedItems()" ng-true-value="true" ng-false-value="false"></td>
         <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>
         <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>
         <td ng-bind="item.content==''?'Yes':'No'" ng-click="HtmlCacheSvc.selectItem(item)"></td>

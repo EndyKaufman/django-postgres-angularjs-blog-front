@@ -50,7 +50,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
             $this.disabled = true;
 
             HtmlCacheRes.getSiteMap().then(function(response) {
-                var locs = $(response.data).find('loc');
+                var locs = $(response).find('loc');
 
                 $this.urls = [];
                 var url = '',
@@ -61,13 +61,13 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
                         $this.urls.push(url);
                 }
 
-                var hrefs = $(response.data).find('xhtml:link');
+                var hrefs = $(response).find('[href]');
+
                 for (i = 0; i < hrefs.length; i++) {
                     url = $(hrefs[i]).attr('href');
                     if (service.getItemByUrl(url) === false && $this.urls.indexOf(url) === -1)
                         $this.urls.push(url);
                 }
-
                 $this.currentUrlIndex = 0;
 
                 $this.doUrl(function() {
@@ -75,6 +75,7 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
                     $this.disabled = false;
                     service.load(true);
                 });
+
             });
         }
     };
@@ -147,6 +148,13 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
         }
     };
 
+    service.doCheckAll = function(checked) {
+        for (var i = 0; i < service.list.length; i++) {
+            service.list[i].CHECKED = checked;
+        }
+        service.collectCheckedItems();
+    };
+
     service.doCreate = function(item) {
         $rootScope.$broadcast('show-errors-check-validity');
         HtmlCacheRes.actionCreate(item).then(
@@ -181,6 +189,37 @@ app.factory('HtmlCacheSvc', function(AppConst, HtmlCacheRes, $rootScope, $q, $mo
                         service.clearItem();
                     }
                 );
+            });
+    };
+
+    service.checkeds=[];
+
+    service.collectCheckedItems=function(){
+        service.checkeds=[];
+        for (var j = 0; j < service.list.length; j++) {
+            if (service.list[j].CHECKED)
+                service.checkeds.push(service.list[j]);
+        }
+    };
+
+    service.doDeleteChecked = function(item) {
+        MessageSvc.confirm('html_cache/delete_checked/confirm', {},
+            function() {
+                var actions = [];
+                for (var j = 0; j < service.list.length; j++) {
+                    if (service.list[j].CHECKED)
+                        actions.push(HtmlCacheRes.actionDelete(service.list[j]));
+                }
+                $q.all(actions).then(function(responseList) {
+                    for (var i = service.list.length - 1; i >= 0; i--) {
+                        if (service.list[i].CHECKED) {
+                            service.list.splice(i, 1);
+                            break;
+                        }
+                    }
+                    service.clearItem();
+                    service.collectCheckedItems();
+                });
             });
     };
 

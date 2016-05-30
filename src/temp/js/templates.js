@@ -188,7 +188,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/tag/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Text</th>\n' +
     '        <th translate>Description</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
@@ -285,7 +285,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/public_link/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Icon</th>\n' +
     '        <th translate>Title</th>\n' +
     '        <th translate>In header</th>\n' +
@@ -426,7 +426,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/properties/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Name</th>\n' +
     '        <th translate>Value</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
@@ -529,7 +529,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/meta_tag/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Name</th>\n' +
     '        <th translate>Content</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
@@ -634,7 +634,8 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/manager/html_cache/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <td style="width:10px"><input type="checkbox" ng-model="CHECKED" ng-click="HtmlCacheSvc.doCheckAll(CHECKED)" ng-true-value="true" ng-false-value="false"></td>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th style="width:200px" translate>Name</th>\n' +
     '        <th translate>Empty</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
@@ -643,6 +644,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    <tbody>\n' +
     '    <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:\'position\'"\n' +
     '        ng-class="(HtmlCacheSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td><input type="checkbox" ng-model="item.CHECKED" ng-click="HtmlCacheSvc.collectCheckedItems()" ng-true-value="true" ng-false-value="false"></td>\n' +
     '        <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
     '        <td ng-bind="item.content==\'\'?\'Yes\':\'No\'" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
@@ -658,10 +660,16 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
-    '    <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
-    '</button>');
+    '<div class="pull-right">\n' +
+    '    <button ng-click="HtmlCacheSvc.doDeleteChecked()" class="btn btn-cta-red btn-xs"\n' +
+    '            type="button" id="doDeleteChecked" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" ng-if="HtmlCacheSvc.checkeds.length>0">\n' +
+    '        <i class="fa fa-trash"></i> <translate>Delete checked</translate>\n' +
+    '    </button>\n' +
+    '    <button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary btn-xs"\n' +
+    '            type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
+    '        <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
+    '    </button>\n' +
+    '</div>');
 	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
     '    <label for="HtmlCacheUrl" translate>Name</label>\n' +
     '    <input class="form-control" type="text" id="HtmlCacheUrl" ng-model="HtmlCacheSvc.item.url"/>\n' +
@@ -726,7 +734,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
 	a.put('views/account/user_app/list.html', '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Name</th>\n' +
     '        <th translate>Client ID</th>\n' +
     '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
@@ -1929,7 +1937,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '<table class="table table-hover">\n' +
     '    <thead>\n' +
     '    <tr>\n' +
-    '        <th translate>#</th>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
     '        <th translate>Url</th>\n' +
     '        <th translate>Comment</th>\n' +
     '        <th class="text-right" translate>Actions</th>\n' +
@@ -2059,7 +2067,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '</div><!--//masonry-->');
 	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
     '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item[\'title\'+AppLang.getCurrent()]"></a></li>\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item[\'title_\'+AppLang.getCurrent()]"></a></li>\n' +
     '</ul>');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +

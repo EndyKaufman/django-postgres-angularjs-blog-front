@@ -1,4 +1,4 @@
-app.factory('AppProperties', function() {
+app.factory('AppProperties', function(AppLang) {
     var service = {},
         list = angular.copy(AppConfig.properties);
 
@@ -6,12 +6,12 @@ app.factory('AppProperties', function() {
         list = {};
         if (newList.length)
             for (var i = 0; i < newList.length; i++) {
-                list[newList[i].name] = newList[i].value;
+                list[newList[i].name] = newList[i]['value_' + AppLang.getCurrent()];
             }
     };
 
-    service.set = function(name, value) {
-        list[name] = value;
+    service.update = function(item) {
+        list[item.name] = item['value_' + AppLang.getCurrent()];
     };
 
     service.get = function(name, defValue) {

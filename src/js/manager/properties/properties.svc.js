@@ -4,6 +4,10 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
     service.item = {};
     service.list = [];
 
+    $rootScope.$on('lang.changed', function() {
+        AppProperties.load(service.list);
+    });
+
     service.clearItem = function() {
         service.item = {};
         service.item.name = '';
@@ -65,7 +69,7 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
         for (var i = 0; i < service.list.length; i++) {
             if (item.id === service.list[i].id) {
                 angular.extend(service.list[i], angular.copy(item));
-                AppProperties.set(service.list[i].name, service.list[i].value);
+                AppProperties.update(service.list[i]);
             }
         }
     };

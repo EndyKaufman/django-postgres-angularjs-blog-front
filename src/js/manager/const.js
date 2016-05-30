@@ -38,6 +38,7 @@ app.factory('ManagerConst', function(gettext) {
                 'html_cache/create/success': gettext('Cache <strong>%s</strong> created!'),
                 'html_cache/update/success': gettext('Cache <strong>%s</strong> updated!'),
                 'html_cache/delete/success': gettext('Cache <strong>%s</strong> deleted!'),
+                'html_cache/delete_checked/confirm': gettext('Do you really want to delete checked html caches?'),
 
                 'users/delete/confirm': gettext('Do you really want to delete user <strong>%s</strong>?'),
                 'users/create/success': gettext('User <strong>%s</strong> created!'),
