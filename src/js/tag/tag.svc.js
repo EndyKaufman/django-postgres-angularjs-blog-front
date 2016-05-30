@@ -10,6 +10,9 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
     service.limit = 10;
     service.begin = 0;
 
+    service.tagText = '';
+    service.status = '';
+
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if (current.params !== undefined && $routeParams.navId != 'tag') {
             service.tagText = '';
@@ -141,6 +144,7 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
         service.initMeta();
 
         if (service.tagText !== undefined) {
+            service.status = gettextCatalog.getString(AppConst.tag.strings['status/loading']);
             service.setMeta();
 
             service.allList = [];
@@ -154,19 +158,21 @@ app.factory('TagSvc', function($routeParams, $q, $rootScope, AppConst, TagRes, P
                 $rootScope.$broadcast('post.init.meta');
 
                 for (var i = 1; i < responseList.length; i++) {
-                    if (responseList[i] && responseList[i].length > 0)
-                        service.allListSumSize = service.allListSumSize + responseList[i].length;
+                    if (responseList[i] && responseList[i].data && responseList[i].data.length > 0)
+                        service.allListSumSize = service.allListSumSize + responseList[i].data.length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: responseList[i]
+                            list: responseList[i].data
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: responseList[i]
+                            list: responseList[i].data
                         });
                 }
+                if (responseList.length === 0)
+                    service.status = gettextCatalog.getString(AppConst.tag.strings['status/not_found']);
             });
         } else {
             ManagerSvc.init();

@@ -925,8 +925,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">\n' +
     '                    </h1>\n' +
-    '                    <div class="content" ng-if="TagSvc.allListSumSize==0" translate>\n' +
-    '                        No results found...\n' +
+    '                    <div class="content" ng-if="TagSvc.allListSumSize==0" ng-bind="TagSvc.status">\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +
@@ -975,8 +974,7 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '                <div class="section-inner">\n' +
     '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
     '                    </h1>\n' +
-    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" translate>\n' +
-    '                        No results found...\n' +
+    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" ng-bind="SearchSvc.status">\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +

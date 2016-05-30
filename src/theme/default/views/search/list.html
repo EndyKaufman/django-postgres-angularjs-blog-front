@@ -5,8 +5,7 @@
                 <div class="section-inner">
                     <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">
                     </h1>
-                    <div class="content" ng-if="SearchSvc.allListSumSize==0" translate>
-                        No results found...
+                    <div class="content" ng-if="SearchSvc.allListSumSize==0" ng-bind="SearchSvc.status">
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->

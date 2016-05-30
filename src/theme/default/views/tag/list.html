@@ -5,8 +5,7 @@
                 <div class="section-inner">
                     <h1 class="heading" ng-bind-html="TagSvc.description | unsafe">
                     </h1>
-                    <div class="content" ng-if="TagSvc.allListSumSize==0" translate>
-                        No results found...
+                    <div class="content" ng-if="TagSvc.allListSumSize==0" ng-bind="TagSvc.status">
                     </div><!--//content-->
                 </div><!--//section-inner-->
             </section><!--//section-->

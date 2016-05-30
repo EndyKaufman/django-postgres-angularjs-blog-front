@@ -10,6 +10,7 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
     service.begin = 0;
 
     service.searchText = '';
+    service.status = '';
 
     $rootScope.$on('$routeChangeStart', function(event, current, previous) {
         if ($routeParams.navId != 'search') {
@@ -39,6 +40,7 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
         service.setMeta();
 
         if ($routeParams.searchText !== undefined) {
+            service.status = gettextCatalog.getString(AppConst.search.strings['status/loading']);
             service.allList = [];
             service.allListSumSize = 0;
             $q.all([
@@ -50,19 +52,21 @@ app.factory('SearchSvc', function($rootScope, $routeParams, $q, $location, AppCo
                 $rootScope.$broadcast('post.init.meta');
 
                 for (var i = 1; i < responseList.length; i++) {
-                    if (responseList[i] && responseList[i].length > 0)
-                        service.allListSumSize = service.allListSumSize + responseList[i].length;
+                    if (responseList[i] && responseList[i].data && responseList[i].data.length > 0)
+                        service.allListSumSize = service.allListSumSize + responseList[i].data.length;
                     if (i == 1)
                         service.allList.push({
                             name: 'project',
-                            list: responseList[i]
+                            list: responseList[i].data
                         });
                     if (i == 2)
                         service.allList.push({
                             name: 'post',
-                            list: responseList[i]
+                            list: responseList[i].data
                         });
                 }
+                if (responseList.length === 0)
+                    service.status = gettextCatalog.getString(AppConst.search.strings['status/not_found']);
             });
         }
     };
