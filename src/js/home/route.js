@@ -1,24 +1,22 @@
 app.config(function($routeProvider, $locationProvider) {
-    var routes = {
-        '/': {
-            templateUrl: 'views/home/list.html',
-            controller: 'HomeCtrl'
-        },
-        '/ru': {
-            templateUrl: 'views/home/list.html',
-            controller: 'HomeCtrl',
-            params: {
-                lang: 'ru'
-            }
-        },
-        '/en': {
-            templateUrl: 'views/home/list.html',
-            controller: 'HomeCtrl',
-            params: {
-                lang: 'en'
-            }
-        }
+    var baseRoute = {
+        templateUrl: 'views/home/list.html',
+        controller: 'HomeCtrl'
     };
+    var routes = {
+        '/': baseRoute
+    };
+    var key = null,
+        title = null;
+    for (var i = 0; i < AppConfig.lang_list.length; i++) {
+        key = AppConfig.lang_list[i].code;
+        title = AppConfig.lang_list[i].title;
+        routes['/' + key] = angular.extend({}, baseRoute, {
+            params: {
+                lang: key
+            }
+        });
+    }
 
     for (var url in routes) {
         $routeProvider

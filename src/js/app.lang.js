@@ -11,6 +11,14 @@ app.factory('AppLang', function($rootScope, $timeout, gettext, gettextCatalog) {
         'en': gettext('EN')
     };
 
+    var key = null,
+        title = null;
+    for (var i = 0; i < AppConfig.lang_list.length; i++) {
+        key = AppConfig.lang_list[i].code;
+        title = AppConfig.lang_list[i].title;
+        service.langs[key] = gettext(title);
+    }
+
     service.getUrlPrefix = function() {
         return currentLangUrlPrefix;
     };
