@@ -19,7 +19,11 @@ app.factory('ManagerConst', function(gettext) {
         },
         properties: {
             title: gettext('Properties'),
-            description: gettext('Properties description')
+            description: gettext('Properties description'),
+            strings: {
+                applyOnSite_title: gettext('Apply'),
+                applyOnSite_process: gettext('Apply...')
+            }
         },
         users: {
             title: gettext('Users'),

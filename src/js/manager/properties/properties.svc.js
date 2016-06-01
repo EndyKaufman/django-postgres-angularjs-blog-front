@@ -1,4 +1,5 @@
-app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
+app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q,
+    $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext, gettextCatalog, $window) {
     var service = {};
 
     service.item = {};
@@ -110,6 +111,23 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
                     }
                 );
             });
+    };
+
+    service.applyOnSite = {
+        disabled: false,
+        title: gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_title),
+        do: function() {
+            var $this = this;
+            $this.title = gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_process);
+            $this.disabled = true;
+
+            PropertiesRes.actionApplyOnSite().then(function(response) {
+                $this.title = gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_title);
+                $this.disabled = false;
+                service.load(true);
+                $window.location.reload();
+            });
+        }
     };
 
     service.load = function(reload) {

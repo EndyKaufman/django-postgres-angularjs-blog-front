@@ -450,10 +450,16 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/properties/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="propertiesCreate">\n' +
-    '    <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
-    '</button>');
+    '<div class="pull-right">\n' +
+    '    <button ng-click="PropertiesSvc.applyOnSite.do()" class="btn btn-cta-primary btn-xs"\n' +
+    '            type="button" id="PropertiesApply" ng-disabled="PropertiesSvc.applyOnSite.disabled" >\n' +
+    '        <i class="fa fa-check"></i> <span ng-bind="PropertiesSvc.applyOnSite.title"></span>\n' +
+    '    </button>\n' +
+    '    <button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary btn-xs"\n' +
+    '            type="button" id="propertiesCreate">\n' +
+    '        <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
+    '    </button>\n' +
+    '</div>');
 	a.put('views/manager/properties/inputs.html', '<div class="form-group">\n' +
     '    <label for="PropertiesName" translate>Name</label>\n' +
     '    <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>\n' +
@@ -466,7 +472,10 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '        <textarea class="form-control" id="PropertiesValue_{{lang}}"\n' +
     '                  ng-model="PropertiesSvc.item[\'value_\'+lang]"></textarea>\n' +
     '    </div>\n' +
-    '\n' +
+    '    <button ng-click="FileSvc.showList(PropertiesSvc.item[\'value_\'+lang])" class="btn btn-cta-default btn-block"\n' +
+    '            type="button">\n' +
+    '        <i class="fa fa-check"></i> <translate>Select file</translate>\n' +
+    '    </button>\n' +
     '    <div class="form-group">\n' +
     '        <label for="PropertiesComment_{{lang}}" translate>Comment</label>\n' +
     '        <textarea class="form-control" id="PropertiesComment_{{lang}}"\n' +

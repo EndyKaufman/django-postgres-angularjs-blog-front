@@ -16,7 +16,10 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         service.clearItem();
         service.load().then(function() {
             for (var i = 0; i < service.list.length; i++) {
-                if (item.src == service.list[i].src)
+                if (item.src !== undefined || item.src == service.list[i].src)
+                    service.item = service.list[i];
+
+                if (item.src === undefined || item == service.list[i].src)
                     service.item = service.list[i];
             }
             var boxOptions = {
@@ -29,10 +32,13 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
                 confirmText: gettext('Select'),
                 cancelText: gettext('Cancel'),
                 afterConfirm: function() {
-                    if (item.src !== service.item.src) {
+                    if (item.src !== undefined || item.src !== service.item.src) {
                         delete item.id;
                         item.src = service.item.src;
                         item.src_url = service.item.src_url;
+                    }
+                    if (item.src === undefined || item !== service.item.src) {
+                        item = service.item.src;
                     }
                 },
                 afterCancel: function() {

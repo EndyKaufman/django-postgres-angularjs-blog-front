@@ -12,8 +12,13 @@ app.factory('PropertiesRes', function($q, AppConst, AppRes) {
     service.actionCreate = function(item) {
         return AppRes.post('/api/v1/manager/properties/create', item);
     };
+
     service.actionDelete = function(item) {
         return AppRes.post('/api/v1/manager/properties/delete/' + item.id, item);
+    };
+
+    service.actionApplyOnSite = function(item) {
+        return AppRes.post('/api/v1/manager/properties/apply_on_site');
     };
 
     return service;

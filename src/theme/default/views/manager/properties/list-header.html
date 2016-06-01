@@ -1,5 +1,11 @@
 <span ng-bind="ManagerSvc.title"></span>
-<button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"
-        type="button" id="propertiesCreate">
-    <i class="fa fa-plus"></i> <translate>Create</translate>
-</button>
+<div class="pull-right">
+    <button ng-click="PropertiesSvc.applyOnSite.do()" class="btn btn-cta-primary btn-xs"
+            type="button" id="PropertiesApply" ng-disabled="PropertiesSvc.applyOnSite.disabled" >
+        <i class="fa fa-check"></i> <span ng-bind="PropertiesSvc.applyOnSite.title"></span>
+    </button>
+    <button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary btn-xs"
+            type="button" id="propertiesCreate">
+        <i class="fa fa-plus"></i> <translate>Create</translate>
+    </button>
+</div>

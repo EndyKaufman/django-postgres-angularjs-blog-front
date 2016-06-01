@@ -10,7 +10,10 @@
         <textarea class="form-control" id="PropertiesValue_{{lang}}"
                   ng-model="PropertiesSvc.item['value_'+lang]"></textarea>
     </div>
-
+    <button ng-click="FileSvc.showList(PropertiesSvc.item['value_'+lang])" class="btn btn-cta-default btn-block"
+            type="button">
+        <i class="fa fa-check"></i> <translate>Select file</translate>
+    </button>
     <div class="form-group">
         <label for="PropertiesComment_{{lang}}" translate>Comment</label>
         <textarea class="form-control" id="PropertiesComment_{{lang}}"

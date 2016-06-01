@@ -76945,7 +76945,11 @@ app.factory('ManagerConst', function(gettext) {
         },
         properties: {
             title: gettext('Properties'),
-            description: gettext('Properties description')
+            description: gettext('Properties description'),
+            strings: {
+                applyOnSite_title: gettext('Apply'),
+                applyOnSite_process: gettext('Apply...')
+            }
         },
         users: {
             title: gettext('Users'),
@@ -77435,7 +77439,168 @@ app.config(['$resourceProvider', '$httpProvider', function($resourceProvider, $h
     // see: https://github.com/coreyti/showdown#extensions
     $showdownProvider.loadExtension('github');
   });
-angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+angular.module("app").run(['$templateCache', function(a) { a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="ItemName" translate>Name</label>\n' +
+    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="ProjectSvc.item.name" required>\n' +
+    '    <span ng-show="projectForm.$submitted || projectForm.ItemName.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!projectForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '          aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemType" translate>Type</label>\n' +
+    '    <select class="form-control" id="ItemType" ng-model="ProjectSvc.item.type">\n' +
+    '        <option ng-repeat="type in AppConst.project.types"\n' +
+    '                ng-value="type.id"\n' +
+    '                ng-bind-html="type.title | unsafe"\n' +
+    '                ng-selected="ProjectSvc.item.type==type.id"></option>\n' +
+    '    </select>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemTags" translate>Tags</label>\n' +
+    '    <tags-input id="ItemTags" ng-model="ProjectSvc.item.tags" placeholder="{{ \'add tag\' | translate}}" min-length="1">\n' +
+    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
+    '    </tags-input>\n' +
+    '</div>\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
+    '                              ng-model="ProjectSvc.item[\'description_\'+lang]" required></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>');
+	a.put('views/project/inputs/central.html', '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group has-feedback" show-errors>\n' +
+    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
+    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="ProjectSvc.item[\'title_\'+lang]"\n' +
+    '               ng-change="ProjectSvc.slugName(ProjectSvc.item[\'title\'+lang])" required>\n' +
+    '        <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '              ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '              aria-hidden="true"></span>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
+    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
+    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
+    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
+    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
+    '                              ng-model="ProjectSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '<div class="form-group" ng-repeat="image in ProjectSvc.item.images track by image.id">\n' +
+    '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
+    '    <div class="input-group has-feedback">\n' +
+    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
+    '               ng-model="image.src">\n' +
+    '                        <span class="input-group-btn">\n' +
+    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
+    '                                    type="button" id="{{\'projectSelect\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-check"></i> <translate>Select</translate>\n' +
+    '                            </button>\n' +
+    '                            <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
+    '                                    type="button" id="{{\'projectDelete\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-trash"></i> <translate>Delete image</translate>\n' +
+    '                            </button>\n' +
+    '                        </span>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/post/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
+    '    <label for="ItemName" translate>Name</label>\n' +
+    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="PostSvc.item.name" required>\n' +
+    '    <span ng-show="postForm.$submitted || postForm.ItemName.$touched" class="form-control-feedback"\n' +
+    '          ng-class="!postForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '          aria-hidden="true"></span>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemType" translate>Type</label>\n' +
+    '    <select class="form-control" id="ItemType" ng-model="PostSvc.item.type">\n' +
+    '        <option ng-repeat="type in AppConst.post.types"\n' +
+    '                ng-value="type.id"\n' +
+    '                ng-bind-html="type.title | unsafe"\n' +
+    '                ng-selected="PostSvc.item.type==type.id"></option>\n' +
+    '    </select>\n' +
+    '</div>\n' +
+    '<div class="form-group has-feedback">\n' +
+    '    <label for="ItemTags" translate>Tags</label>\n' +
+    '    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="{{ \'add tag\' | translate}}" min-length="1">\n' +
+    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
+    '    </tags-input>\n' +
+    '</div>\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
+    '                              ng-model="PostSvc.item[\'description_\'+lang]" required></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>');
+	a.put('views/post/inputs/central.html', '\n' +
+    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group has-feedback" show-errors>\n' +
+    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
+    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="PostSvc.item[\'title_\'+lang]"\n' +
+    '               ng-change="PostSvc.slugName(PostSvc.item[\'title\'+lang])" required>\n' +
+    '        <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
+    '              ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '              aria-hidden="true"></span>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
+    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
+    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
+    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
+    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
+    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
+    '                              ng-model="PostSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '<div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">\n' +
+    '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
+    '    <div class="input-group has-feedback">\n' +
+    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
+    '               ng-model="image.src">\n' +
+    '                        <span class="input-group-btn">\n' +
+    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
+    '                                    type="button" id="{{\'postSelect\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-check"></i> <translate>Select</translate>\n' +
+    '                            </button>\n' +
+    '                            <button ng-click="PostSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
+    '                                    type="button" id="{{\'postDelete\'+$index+\'Image\'}}">\n' +
+    '                                <i class="fa fa-trash"></i> <translate>Delete image</translate>\n' +
+    '                            </button>\n' +
+    '                        </span>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
     '    <div class="modal-dialog">\n' +
     '        <div class="modal-content" ng-controller="TagCtrl">\n' +
     '            <form name="tagForm">\n' +
@@ -77522,272 +77687,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                    </button>\n' +
     '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
     '                            ng-disabled="!tagForm.$valid" id="tagCreateConfirm">\n' +
-    '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/post/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemName" translate>Name</label>\n' +
-    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="PostSvc.item.name" required>\n' +
-    '    <span ng-show="postForm.$submitted || postForm.ItemName.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!postForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemType" translate>Type</label>\n' +
-    '    <select class="form-control" id="ItemType" ng-model="PostSvc.item.type">\n' +
-    '        <option ng-repeat="type in AppConst.post.types"\n' +
-    '                ng-value="type.id"\n' +
-    '                ng-bind-html="type.title | unsafe"\n' +
-    '                ng-selected="PostSvc.item.type==type.id"></option>\n' +
-    '    </select>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemTags" translate>Tags</label>\n' +
-    '    <tags-input id="ItemTags" ng-model="PostSvc.item.tags" placeholder="{{ \'add tag\' | translate}}" min-length="1">\n' +
-    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
-    '    </tags-input>\n' +
-    '</div>\n' +
-    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
-    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
-    '    <div class="form-group">\n' +
-    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
-    '                              ng-model="PostSvc.item[\'description_\'+lang]" required></textarea>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>');
-	a.put('views/post/inputs/central.html', '\n' +
-    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
-    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
-    '    <div class="form-group has-feedback" show-errors>\n' +
-    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
-    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="PostSvc.item[\'title_\'+lang]"\n' +
-    '               ng-change="PostSvc.slugName(PostSvc.item[\'title\'+lang])" required>\n' +
-    '        <span ng-show="postForm.$submitted || postForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '              ng-class="!postForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '              aria-hidden="true"></span>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==1">\n' +
-    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
-    '                              ng-model="PostSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==2">\n' +
-    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
-    '                              ng-model="PostSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==3">\n' +
-    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
-    '                              ng-model="PostSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="PostSvc.item.type==4">\n' +
-    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
-    '                              ng-model="PostSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '<div class="form-group" ng-repeat="image in PostSvc.item.images track by image.id">\n' +
-    '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
-    '    <div class="input-group has-feedback">\n' +
-    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
-    '               ng-model="image.src">\n' +
-    '                        <span class="input-group-btn">\n' +
-    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
-    '                                    type="button" id="{{\'postSelect\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-check"></i> <translate>Select</translate>\n' +
-    '                            </button>\n' +
-    '                            <button ng-click="PostSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
-    '                                    type="button" id="{{\'postDelete\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-trash"></i> <translate>Delete image</translate>\n' +
-    '                            </button>\n' +
-    '                        </span>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/project/inputs/right.html', '<div class="form-group has-feedback" show-errors>\n' +
-    '    <label for="ItemName" translate>Name</label>\n' +
-    '    <input type="text" class="form-control" id="ItemName" name="ItemName" ng-model="ProjectSvc.item.name" required>\n' +
-    '    <span ng-show="projectForm.$submitted || projectForm.ItemName.$touched" class="form-control-feedback"\n' +
-    '          ng-class="!projectForm.ItemName.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '          aria-hidden="true"></span>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemType" translate>Type</label>\n' +
-    '    <select class="form-control" id="ItemType" ng-model="ProjectSvc.item.type">\n' +
-    '        <option ng-repeat="type in AppConst.project.types"\n' +
-    '                ng-value="type.id"\n' +
-    '                ng-bind-html="type.title | unsafe"\n' +
-    '                ng-selected="ProjectSvc.item.type==type.id"></option>\n' +
-    '    </select>\n' +
-    '</div>\n' +
-    '<div class="form-group has-feedback">\n' +
-    '    <label for="ItemTags" translate>Tags</label>\n' +
-    '    <tags-input id="ItemTags" ng-model="ProjectSvc.item.tags" placeholder="{{ \'add tag\' | translate}}" min-length="1">\n' +
-    '        <auto-complete source="TagSvc.searchTag($query)"></auto-complete>\n' +
-    '    </tags-input>\n' +
-    '</div>\n' +
-    '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
-    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
-    '    <div class="form-group">\n' +
-    '        <label for="ItemDescription_{{lang}}" translate>Description</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemDescription_{{lang}}" name="ItemDescription"\n' +
-    '                              ng-model="ProjectSvc.item[\'description_\'+lang]" required></textarea>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>');
-	a.put('views/project/inputs/central.html', '<div data-nq-tabset="" data-tabset-model="ItemDescriptionTabset">\n' +
-    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
-    '    <div class="form-group has-feedback" show-errors>\n' +
-    '        <label for="ItemTitle_{{lang}}" translate>Title</label>\n' +
-    '        <input type="text" class="form-control" id="ItemTitle_{{lang}}" name="ItemTitle_{{lang}}" ng-model="ProjectSvc.item[\'title_\'+lang]"\n' +
-    '               ng-change="ProjectSvc.slugName(ProjectSvc.item[\'title\'+lang])" required>\n' +
-    '        <span ng-show="projectForm.$submitted || projectForm.ItemTitle.$touched" class="form-control-feedback"\n' +
-    '              ng-class="!projectForm.ItemTitle.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '              aria-hidden="true"></span>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==1">\n' +
-    '        <label for="ItemText_{{lang}}" translate>Text</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemText_{{lang}}"\n' +
-    '                              ng-model="ProjectSvc.item[\'text_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==2">\n' +
-    '        <label for="ItemHtml_{{lang}}" translate>Html</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemHtml_{{lang}}"\n' +
-    '                              ng-model="ProjectSvc.item[\'html_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==3">\n' +
-    '        <label for="ItemUrl_{{lang}}" translate>Url</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemUrl_{{lang}}"\n' +
-    '                              ng-model="ProjectSvc.item[\'url_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '    <div class="form-group has-feedback" ng-if="ProjectSvc.item.type==4">\n' +
-    '        <label for="ItemMarkdown_{{lang}}" translate>Markdown</label>\n' +
-    '                    <textarea type="text" class="form-control" id="ItemMarkdown_{{lang}}"\n' +
-    '                              ng-model="ProjectSvc.item[\'markdown_\'+lang]" rows="15"></textarea>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '<div class="form-group" ng-repeat="image in ProjectSvc.item.images track by image.id">\n' +
-    '    <label for="{{\'ItemImage\'+($index+1)}}" translate translate-n="($index+1)" translate-plural="Image {{$count}}"></label>\n' +
-    '    <div class="input-group has-feedback">\n' +
-    '        <input type="text" class="form-control" id="{{\'ItemImage\'+($index+1)}}"\n' +
-    '               ng-model="image.src">\n' +
-    '                        <span class="input-group-btn">\n' +
-    '                            <button ng-click="FileSvc.showList(image)" class="btn btn-cta-default"\n' +
-    '                                    type="button" id="{{\'projectSelect\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-check"></i> <translate>Select</translate>\n' +
-    '                            </button>\n' +
-    '                            <button ng-click="ProjectSvc.doDeleteImage($index)" class="btn btn-cta-red"\n' +
-    '                                    type="button" id="{{\'projectDelete\'+$index+\'Image\'}}">\n' +
-    '                                <i class="fa fa-trash"></i> <translate>Delete image</translate>\n' +
-    '                            </button>\n' +
-    '                        </span>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/meta_tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
-    '            <form name="meta_tagForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/meta_tag/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="meta_tagUpdateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!meta_tagForm.$valid" id="meta_tagUpdateConfirm">\n' +
-    '                        <i class="fa fa-floppy-o"></i> {{confirmText | translate}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/meta_tag/list.html', '<table class="table table-hover">\n' +
-    '    <thead>\n' +
-    '    <tr>\n' +
-    '        <th style="width:20px" translate>ID</th>\n' +
-    '        <th translate>Name</th>\n' +
-    '        <th translate>Content</th>\n' +
-    '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
-    '    </tr>\n' +
-    '    </thead>\n' +
-    '    <tbody>\n' +
-    '    <tr ng-repeat="item in MetaTagSvc.list | orderBy:\'position\'"\n' +
-    '        ng-class="(MetaTagSvc.item.id==item.id)?\'bold\':\'\'">\n' +
-    '        <td ng-bind="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.name" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
-    '        <td class="break-word" ng-bind="item[\'content_\'+AppLang.getCurrent()]" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
-    '        <td class="text-right">\n' +
-    '            <button ng-click="MetaTagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
-    '                    id="{{\'meta_tag\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
-    '            </button>\n' +
-    '            <button ng-click="MetaTagSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
-    '                    id="{{\'meta_tag\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> <translate>Delete</translate>\n' +
-    '            </button>\n' +
-    '        </td>\n' +
-    '    </tr>\n' +
-    '    </tbody>\n' +
-    '</table>');
-	a.put('views/manager/meta_tag/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="MetaTagSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="meta_tagCreate">\n' +
-    '    <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
-    '</button>');
-	a.put('views/manager/meta_tag/inputs.html', '<div class="form-group">\n' +
-    '    <label for="MetaTagName" translate>Name</label>\n' +
-    '    <input class="form-control" type="text" id="MetaTagName" ng-model="MetaTagSvc.item.name"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="MetaTagPosition" translate>Position</label>\n' +
-    '    <input class="form-control" type="text" id="MetaTagPosition" ng-model="MetaTagSvc.item.position"/>\n' +
-    '</div>\n' +
-    '<div data-nq-tabset="" data-tabset-model="MetaTagTabset">\n' +
-    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
-    '    <div class="form-group">\n' +
-    '        <label for="MetaTagContent_{{lang}}" translate>Content</label>\n' +
-    '        <input type="text" class="form-control" id="MetaTagContent_{{lang}}"\n' +
-    '               ng-model="MetaTagSvc.item[\'content_\'+lang]"/>\n' +
-    '    </div>\n' +
-    '    <div class="form-group">\n' +
-    '        <label for="MetaTagAttributes_{{lang}}" translate>Attributes</label>\n' +
-    '        <input type="text" class="form-control" id="MetaTagAttributes_{{lang}}"\n' +
-    '               ng-model="MetaTagSvc.item[\'attributes_\'+lang]"/>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>');
-	a.put('views/manager/meta_tag/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
-    '            <form name="meta_tagForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/meta_tag/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="meta_tagCreateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!meta_tagForm.$valid" id="meta_tagCreateConfirm">\n' +
     '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
     '                    </button>\n' +
     '                </div>\n' +
@@ -77992,10 +77891,16 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '    </tbody>\n' +
     '</table>');
 	a.put('views/manager/properties/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
-    '        type="button" id="propertiesCreate">\n' +
-    '    <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
-    '</button>');
+    '<div class="pull-right">\n' +
+    '    <button ng-click="PropertiesSvc.applyOnSite.do()" class="btn btn-cta-primary btn-xs"\n' +
+    '            type="button" id="PropertiesApply" ng-disabled="PropertiesSvc.applyOnSite.disabled" >\n' +
+    '        <i class="fa fa-check"></i> <span ng-bind="PropertiesSvc.applyOnSite.title"></span>\n' +
+    '    </button>\n' +
+    '    <button ng-click="PropertiesSvc.showCreate()" class="btn btn-cta-secondary btn-xs"\n' +
+    '            type="button" id="propertiesCreate">\n' +
+    '        <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
+    '    </button>\n' +
+    '</div>');
 	a.put('views/manager/properties/inputs.html', '<div class="form-group">\n' +
     '    <label for="PropertiesName" translate>Name</label>\n' +
     '    <input class="form-control" type="text" id="PropertiesName" ng-model="PropertiesSvc.item.name" ng-disabled="PropertiesSvc.item.only_update==1"/>\n' +
@@ -78008,7 +77913,10 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        <textarea class="form-control" id="PropertiesValue_{{lang}}"\n' +
     '                  ng-model="PropertiesSvc.item[\'value_\'+lang]"></textarea>\n' +
     '    </div>\n' +
-    '\n' +
+    '    <button ng-click="FileSvc.showList(PropertiesSvc.item[\'value_\'+lang])" class="btn btn-cta-default btn-block"\n' +
+    '            type="button">\n' +
+    '        <i class="fa fa-check"></i> <translate>Select file</translate>\n' +
+    '    </button>\n' +
     '    <div class="form-group">\n' +
     '        <label for="PropertiesComment_{{lang}}" translate>Comment</label>\n' +
     '        <textarea class="form-control" id="PropertiesComment_{{lang}}"\n' +
@@ -78032,6 +77940,211 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                    </button>\n' +
     '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
     '                            ng-disabled="!propertiesForm.$valid" id="propertiesCreateConfirm">\n' +
+    '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/meta_tag/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
+    '            <form name="meta_tagForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/meta_tag/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="meta_tagUpdateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!meta_tagForm.$valid" id="meta_tagUpdateConfirm">\n' +
+    '                        <i class="fa fa-floppy-o"></i> {{confirmText | translate}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/meta_tag/list.html', '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
+    '        <th translate>Name</th>\n' +
+    '        <th translate>Content</th>\n' +
+    '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in MetaTagSvc.list | orderBy:\'position\'"\n' +
+    '        ng-class="(MetaTagSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td ng-bind="item.id" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.name" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
+    '        <td class="break-word" ng-bind="item[\'content_\'+AppLang.getCurrent()]" ng-click="MetaTagSvc.selectItem(item)"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="MetaTagSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
+    '                    id="{{\'meta_tag\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
+    '            </button>\n' +
+    '            <button ng-click="MetaTagSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
+    '                    id="{{\'meta_tag\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> <translate>Delete</translate>\n' +
+    '            </button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/manager/meta_tag/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
+    '<button ng-click="MetaTagSvc.showCreate()" class="btn btn-cta-secondary pull-right btn-xs"\n' +
+    '        type="button" id="meta_tagCreate">\n' +
+    '    <i class="fa fa-plus"></i> <translate>Create</translate>\n' +
+    '</button>');
+	a.put('views/manager/meta_tag/inputs.html', '<div class="form-group">\n' +
+    '    <label for="MetaTagName" translate>Name</label>\n' +
+    '    <input class="form-control" type="text" id="MetaTagName" ng-model="MetaTagSvc.item.name"/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="MetaTagPosition" translate>Position</label>\n' +
+    '    <input class="form-control" type="text" id="MetaTagPosition" ng-model="MetaTagSvc.item.position"/>\n' +
+    '</div>\n' +
+    '<div data-nq-tabset="" data-tabset-model="MetaTagTabset">\n' +
+    '  <div ng-repeat="(lang, title) in AppLang.langs" data-nq-tab="" data-heading="{{title | translate}}">\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="MetaTagContent_{{lang}}" translate>Content</label>\n' +
+    '        <input type="text" class="form-control" id="MetaTagContent_{{lang}}"\n' +
+    '               ng-model="MetaTagSvc.item[\'content_\'+lang]"/>\n' +
+    '    </div>\n' +
+    '    <div class="form-group">\n' +
+    '        <label for="MetaTagAttributes_{{lang}}" translate>Attributes</label>\n' +
+    '        <input type="text" class="form-control" id="MetaTagAttributes_{{lang}}"\n' +
+    '               ng-model="MetaTagSvc.item[\'attributes_\'+lang]"/>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>');
+	a.put('views/manager/meta_tag/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="MetaTagCtrl">\n' +
+    '            <form name="meta_tagForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/meta_tag/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="meta_tagCreateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!meta_tagForm.$valid" id="meta_tagCreateConfirm">\n' +
+    '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
+    '            <form name="html_cacheForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheUpdateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheUpdateConfirm">\n' +
+    '                        <i class="fa fa-floppy-o"></i> {{confirmText | translate}}\n' +
+    '                    </button>\n' +
+    '                </div>\n' +
+    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
+    '                    <i class="fa fa-times"></i>\n' +
+    '                </button>\n' +
+    '            </form>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/list.html', '<table class="table table-hover">\n' +
+    '    <thead>\n' +
+    '    <tr>\n' +
+    '        <td style="width:10px"><input type="checkbox" ng-model="CHECKED" ng-click="HtmlCacheSvc.doCheckAll(CHECKED)" ng-true-value="true" ng-false-value="false"></td>\n' +
+    '        <th style="width:20px" translate>ID</th>\n' +
+    '        <th style="width:200px" translate>Name</th>\n' +
+    '        <th translate>Empty</th>\n' +
+    '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
+    '    </tr>\n' +
+    '    </thead>\n' +
+    '    <tbody>\n' +
+    '    <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:\'position\'"\n' +
+    '        ng-class="(HtmlCacheSvc.item.id==item.id)?\'bold\':\'\'">\n' +
+    '        <td><input type="checkbox" ng-model="item.CHECKED" ng-click="HtmlCacheSvc.collectCheckedItems()" ng-true-value="true" ng-false-value="false"></td>\n' +
+    '        <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td ng-bind="item.content==\'\'?\'Yes\':\'No\'" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
+    '        <td class="text-right">\n' +
+    '            <button ng-click="HtmlCacheSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
+    '                    id="{{\'html_cache\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
+    '            </button>\n' +
+    '            <button ng-click="HtmlCacheSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
+    '                    id="{{\'html_cache\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> <translate>Delete</translate>\n' +
+    '            </button>\n' +
+    '        </td>\n' +
+    '    </tr>\n' +
+    '    </tbody>\n' +
+    '</table>');
+	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
+    '<div class="pull-right">\n' +
+    '    <button ng-click="HtmlCacheSvc.doDeleteChecked()" class="btn btn-cta-red btn-xs"\n' +
+    '            type="button" id="doDeleteChecked" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" ng-if="HtmlCacheSvc.checkeds.length>0">\n' +
+    '        <i class="fa fa-trash"></i> <translate>Delete checked</translate>\n' +
+    '    </button>\n' +
+    '    <button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary btn-xs"\n' +
+    '            type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
+    '        <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
+    '    </button>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
+    '    <label for="HtmlCacheUrl" translate>Name</label>\n' +
+    '    <input class="form-control" type="text" id="HtmlCacheUrl" ng-model="HtmlCacheSvc.item.url"/>\n' +
+    '</div>\n' +
+    '<div class="form-group">\n' +
+    '    <label for="HtmlCacheContent" translate>Content</label>\n' +
+    '    <textarea class="form-control" id="HtmlCacheContent"\n' +
+    '              ng-model="HtmlCacheSvc.item.content"></textarea>\n' +
+    '</div>');
+	a.put('views/manager/html_cache/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
+    '    <div class="modal-dialog">\n' +
+    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
+    '            <form name="html_cacheForm">\n' +
+    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
+    '                <div class="modal-body">\n' +
+    '                    <div class="modal-body-inner">\n' +
+    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '                <div class="modal-footer">\n' +
+    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheCreateCancel">\n' +
+    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
+    '                    </button>\n' +
+    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
+    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheCreateConfirm">\n' +
     '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
     '                    </button>\n' +
     '                </div>\n' +
@@ -78134,106 +78247,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                    </button>\n' +
     '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
     '                            ng-disabled="!user_appForm.$valid" id="user_appCreateConfirm">\n' +
-    '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/update.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
-    '            <form name="html_cacheForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheUpdateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheUpdateConfirm">\n' +
-    '                        <i class="fa fa-floppy-o"></i> {{confirmText | translate}}\n' +
-    '                    </button>\n' +
-    '                </div>\n' +
-    '                <button type="button" class="close" ng-click="$cancel()" ng-bind-html="closeIcon">\n' +
-    '                    <i class="fa fa-times"></i>\n' +
-    '                </button>\n' +
-    '            </form>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/list.html', '<table class="table table-hover">\n' +
-    '    <thead>\n' +
-    '    <tr>\n' +
-    '        <td style="width:10px"><input type="checkbox" ng-model="CHECKED" ng-click="HtmlCacheSvc.doCheckAll(CHECKED)" ng-true-value="true" ng-false-value="false"></td>\n' +
-    '        <th style="width:20px" translate>ID</th>\n' +
-    '        <th style="width:200px" translate>Name</th>\n' +
-    '        <th translate>Empty</th>\n' +
-    '        <th class="text-right" style="width:200px" translate>Actions</th>\n' +
-    '    </tr>\n' +
-    '    </thead>\n' +
-    '    <tbody>\n' +
-    '    <tr ng-repeat="item in HtmlCacheSvc.list | orderBy:\'position\'"\n' +
-    '        ng-class="(HtmlCacheSvc.item.id==item.id)?\'bold\':\'\'">\n' +
-    '        <td><input type="checkbox" ng-model="item.CHECKED" ng-click="HtmlCacheSvc.collectCheckedItems()" ng-true-value="true" ng-false-value="false"></td>\n' +
-    '        <td ng-bind="item.id" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.url" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td ng-bind="item.content==\'\'?\'Yes\':\'No\'" ng-click="HtmlCacheSvc.selectItem(item)"></td>\n' +
-    '        <td class="text-right">\n' +
-    '            <button ng-click="HtmlCacheSvc.showUpdate(item)" class="btn btn-cta-default btn-xs" type="button"\n' +
-    '                    id="{{\'html_cache\'+item.id+\'Update\'}}"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>\n' +
-    '            </button>\n' +
-    '            <button ng-click="HtmlCacheSvc.doDelete(item)" class="btn btn-cta-red btn-xs" type="button"\n' +
-    '                    id="{{\'html_cache\'+item.id+\'Delete\'}}"><i class="fa fa-trash"></i> <translate>Delete</translate>\n' +
-    '            </button>\n' +
-    '        </td>\n' +
-    '    </tr>\n' +
-    '    </tbody>\n' +
-    '</table>');
-	a.put('views/manager/html_cache/list-header.html', '<span ng-bind="ManagerSvc.title"></span>\n' +
-    '<div class="pull-right">\n' +
-    '    <button ng-click="HtmlCacheSvc.doDeleteChecked()" class="btn btn-cta-red btn-xs"\n' +
-    '            type="button" id="doDeleteChecked" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" ng-if="HtmlCacheSvc.checkeds.length>0">\n' +
-    '        <i class="fa fa-trash"></i> <translate>Delete checked</translate>\n' +
-    '    </button>\n' +
-    '    <button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary btn-xs"\n' +
-    '            type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
-    '        <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
-    '    </button>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +
-    '    <label for="HtmlCacheUrl" translate>Name</label>\n' +
-    '    <input class="form-control" type="text" id="HtmlCacheUrl" ng-model="HtmlCacheSvc.item.url"/>\n' +
-    '</div>\n' +
-    '<div class="form-group">\n' +
-    '    <label for="HtmlCacheContent" translate>Content</label>\n' +
-    '    <textarea class="form-control" id="HtmlCacheContent"\n' +
-    '              ng-model="HtmlCacheSvc.item.content"></textarea>\n' +
-    '</div>');
-	a.put('views/manager/html_cache/create.modal.html', '<div class="modal" tabindex="-1" role="dialog">\n' +
-    '    <div class="modal-dialog">\n' +
-    '        <div class="modal-content" ng-controller="HtmlCacheCtrl">\n' +
-    '            <form name="html_cacheForm">\n' +
-    '                <div class="modal-header" ng-show="title"><h4 class="modal-title" ng-bind="title | translate"></h4></div>\n' +
-    '                <div class="modal-body">\n' +
-    '                    <div class="modal-body-inner">\n' +
-    '                        <div ng-include="\'views/manager/html_cache/inputs.html\'"></div>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '                <div class="modal-footer">\n' +
-    '                    <button type="button" class="btn btn-cta-default" ng-click="$cancel()" id="html_cacheCreateCancel">\n' +
-    '                        <i class="fa fa-undo"></i> {{cancelText | translate}}\n' +
-    '                    </button>\n' +
-    '                    <button type="button" class="btn btn-cta-secondary" ng-click="$confirm()"\n' +
-    '                            ng-disabled="!html_cacheForm.$valid" id="html_cacheCreateConfirm">\n' +
     '                        <i class="fa fa-check"></i> {{confirmText | translate}}\n' +
     '                    </button>\n' +
     '                </div>\n' +
@@ -78355,55 +78368,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '                                      ng-class="!accountForm.password.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
     '                                      aria-hidden="true"></span>\n' +
     '</div>');
-	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" ng-bind="SearchSvc.status">\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
-    '                        </h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '            </div>\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/project\'}}"><translate>All projects</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
-	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
-    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
-    '</div><!--//item-->\n' +
-    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
-    '        class="fa fa-chevron-right"></i></a>');
 	a.put('views/tag/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
@@ -78453,6 +78417,337 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '</div><!--//item-->\n' +
     '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
     '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-bind-html="SearchSvc.description | unsafe">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content" ng-if="SearchSvc.allListSumSize==0" ng-bind="SearchSvc.status">\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '            <div ng-repeat="allItem in SearchSvc.allList" ng-if="SearchSvc.allListSumSize>0">\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'project\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-projects.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '                <section class="latest section" ng-if="allItem.name==\'post\' && allItem.list.length>0">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" ng-include="\'views/post/list-header.html\'">\n' +
+    '                        </h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/tag/list-posts.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '            </div>\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/search/list-projects.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:ProjectSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/project\'}}"><translate>All projects</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/search/list-posts.html', '<div class="item row" ng-repeat="item in allItem.list | limitTo:PostSvc.limitOnHome">\n' +
+    '    <div ng-include="\'views/post/list-item.html\'"></div>\n' +
+    '</div><!--//item-->\n' +
+    '<a class="btn btn-cta-secondary" ng-href="{{AppLang.getUrlPrefix()+\'/post\'}}"><translate>All posts</translate> <i\n' +
+    '        class="fa fa-chevron-right"></i></a>');
+	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <form name="projectForm">\n' +
+    '        <div class="row">\n' +
+    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '                <section class="latest section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h1 class="heading">\n' +
+    '                            <span translate>Edit project</span>\n' +
+    '                            <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+ProjectSvc.item.name}}"\n' +
+    '                               class="btn btn-cta-default pull-right btn-xs"\n' +
+    '                               id="projectUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>\n' +
+    '                        </h1>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
+    '                            <div>\n' +
+    '                                <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                        ng-disabled="!projectForm.$valid" id="projectSave">\n' +
+    '                                    <i class="fa fa-floppy-o"></i> <translate>Save</translate>\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"\n' +
+    '                                        id="projectDelete">\n' +
+    '                                    <i class="fa fa-trash"></i> <translate>Delete project</translate>\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
+    '                                        id="projectAddImage">\n' +
+    '                                    <i class="fa fa-plus"></i> <translate>Add image</translate>\n' +
+    '                                </button>\n' +
+    '                            </div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
+    '            </div><!--//primary-->\n' +
+    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '\n' +
+    '                <aside class="list tags aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" translate>Additionally</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/project/inputs/right.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//section-->\n' +
+    '\n' +
+    '                <aside class="info aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading sr-only" translate>Search</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/search.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//aside-->\n' +
+    '\n' +
+    '            </div><!--//secondary-->\n' +
+    '        </div><!--//row-->\n' +
+    '    </form>\n' +
+    '</div><!--//masonry-->');
+	a.put('views/project/sidebar.html', '<aside class="info aside section">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading sr-only" translate>Search</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/search.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//aside-->\n' +
+    '\n' +
+    '<aside class="list tags aside section">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading" translate>Tags</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//section-->');
+	a.put('views/project/list.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div class="item row"\n' +
+    '                             ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limit:ProjectSvc.begin">\n' +
+    '                            <div ng-include="\'views/project/list-item.html\'"></div>\n' +
+    '                        </div><!--//item-->\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/project/sidebar.html\'"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
+    '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
+    '         ng-if="item.images.length>0"\n' +
+    '         alt="{{item[\'title_\'+AppLang.getCurrent()]}}"/>\n' +
+    '</a>\n' +
+    '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
+    '    <div class="pull-right">\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+item.name}}"\n' +
+    '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
+    '           id="{{\'project\'+$index+\'Update\'}}">\n' +
+    '            <i class="fa fa-pencil-square-o"></i>\n' +
+    '            <span class="hidden-xs" translate>Edit</span>\n' +
+    '        </a>\n' +
+    '        <a ng-click="ProjectSvc.doDelete(item)" class="btn btn-cta-red btn-xs"\n' +
+    '           id="projectDelete" ng-if="AccountSvc.isAdmin()">\n' +
+    '            <i class="fa fa-trash"></i>\n' +
+    '            <span class="hidden-xs" translate>Delete</span>\n' +
+    '        </a>\n' +
+    '    </div>\n' +
+    '    <h3 class="title">\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-bind-html="item[\'title_\'+AppLang.getCurrent()] | unsafe"></a>\n' +
+    '    </h3>\n' +
+    '    <p ng-bind-html="item[\'description_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
+    '    <p ng-if="item.tags.length>0">\n' +
+    '        <span ng-repeat="tag in item.tags">\n' +
+    '            <i class="fa fa-tag"></i>\n' +
+    '            <a class="list-link" ng-href="{{\'/tag/\'+tag.text}}"\n' +
+    '               ng-bind="tag.text"></a>\n' +
+    '        </span>\n' +
+    '    </p>\n' +
+    '    <p>\n' +
+    '        <a class="more-link" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" id="{{\'project\'+$index+\'Detail\'}}"><i\n' +
+    '                class="fa fa-link"></i> <translate>Detail...</translate></a>\n' +
+    '    </p>\n' +
+    '</div><!--//desc-->\n' +
+    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '    <hr class="divider" ng-if="!$last"/>\n' +
+    '</div><!--//desc-->');
+	a.put('views/project/list-header.html', '<span ng-bind-html="ProjectSvc.title | unsafe"></span>\n' +
+    '<a ng-href="{{AppLang.getUrlPrefix()+\'/project/create\'}}"\n' +
+    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  <translate>Create</translate></a>');
+	a.put('views/project/item.html', '<div class="container sections-wrapper">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading">\n' +
+    '                        <span ng-bind-html="ProjectSvc.item[\'title_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
+    '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+ProjectSvc.item.name}}"\n' +
+    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div class="item row">\n' +
+    '                            <div ng-include="\'views/project/item-content.html\'"></div>\n' +
+    '                        </div><!--//item-->\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <aside class="list description aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" translate>Description</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <span ng-bind-html="ProjectSvc.item[\'description_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="list tags aside section" ng-if="ProjectSvc.item.tags.length>0">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading" translate>Tags</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/project/item-tags.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//section-->\n' +
+    '\n' +
+    '            <aside class="info aside section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h2 class="heading sr-only" translate>Search</h2>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/search.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </aside><!--//aside-->\n' +
+    '\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/project/item-tags.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="tag in ProjectSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}"\n' +
+    '                                                                             ng-bind="tag.text"></a></li>\n' +
+    '</ul>');
+	a.put('views/project/item-content.html', '<div ng-if="ProjectSvc.item.images.length>0">\n' +
+    '    <div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '        <div ng-if="ProjectSvc.item.images.length==1">\n' +
+    '            <img ng-src="{{ProjectSvc.item.images[0].src_url}}"\n' +
+    '                 class="img-responsive"/>\n' +
+    '        </div>\n' +
+    '        <div ng-if="ProjectSvc.item.images.length>1">\n' +
+    '            <div data-nq-carousel="">\n' +
+    '                <div data-carousel-item="" ng-repeat="image in ProjectSvc.item.images">\n' +
+    '                    <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
+    '                        ng-bind-html="image.title | unsafe"></h3-->\n' +
+    '                    <img ng-src="{{image.src_url}}">\n' +
+    '                    <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
+    '                        <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '        </div>\n' +
+    '        <hr class="divider"/>\n' +
+    '    </div>\n' +
+    '</div>\n' +
+    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
+    '    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item[\'text_\'+AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="ProjectSvc.item[\'text_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item[\'html_\'+AppLang.getCurrent()]">\n' +
+    '        <p ng-bind-html="ProjectSvc.item[\'html_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="ProjectSvc.item.type==3 && ProjectSvc.item.url">\n' +
+    '        <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>\n' +
+    '    </div>\n' +
+    '    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
+    '        <p markdown-to-html="ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
+    '        </p>\n' +
+    '    </div>\n' +
+    '</div><!--//desc-->');
+	a.put('views/project/create.html', '<div class="container sections-wrapper" ng-init="ProjectSvc.initEmptyItem()">\n' +
+    '    <form name="projectForm">\n' +
+    '        <div class="row">\n' +
+    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '                <section class="latest section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h1 class="heading">\n' +
+    '                            <span translate>Create project</span>\n' +
+    '                        </h1>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
+    '                            <div>\n' +
+    '                                <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                        ng-disabled="!projectForm.$valid" id="projectCreate">\n' +
+    '                                    <i class="fa fa-check"></i> <translate>Create</translate>\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"\n' +
+    '                                        id="projectDelete">\n' +
+    '                                    <i class="fa fa-trash"></i> <translate>Delete project</translate>\n' +
+    '                                </button>\n' +
+    '                                <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
+    '                                        id="projectAddImage">\n' +
+    '                                    <i class="fa fa-plus"></i> <translate>Add image</translate>\n' +
+    '                                </button>\n' +
+    '                            </div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </section><!--//section-->\n' +
+    '\n' +
+    '            </div><!--//primary-->\n' +
+    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '\n' +
+    '                <aside class="list tags aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading" translate>Additionally</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/project/inputs/right.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//section-->\n' +
+    '\n' +
+    '                <aside class="info aside section">\n' +
+    '                    <div class="section-inner">\n' +
+    '                        <h2 class="heading sr-only" translate>Search</h2>\n' +
+    '                        <div class="content">\n' +
+    '                            <div ng-include="\'views/search.html\'"></div>\n' +
+    '                        </div><!--//content-->\n' +
+    '                    </div><!--//section-inner-->\n' +
+    '                </aside><!--//aside-->\n' +
+    '\n' +
+    '            </div><!--//secondary-->\n' +
+    '        </div><!--//row-->\n' +
+    '    </form>\n' +
+    '</div><!--//masonry-->');
 	a.put('views/post/update.html', '<div class="container sections-wrapper">\n' +
     '    <form name="postForm">\n' +
     '        <div class="row">\n' +
@@ -78811,287 +79106,146 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/project/update.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <form name="projectForm">\n' +
-    '        <div class="row">\n' +
-    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '                <section class="latest section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h1 class="heading">\n' +
-    '                            <span translate>Edit project</span>\n' +
-    '                            <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+ProjectSvc.item.name}}"\n' +
-    '                               class="btn btn-cta-default pull-right btn-xs"\n' +
-    '                               id="projectUpdate"><i class="fa fa-eye"></i> <translate>View</translate></a>\n' +
-    '                        </h1>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
-    '                            <div>\n' +
-    '                                <button ng-click="ProjectSvc.doUpdate(ProjectSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                        ng-disabled="!projectForm.$valid" id="projectSave">\n' +
-    '                                    <i class="fa fa-floppy-o"></i> <translate>Save</translate>\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"\n' +
-    '                                        id="projectDelete">\n' +
-    '                                    <i class="fa fa-trash"></i> <translate>Delete project</translate>\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
-    '                                        id="projectAddImage">\n' +
-    '                                    <i class="fa fa-plus"></i> <translate>Add image</translate>\n' +
-    '                                </button>\n' +
-    '                            </div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
-    '\n' +
-    '            </div><!--//primary-->\n' +
-    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '\n' +
-    '                <aside class="list tags aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" translate>Additionally</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/project/inputs/right.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//section-->\n' +
-    '\n' +
-    '                <aside class="info aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading sr-only" translate>Search</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/search.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//aside-->\n' +
-    '\n' +
-    '            </div><!--//secondary-->\n' +
-    '        </div><!--//row-->\n' +
-    '    </form>\n' +
-    '</div><!--//masonry-->');
-	a.put('views/project/sidebar.html', '<aside class="info aside section">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading sr-only" translate>Search</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/search.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//aside-->\n' +
-    '\n' +
-    '<aside class="list tags aside section">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading" translate>Tags</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/home/list-tags.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//section-->');
-	a.put('views/project/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/project/list-header.html\'">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/tag/list-header.html\'">\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
-    '                        <div class="item row"\n' +
-    '                             ng-repeat="item in ProjectSvc.list | limitTo:ProjectSvc.limit:ProjectSvc.begin">\n' +
-    '                            <div ng-include="\'views/project/list-item.html\'"></div>\n' +
-    '                        </div><!--//item-->\n' +
+    '                        <div ng-include="\'views/manager/tag/list.html\'"></div>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +
     '\n' +
     '        </div><!--//primary-->\n' +
     '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/project/sidebar.html\'"></div>\n' +
+    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/project/list-item.html', '<a class="col-md-4 col-sm-4 col-xs-12" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-if="item.images.length>0">\n' +
-    '    <img class="img-responsive project-image" ng-src="{{item.images[0].src_thumbnail_url}}"\n' +
-    '         ng-if="item.images.length>0"\n' +
-    '         alt="{{item[\'title_\'+AppLang.getCurrent()]}}"/>\n' +
-    '</a>\n' +
-    '<div class="desc col-xs-12" ng-class="item.images.length>0?\'col-md-8 col-sm-8\':\'col-md-12 col-sm-12\'">\n' +
-    '    <div class="pull-right">\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+item.name}}"\n' +
-    '           class="btn btn-cta-default btn-xs" ng-if="AccountSvc.isAdmin()"\n' +
-    '           id="{{\'project\'+$index+\'Update\'}}">\n' +
-    '            <i class="fa fa-pencil-square-o"></i>\n' +
-    '            <span class="hidden-xs" translate>Edit</span>\n' +
-    '        </a>\n' +
-    '        <a ng-click="ProjectSvc.doDelete(item)" class="btn btn-cta-red btn-xs"\n' +
-    '           id="projectDelete" ng-if="AccountSvc.isAdmin()">\n' +
-    '            <i class="fa fa-trash"></i>\n' +
-    '            <span class="hidden-xs" translate>Delete</span>\n' +
-    '        </a>\n' +
-    '    </div>\n' +
-    '    <h3 class="title">\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" ng-bind-html="item[\'title_\'+AppLang.getCurrent()] | unsafe"></a>\n' +
-    '    </h3>\n' +
-    '    <p ng-bind-html="item[\'description_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
-    '    <p ng-if="item.tags.length>0">\n' +
-    '        <span ng-repeat="tag in item.tags">\n' +
-    '            <i class="fa fa-tag"></i>\n' +
-    '            <a class="list-link" ng-href="{{\'/tag/\'+tag.text}}"\n' +
-    '               ng-bind="tag.text"></a>\n' +
-    '        </span>\n' +
-    '    </p>\n' +
-    '    <p>\n' +
-    '        <a class="more-link" ng-href="{{AppLang.getUrlPrefix()+\'/project/\'+item.name}}" id="{{\'project\'+$index+\'Detail\'}}"><i\n' +
-    '                class="fa fa-link"></i> <translate>Detail...</translate></a>\n' +
-    '    </p>\n' +
-    '</div><!--//desc-->\n' +
-    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <hr class="divider" ng-if="!$last"/>\n' +
-    '</div><!--//desc-->');
-	a.put('views/project/list-header.html', '<span ng-bind-html="ProjectSvc.title | unsafe"></span>\n' +
-    '<a ng-href="{{AppLang.getUrlPrefix()+\'/project/create\'}}"\n' +
-    '   class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectCreate"><i class="fa fa-plus"></i>  <translate>Create</translate></a>');
-	a.put('views/project/item.html', '<div class="container sections-wrapper">\n' +
+	a.put('views/manager/sidebar.html', '<aside class="list additionally aside section">\n' +
+    '    <div class="section-inner">\n' +
+    '        <h2 class="heading" translate>Additionally</h2>\n' +
+    '        <div class="content">\n' +
+    '            <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '        </div><!--//content-->\n' +
+    '    </div><!--//section-inner-->\n' +
+    '</aside><!--//section-->\n' +
+    '\n' +
+    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>');
+	a.put('views/manager/public_link.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
-    '                    <h1 class="heading">\n' +
-    '                        <span ng-bind-html="ProjectSvc.item[\'title_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
-    '                        <a ng-href="{{AppLang.getUrlPrefix()+\'/project/update/\'+ProjectSvc.item.name}}"\n' +
-    '                           class="btn btn-cta-secondary pull-right btn-xs" ng-if="AccountSvc.isAdmin()" id="projectUpdate"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></a>\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/public_link/list-header.html\'">\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
-    '                        <div class="item row">\n' +
-    '                            <div ng-include="\'views/project/item-content.html\'"></div>\n' +
-    '                        </div><!--//item-->\n' +
+    '                        <div ng-include="\'views/manager/public_link/list.html\'"></div>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +
     '\n' +
     '        </div><!--//primary-->\n' +
     '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <aside class="list description aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" translate>Description</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <span ng-bind-html="ProjectSvc.item[\'description_\'+AppLang.getCurrent()] | unsafe"></span>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="list tags aside section" ng-if="ProjectSvc.item.tags.length>0">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading" translate>Tags</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/project/item-tags.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//section-->\n' +
-    '\n' +
-    '            <aside class="info aside section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h2 class="heading sr-only" translate>Search</h2>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/search.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </aside><!--//aside-->\n' +
-    '\n' +
+    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/project/item-tags.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="tag in ProjectSvc.item.tags"><i class="fa fa-tag"></i> <a ng-href="{{AppLang.getUrlPrefix()+\'/tag/\'+tag.text}}"\n' +
-    '                                                                             ng-bind="tag.text"></a></li>\n' +
+	a.put('views/manager/properties.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/properties/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/properties/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/meta_tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/meta_tag/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/meta_tag/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
+    '\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
+    '</div><!--//masonry-->');
+	a.put('views/manager/menu.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'meta_tag\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/meta_tag\'}}"\n' +
+    '           ng-bind="AppConst.manager.meta_tag.title | translate"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'tag\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/tag\'}}"\n' +
+    '           ng-bind="AppConst.manager.tag.title | translate"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'public_link\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="/manager/public_link"\n' +
+    '           ng-bind="AppConst.manager.public_link.title | translate"></a></li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'properties\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/properties\'}}"\n' +
+    '           ng-bind="AppConst.manager.properties.title | translate"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'users\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/users\'}}"\n' +
+    '           ng-bind="AppConst.manager.users.title | translate"></a>\n' +
+    '    </li>\n' +
+    '    <li ng-if="$routeParams.subNavId!=\'html_cache\'">\n' +
+    '        <i class="fa fa-link"></i>\n' +
+    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/html_cache\'}}"\n' +
+    '           ng-bind="AppConst.manager.html_cache.title | translate"></a>\n' +
+    '    </li>\n' +
     '</ul>');
-	a.put('views/project/item-content.html', '<div ng-if="ProjectSvc.item.images.length>0">\n' +
-    '    <div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '        <div ng-if="ProjectSvc.item.images.length==1">\n' +
-    '            <img ng-src="{{ProjectSvc.item.images[0].src_url}}"\n' +
-    '                 class="img-responsive"/>\n' +
-    '        </div>\n' +
-    '        <div ng-if="ProjectSvc.item.images.length>1">\n' +
-    '            <div data-nq-carousel="">\n' +
-    '                <div data-carousel-item="" ng-repeat="image in ProjectSvc.item.images">\n' +
-    '                    <!--h3 class="carousel-title" nf-if="image.title!=\'\'"\n' +
-    '                        ng-bind-html="image.title | unsafe"></h3-->\n' +
-    '                    <img ng-src="{{image.src_url}}">\n' +
-    '                    <div class="carousel-caption" nf-if="image.description!=\'\'">\n' +
-    '                        <h4 ng-bind-html="image.description | unsafe"></h4>\n' +
-    '                    </div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '        <hr class="divider"/>\n' +
-    '    </div>\n' +
-    '</div>\n' +
-    '<div class="desc col-md-12 col-sm-12 col-xs-12">\n' +
-    '    <div ng-if="ProjectSvc.item.type==1 && ProjectSvc.item[\'text_\'+AppLang.getCurrent()]">\n' +
-    '        <p ng-bind-html="ProjectSvc.item[\'text_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.type==2 && ProjectSvc.item[\'html_\'+AppLang.getCurrent()]">\n' +
-    '        <p ng-bind-html="ProjectSvc.item[\'html_\'+AppLang.getCurrent()] | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.type==3 && ProjectSvc.item.url">\n' +
-    '        <p ng-bind-html="ProjectSvc.item.url | unsafe"></p>\n' +
-    '    </div>\n' +
-    '    <div ng-if="ProjectSvc.item.type==4 && ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
-    '        <p markdown-to-html="ProjectSvc.item[\'markdown_\'+AppLang.getCurrent()]">\n' +
-    '        </p>\n' +
-    '    </div>\n' +
-    '</div><!--//desc-->');
-	a.put('views/project/create.html', '<div class="container sections-wrapper" ng-init="ProjectSvc.initEmptyItem()">\n' +
-    '    <form name="projectForm">\n' +
-    '        <div class="row">\n' +
-    '            <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '                <section class="latest section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h1 class="heading">\n' +
-    '                            <span translate>Create project</span>\n' +
-    '                        </h1>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/project/inputs/central.html\'"></div>\n' +
-    '                            <div>\n' +
-    '                                <button ng-click="ProjectSvc.doCreate(ProjectSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                        ng-disabled="!projectForm.$valid" id="projectCreate">\n' +
-    '                                    <i class="fa fa-check"></i> <translate>Create</translate>\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="ProjectSvc.doDelete(ProjectSvc.item)" class="btn btn-cta-red"\n' +
-    '                                        id="projectDelete">\n' +
-    '                                    <i class="fa fa-trash"></i> <translate>Delete project</translate>\n' +
-    '                                </button>\n' +
-    '                                <button ng-click="ProjectSvc.doAddImage()" class="btn btn-cta-default pull-right"\n' +
-    '                                        id="projectAddImage">\n' +
-    '                                    <i class="fa fa-plus"></i> <translate>Add image</translate>\n' +
-    '                                </button>\n' +
-    '                            </div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </section><!--//section-->\n' +
+	a.put('views/manager/html_cache.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
+    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '    <div class="row">\n' +
+    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
+    '            <section class="latest section">\n' +
+    '                <div class="section-inner">\n' +
+    '                    <h1 class="heading" ng-include="\'views/manager/html_cache/list-header.html\'">\n' +
+    '                    </h1>\n' +
+    '                    <div class="content">\n' +
+    '                        <div ng-include="\'views/manager/html_cache/list.html\'"></div>\n' +
+    '                    </div><!--//content-->\n' +
+    '                </div><!--//section-inner-->\n' +
+    '            </section><!--//section-->\n' +
     '\n' +
-    '            </div><!--//primary-->\n' +
-    '            <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '\n' +
-    '                <aside class="list tags aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading" translate>Additionally</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/project/inputs/right.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//section-->\n' +
-    '\n' +
-    '                <aside class="info aside section">\n' +
-    '                    <div class="section-inner">\n' +
-    '                        <h2 class="heading sr-only" translate>Search</h2>\n' +
-    '                        <div class="content">\n' +
-    '                            <div ng-include="\'views/search.html\'"></div>\n' +
-    '                        </div><!--//content-->\n' +
-    '                    </div><!--//section-inner-->\n' +
-    '                </aside><!--//aside-->\n' +
-    '\n' +
-    '            </div><!--//secondary-->\n' +
-    '        </div><!--//row-->\n' +
-    '    </form>\n' +
+    '        </div><!--//primary-->\n' +
+    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
+    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
+    '        </div><!--//secondary-->\n' +
+    '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
 	a.put('views/home/sidebar.html', '<aside class="info aside section">\n' +
     '    <div class="section-inner">\n' +
@@ -79298,147 +79452,71 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div>\n' +
     '    </div>\n' +
     '</div>');
-	a.put('views/manager/tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/tag/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/tag/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/sidebar.html', '<aside class="list additionally aside section">\n' +
+	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
     '    <div class="section-inner">\n' +
-    '        <h2 class="heading" translate>Additionally</h2>\n' +
+    '        <h2 class="heading" translate>Other</h2>\n' +
     '        <div class="content">\n' +
-    '            <div ng-include="\'views/manager/menu.html\'"></div>\n' +
+    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
     '        </div><!--//content-->\n' +
     '    </div><!--//section-inner-->\n' +
     '</aside><!--//section-->\n' +
     '\n' +
-    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>');
-	a.put('views/manager/public_link.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
+    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
+    '');
+	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
     '    <div class="row">\n' +
     '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
     '            <section class="latest section">\n' +
     '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/public_link/list-header.html\'">\n' +
+    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
     '                    </h1>\n' +
     '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/public_link/list.html\'"></div>\n' +
+    '                        <form name="contactForm">\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="username" translate>You name</label>\n' +
+    '                                <input type="text" class="form-control" name="username" id="username"\n' +
+    '                                       ng-model="ContactSvc.item.username" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="email" translate>Email</label>\n' +
+    '                                <input type="email" class="form-control" name="email" id="email"\n' +
+    '                                       ng-model="ContactSvc.item.email" required>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <div class="form-group has-feedback" show-errors>\n' +
+    '                                <label for="message" translate>Message</label>\n' +
+    '                                <textarea class="form-control" name="message" id="message"\n' +
+    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
+    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
+    '                                      class="form-control-feedback"\n' +
+    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
+    '                                      aria-hidden="true"></span>\n' +
+    '                            </div>\n' +
+    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
+    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
+    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
+    '                            </button>\n' +
+    '                        </form>\n' +
     '                    </div><!--//content-->\n' +
     '                </div><!--//section-inner-->\n' +
     '            </section><!--//section-->\n' +
     '\n' +
     '        </div><!--//primary-->\n' +
     '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
+    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/manager/properties.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/properties/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/properties/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/meta_tag.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/meta_tag/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/meta_tag/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/manager/menu.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'meta_tag\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/meta_tag\'}}"\n' +
-    '           ng-bind="AppConst.manager.meta_tag.title | translate"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'tag\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/tag\'}}"\n' +
-    '           ng-bind="AppConst.manager.tag.title | translate"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'public_link\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="/manager/public_link"\n' +
-    '           ng-bind="AppConst.manager.public_link.title | translate"></a></li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'properties\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/properties\'}}"\n' +
-    '           ng-bind="AppConst.manager.properties.title | translate"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'users\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/users\'}}"\n' +
-    '           ng-bind="AppConst.manager.users.title | translate"></a>\n' +
-    '    </li>\n' +
-    '    <li ng-if="$routeParams.subNavId!=\'html_cache\'">\n' +
-    '        <i class="fa fa-link"></i>\n' +
-    '        <a ng-href="{{AppLang.getUrlPrefix()+\'/manager/html_cache\'}}"\n' +
-    '           ng-bind="AppConst.manager.html_cache.title | translate"></a>\n' +
-    '    </li>\n' +
+	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
+    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
+    '            ng-href="{{item.src}}" target="_blank" ng-bind="item[\'title_\'+AppLang.getCurrent()]"></a></li>\n' +
     '</ul>');
-	a.put('views/manager/html_cache.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isAdmin()"></div>\n' +
-    '<div class="container sections-wrapper" ng-if="AccountSvc.isAdmin()">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-include="\'views/manager/html_cache/list-header.html\'">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <div ng-include="\'views/manager/html_cache/list.html\'"></div>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/manager/sidebar.html\'" ng-controller="ManagerSidebarCtrl"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
 	a.put('views/account/user_app.html', '<div ng-include="\'views/not-access.html\'" ng-if="!AccountSvc.isLogged()"></div>\n' +
     '<div class="container sections-wrapper" ng-if="AccountSvc.isLogged()">\n' +
     '    <div class="row">\n' +
@@ -79623,71 +79701,6 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/manager/
     '        </div><!--//secondary-->\n' +
     '    </div><!--//row-->\n' +
     '</div><!--//masonry-->');
-	a.put('views/contact/sidebar.html', '<aside class="list manager-contact aside section" ng-if="PublicLinkSvc.list.length>0">\n' +
-    '    <div class="section-inner">\n' +
-    '        <h2 class="heading" translate>Other</h2>\n' +
-    '        <div class="content">\n' +
-    '            <div ng-include="\'views/contact/links.html\'"></div>\n' +
-    '        </div><!--//content-->\n' +
-    '    </div><!--//section-inner-->\n' +
-    '</aside><!--//section-->\n' +
-    '\n' +
-    '<div ng-include="\'views/home/sidebar.html\'" ng-controller="SidebarCtrl"></div>\n' +
-    '');
-	a.put('views/contact/list.html', '<div class="container sections-wrapper">\n' +
-    '    <div class="row">\n' +
-    '        <div class="primary col-md-8 col-sm-12 col-xs-12">\n' +
-    '            <section class="latest section">\n' +
-    '                <div class="section-inner">\n' +
-    '                    <h1 class="heading" ng-bind="ContactSvc.title">\n' +
-    '                    </h1>\n' +
-    '                    <div class="content">\n' +
-    '                        <form name="contactForm">\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="username" translate>You name</label>\n' +
-    '                                <input type="text" class="form-control" name="username" id="username"\n' +
-    '                                       ng-model="ContactSvc.item.username" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.username.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.username.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="email" translate>Email</label>\n' +
-    '                                <input type="email" class="form-control" name="email" id="email"\n' +
-    '                                       ng-model="ContactSvc.item.email" required>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.email.$touched" class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.email.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <div class="form-group has-feedback" show-errors>\n' +
-    '                                <label for="message" translate>Message</label>\n' +
-    '                                <textarea class="form-control" name="message" id="message"\n' +
-    '                                       ng-model="ContactSvc.item.message" required></textarea>\n' +
-    '                                <span ng-show="contactForm.$submitted || contactForm.message.$touched"\n' +
-    '                                      class="form-control-feedback"\n' +
-    '                                      ng-class="!contactForm.message.$valid ? \'glyphicon glyphicon-remove\' : \'glyphicon glyphicon-ok\'"\n' +
-    '                                      aria-hidden="true"></span>\n' +
-    '                            </div>\n' +
-    '                            <button ng-click="ContactSvc.doSend(ContactSvc.item)" class="btn btn-cta-secondary"\n' +
-    '                                    ng-disabled="!contactForm.$valid" id="contactSend">\n' +
-    '                                <i class="fa fa-envelope-o"></i> <translate>Send message</translate>\n' +
-    '                            </button>\n' +
-    '                        </form>\n' +
-    '                    </div><!--//content-->\n' +
-    '                </div><!--//section-inner-->\n' +
-    '            </section><!--//section-->\n' +
-    '\n' +
-    '        </div><!--//primary-->\n' +
-    '        <div class="secondary col-md-4 col-sm-12 col-xs-12">\n' +
-    '            <div ng-include="\'views/contact/sidebar.html\'"></div>\n' +
-    '        </div><!--//secondary-->\n' +
-    '    </div><!--//row-->\n' +
-    '</div><!--//masonry-->');
-	a.put('views/contact/links.html', '<ul class="list-unstyled">\n' +
-    '    <li ng-repeat="item in PublicLinkSvc.list | orderBy:\'position\'" ng-if="item.in_contact"><i ng-class="item.icon"></i> <a\n' +
-    '            ng-href="{{item.src}}" target="_blank" ng-bind="item[\'title_\'+AppLang.getCurrent()]"></a></li>\n' +
-    '</ul>');
 	a.put('views/search.html', '<div class="form-search search-only" ng-controller="NavbarCtrl" ng-if="!NavbarSvc.items.search.hidden">\n' +
     '    <div class="input-group">\n' +
     '        <input type="text" class="form-control search-query"\n' +
@@ -79864,12 +79877,20 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
                 }
             },
             function(response) {
-                if (response !== null && response !== undefined && response.data !== undefined &&
-                    response.data !== null && response.data.code !== undefined) {
-                    MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data);
-                } else
+                if (response !== null && response !== undefined) {
+                    if (response.data !== undefined &&
+                        response.data !== null && response.data.code !== undefined) {
+                        MessageSvc.error(response.data.code, response.data);
+                        deferred.reject(response.data);
+                    }
+                    if (response.error !== undefined &&
+                        response.error !== null && response.message !== undefined) {
+                        MessageSvc.error(response.message);
+                        deferred.reject(null);
+                    }
+                } else {
                     deferred.reject(null);
+                }
             }
         );
         return deferred.promise;
@@ -79890,12 +79911,20 @@ app.factory('AppRes', function($q, $http, $cookies, uiUploader, MessageSvc) {
                 }
             },
             function(response) {
-                if (response !== null && response !== undefined && response.data !== undefined &&
-                    response.data !== null && response.data.code !== undefined) {
-                    MessageSvc.error(response.data.code, response.data);
-                    deferred.reject(response.data);
-                } else
+                if (response !== null && response !== undefined) {
+                    if (response.data !== undefined &&
+                        response.data !== null && response.data.code !== undefined) {
+                        MessageSvc.error(response.data.code, response.data);
+                        deferred.reject(response.data);
+                    }
+                    if (response.error !== undefined &&
+                        response.error !== null && response.message !== undefined) {
+                        MessageSvc.error(response.message);
+                        deferred.reject(null);
+                    }
+                } else {
                     deferred.reject(null);
+                }
             }
         );
         return deferred.promise;
@@ -80182,8 +80211,13 @@ app.factory('PropertiesRes', function($q, AppConst, AppRes) {
     service.actionCreate = function(item) {
         return AppRes.post('/api/v1/manager/properties/create', item);
     };
+
     service.actionDelete = function(item) {
         return AppRes.post('/api/v1/manager/properties/delete/' + item.id, item);
+    };
+
+    service.actionApplyOnSite = function(item) {
+        return AppRes.post('/api/v1/manager/properties/apply_on_site');
     };
 
     return service;
@@ -80481,7 +80515,10 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
         service.clearItem();
         service.load().then(function() {
             for (var i = 0; i < service.list.length; i++) {
-                if (item.src == service.list[i].src)
+                if (item.src !== undefined || item.src == service.list[i].src)
+                    service.item = service.list[i];
+
+                if (item.src === undefined || item == service.list[i].src)
                     service.item = service.list[i];
             }
             var boxOptions = {
@@ -80494,10 +80531,13 @@ app.factory('FileSvc', function(AppConst, FileRes, $rootScope, $q, $modalBox, $m
                 confirmText: gettext('Select'),
                 cancelText: gettext('Cancel'),
                 afterConfirm: function() {
-                    if (item.src !== service.item.src) {
+                    if (item.src !== undefined || item.src !== service.item.src) {
                         delete item.id;
                         item.src = service.item.src;
                         item.src_url = service.item.src_url;
+                    }
+                    if (item.src === undefined || item !== service.item.src) {
+                        item = service.item.src;
                     }
                 },
                 afterCancel: function() {
@@ -82137,7 +82177,8 @@ app.factory('MetaTagSvc', function(AppConst, MetaTagRes, $rootScope, $q, $modalB
     };
     return service;
 });
-app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q, $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext) {
+app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $rootScope, $q,
+    $modalBox, $modal, $routeParams, MessageSvc, AppSvc, ManagerSvc, gettext, gettextCatalog, $window) {
     var service = {};
 
     service.item = {};
@@ -82249,6 +82290,23 @@ app.factory('PropertiesSvc', function(AppConst, AppProperties, PropertiesRes, $r
                     }
                 );
             });
+    };
+
+    service.applyOnSite = {
+        disabled: false,
+        title: gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_title),
+        do: function() {
+            var $this = this;
+            $this.title = gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_process);
+            $this.disabled = true;
+
+            PropertiesRes.actionApplyOnSite().then(function(response) {
+                $this.title = gettextCatalog.getString(AppConst.manager.properties.strings.applyOnSite_title);
+                $this.disabled = false;
+                service.load(true);
+                $window.location.reload();
+            });
+        }
     };
 
     service.load = function(reload) {
@@ -82565,11 +82623,12 @@ app.controller('MetaTagCtrl', function($scope, MetaTagSvc, $routeParams, Account
 
     MetaTagSvc.init();
 });
-app.controller('PropertiesCtrl', function($scope, PropertiesSvc, $routeParams, AccountSvc, ManagerSvc, AppLang) {
+app.controller('PropertiesCtrl', function($scope, PropertiesSvc, $routeParams, AccountSvc, ManagerSvc, FileSvc, AppLang) {
     $scope.PropertiesSvc = PropertiesSvc;
     $scope.AccountSvc = AccountSvc;
     $scope.ManagerSvc = ManagerSvc;
     $scope.$routeParams = $routeParams;
+    $scope.FileSvc = FileSvc;
     $scope.AppLang = AppLang;
 
     PropertiesSvc.init();
@@ -82723,11 +82782,11 @@ jQuery(document).ready(function($) {
 });
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('en', {"Account created!":"Account created!","Account deleted!":"Account deleted!","Actions":"Actions","Add file":"Add file","Add image":"Add image","Add new application":"Add new application","Add new file":"Add new file","Add new html cache":"Add new html cache","Add new meta tag":"Add new meta tag","Add new properties":"Add new properties","Add new public link":"Add new public link","Add new tag":"Add new tag","add tag":"add tag","Additionally":"Additionally","All posts":"All posts","All projects":"All projects","allowed URIs list, space separated":"allowed URIs list, space separated","Application <strong>%s</strong> created!":"Application <strong>%s</strong> created!","Application <strong>%s</strong> deleted!":"Application <strong>%s</strong> deleted!","Application <strong>%s</strong> updated!":"Application <strong>%s</strong> updated!","Applications":"Applications","Applications of user":"Applications of user","Attributes":"Attributes","Authorization on site":"Authorization on site","Bye-Bye!":"Bye-Bye!","Cache <strong>%s</strong> created!":"Cache <strong>%s</strong> created!","Cache <strong>%s</strong> deleted!":"Cache <strong>%s</strong> deleted!","Cache <strong>%s</strong> updated!":"Cache <strong>%s</strong> updated!","Cancel":"Cancel","Change password":"Change password","Check email <strong>%s</strong> for code to reset password":"Check email <strong>%s</strong> for code to reset password","Client ID":"Client ID","Client secret":"Client secret","Code:":"Code:","Comment":"Comment","Confirm":"Confirm","Contact us":"Contact us","Contact us description":"Contact us description","Content":"Content","Create":"Create","Create from sitemap.xml":"Create from sitemap.xml","Create post":"Create post","Create project":"Create project","Delete":"Delete","Delete account":"Delete account","Delete checked":"Delete checked","Delete image":"Delete image","Delete post":"Delete post","Delete project":"Delete project","Description":"Description","Detail...":"Detail...","Do you really want to delete account?":"Do you really want to delete account?","Do you really want to delete application <strong>%s</strong>?":"Do you really want to delete application <strong>%s</strong>?","Do you really want to delete checked html caches?":"Do you really want to delete checked html caches?","Do you really want to delete file <strong>%s</strong>?":"Do you really want to delete file <strong>%s</strong>?","Do you really want to delete html cache <strong>%s</strong>?":"Do you really want to delete html cache <strong>%s</strong>?","Do you really want to delete meta tag <strong>%s</strong>?":"Do you really want to delete meta tag <strong>%s</strong>?","Do you really want to delete post <strong>%s</strong>?":"Do you really want to delete post <strong>%s</strong>?","Do you really want to delete project <strong>%s</strong>?":"Do you really want to delete project <strong>%s</strong>?","Do you really want to delete property <strong>%s</strong>?":"Do you really want to delete property <strong>%s</strong>?","Do you really want to delete public link <strong>%s</strong>?":"Do you really want to delete public link <strong>%s</strong>?","Do you really want to delete tag <strong>%s</strong>?":"Do you really want to delete tag <strong>%s</strong>?","Do you really want to delete user <strong>%s</strong>?":"Do you really want to delete user <strong>%s</strong>?","Do you really want to leave?":"Do you really want to leave?","Edit":"Edit","Edit application":"Edit application","Edit file properties":"Edit file properties","Edit html cache":"Edit html cache","Edit meta tag":"Edit meta tag","Edit post":"Edit post","Edit project":"Edit project","Edit properties":"Edit properties","Edit public link":"Edit public link","Email":"Email","Email is empty!":"Email is empty!","Email is incorrect!":"Email is incorrect!","Email:":"Email:","Empty":"Empty","EN":"EN","enter code from email":"enter code from email","enter new password":"enter new password","enter you email":"enter you email","enter you password":"enter you password","Error":"Error","File":"File","File <strong>%s</strong> created!":"File <strong>%s</strong> created!","File <strong>%s</strong> deleted!":"File <strong>%s</strong> deleted!","File <strong>%s</strong> updated!":"File <strong>%s</strong> updated!","Filling from sitemap.xml...":"Filling from sitemap.xml...","First name":"First name","Html":"Html","Html cache":"Html cache","Html cache description":"Cached files to return the search bots and other","Icon":"Icon","ID":"ID","if empty, the password will not be changed":"if empty, the password will not be changed","In contact":"In contact","In footer":"In footer","In header":"In header","Info":"Info","Last name":"Last name","Loading...":"Loading...","Login":"Login","Login on site":"Login on site","Logout":"Logout","Logout from site":"Logout from site","Manager":"Manager","Manager description":"Site Control Panel","Markdown":"Markdown","Message":"Message","Message from contact form":"Message from contact form","Message not sent, try later!":"Message not sent, try later!","Message sent successfully!":"Message sent successfully!","Meta tag <strong>%s</strong> created!":"Meta tag <strong>%s</strong> created!","Meta tag <strong>%s</strong> deleted!":"Meta tag <strong>%s</strong> deleted!","Meta tag <strong>%s</strong> updated!":"Meta tag <strong>%s</strong> updated!","Meta tags":"Meta tags","Meta tags description":"Common to all of the pages meta tags which will be displayed in the header of the page","Name":"Name","New password:":"New password:","No":"No","No results found...":"No results found...","Not access!":"Not access!","Not founded!":"Not founded!","Other":"Other","Password":"Password","Password is empty!":"Password is empty!","Password:":"Password:","Please enter code from email and new password for you account":"Please enter code from email and new password for you account","Please enter you email address and password for login on site":"Please enter you email address and password for login on site","Please enter you email address used on registration":"Please enter you email address used on registration","Position":"Position","Post <strong>%s</strong> created!":"Post <strong>%s</strong> created!","Post <strong>%s</strong> deleted!":"Post <strong>%s</strong> deleted!","Post <strong>%s</strong> updated!":"Post <strong>%s</strong> updated!","Posts":"Posts","Posts description":"Notes and small posts","Profile":"Profile","Profile of user":"Profile of user","Profile updated!":"Profile updated!","Project <strong>%s</strong> created!":"Project <strong>%s</strong> created!","Project <strong>%s</strong> deleted!":"Project <strong>%s</strong> deleted!","Project <strong>%s</strong> updated!":"Project <strong>%s</strong> updated!","Projects":"Projects","Projects description":"List their own small and large projects","Properties":"Properties","Properties description":"Properties used in the construction of the withdrawal site and","Property <strong>%s</strong> created!":"Property <strong>%s</strong> created!","Property <strong>%s</strong> deleted!":"Property <strong>%s</strong> deleted!","Property <strong>%s</strong> updated!":"Property <strong>%s</strong> updated!","Public link <strong>%s</strong> created!":"Public link <strong>%s</strong> created!","Public link <strong>%s</strong> deleted!":"Public link <strong>%s</strong> deleted!","Public link <strong>%s</strong> updated!":"Public link <strong>%s</strong> updated!","Public links":"Public links","Public links description":"Contact links to other resources","Recovery access":"Recovery access","Recovery access to site":"Recovery access to site","Redirect uris":"Redirect uris","Registration form":"Registration form","Registration on site":"Registration on site","Reset password":"Reset password","Reset password for account":"Reset password for account","RU":"RU","Save":"Save","Search":"Search","Search result for text \"%s\"":"Search result for text \"%s\"","search text":"search text","Select":"Select","Select file":"Select file","Send message":"Send message","Sent link to reset password":"Sent link to reset password","Show all":"Show all","Src":"Src","Tag <strong>%s</strong> created!":"Tag <strong>%s</strong> created!","Tag <strong>%s</strong> deleted!":"Tag <strong>%s</strong> deleted!","Tag <strong>%s</strong> updated!":"Tag <strong>%s</strong> updated!","Tag: %s":"Tag: %s","Tags":"Tags","Tags description":"List of tags used on the site","Text":"Text","Title":"Title","Type":"Type","Url":"Url","User <strong>%s</strong> created!":"User <strong>%s</strong> created!","User <strong>%s</strong> deleted!":"User <strong>%s</strong> deleted!","User <strong>%s</strong> updated!":"User <strong>%s</strong> updated!","User not activated!":"User not activated!","User not founded!":"User not founded!","User with email <strong>%s</strong> is exists!":"User with email <strong>%s</strong> is exists!","User with email <strong>%s</strong> not found!":"User with email <strong>%s</strong> not found!","Username":"Username","Users":"Users","Users description":"Site users","Value":"Value","View":"View","Wrong password!":"Wrong password!","Yes":"Yes","You authorizing!":"You authorizing!","You name":"You name","You not activated!":"You not activated!"});
+    gettextCatalog.setStrings('en', {"Account created!":"Account created!","Account deleted!":"Account deleted!","Actions":"Actions","Add file":"Add file","Add image":"Add image","Add new application":"Add new application","Add new file":"Add new file","Add new html cache":"Add new html cache","Add new meta tag":"Add new meta tag","Add new properties":"Add new properties","Add new public link":"Add new public link","Add new tag":"Add new tag","add tag":"add tag","Additionally":"Additionally","All posts":"All posts","All projects":"All projects","allowed URIs list, space separated":"allowed URIs list, space separated","Application <strong>%s</strong> created!":"Application <strong>%s</strong> created!","Application <strong>%s</strong> deleted!":"Application <strong>%s</strong> deleted!","Application <strong>%s</strong> updated!":"Application <strong>%s</strong> updated!","Applications":"Applications","Applications of user":"Applications of user","Apply":"Apply","Apply...":"Apply...","Attributes":"Attributes","Authorization on site":"Authorization on site","Bye-Bye!":"Bye-Bye!","Cache <strong>%s</strong> created!":"Cache <strong>%s</strong> created!","Cache <strong>%s</strong> deleted!":"Cache <strong>%s</strong> deleted!","Cache <strong>%s</strong> updated!":"Cache <strong>%s</strong> updated!","Cancel":"Cancel","Change password":"Change password","Check email <strong>%s</strong> for code to reset password":"Check email <strong>%s</strong> for code to reset password","Client ID":"Client ID","Client secret":"Client secret","Code:":"Code:","Comment":"Comment","Confirm":"Confirm","Contact us":"Contact us","Contact us description":"Contact us description","Content":"Content","Create":"Create","Create from sitemap.xml":"Create from sitemap.xml","Create post":"Create post","Create project":"Create project","Delete":"Delete","Delete account":"Delete account","Delete checked":"Delete checked","Delete image":"Delete image","Delete post":"Delete post","Delete project":"Delete project","Description":"Description","Detail...":"Detail...","Do you really want to delete account?":"Do you really want to delete account?","Do you really want to delete application <strong>%s</strong>?":"Do you really want to delete application <strong>%s</strong>?","Do you really want to delete checked html caches?":"Do you really want to delete checked html caches?","Do you really want to delete file <strong>%s</strong>?":"Do you really want to delete file <strong>%s</strong>?","Do you really want to delete html cache <strong>%s</strong>?":"Do you really want to delete html cache <strong>%s</strong>?","Do you really want to delete meta tag <strong>%s</strong>?":"Do you really want to delete meta tag <strong>%s</strong>?","Do you really want to delete post <strong>%s</strong>?":"Do you really want to delete post <strong>%s</strong>?","Do you really want to delete project <strong>%s</strong>?":"Do you really want to delete project <strong>%s</strong>?","Do you really want to delete property <strong>%s</strong>?":"Do you really want to delete property <strong>%s</strong>?","Do you really want to delete public link <strong>%s</strong>?":"Do you really want to delete public link <strong>%s</strong>?","Do you really want to delete tag <strong>%s</strong>?":"Do you really want to delete tag <strong>%s</strong>?","Do you really want to delete user <strong>%s</strong>?":"Do you really want to delete user <strong>%s</strong>?","Do you really want to leave?":"Do you really want to leave?","Edit":"Edit","Edit application":"Edit application","Edit file properties":"Edit file properties","Edit html cache":"Edit html cache","Edit meta tag":"Edit meta tag","Edit post":"Edit post","Edit project":"Edit project","Edit properties":"Edit properties","Edit public link":"Edit public link","Email":"Email","Email is empty!":"Email is empty!","Email is incorrect!":"Email is incorrect!","Email:":"Email:","Empty":"Empty","EN":"EN","enter code from email":"enter code from email","enter new password":"enter new password","enter you email":"enter you email","enter you password":"enter you password","Error":"Error","File":"File","File <strong>%s</strong> created!":"File <strong>%s</strong> created!","File <strong>%s</strong> deleted!":"File <strong>%s</strong> deleted!","File <strong>%s</strong> updated!":"File <strong>%s</strong> updated!","Filling from sitemap.xml...":"Filling from sitemap.xml...","First name":"First name","Html":"Html","Html cache":"Html cache","Html cache description":"Cached files to return the search bots and other","Icon":"Icon","ID":"ID","if empty, the password will not be changed":"if empty, the password will not be changed","In contact":"In contact","In footer":"In footer","In header":"In header","Info":"Info","Last name":"Last name","Loading...":"Loading...","Login":"Login","Login on site":"Login on site","Logout":"Logout","Logout from site":"Logout from site","Manager":"Manager","Manager description":"Site Control Panel","Markdown":"Markdown","Message":"Message","Message from contact form":"Message from contact form","Message not sent, try later!":"Message not sent, try later!","Message sent successfully!":"Message sent successfully!","Meta tag <strong>%s</strong> created!":"Meta tag <strong>%s</strong> created!","Meta tag <strong>%s</strong> deleted!":"Meta tag <strong>%s</strong> deleted!","Meta tag <strong>%s</strong> updated!":"Meta tag <strong>%s</strong> updated!","Meta tags":"Meta tags","Meta tags description":"Common to all of the pages meta tags which will be displayed in the header of the page","Name":"Name","New password:":"New password:","No":"No","No results found...":"No results found...","Not access!":"Not access!","Not founded!":"Not founded!","Other":"Other","Password":"Password","Password is empty!":"Password is empty!","Password:":"Password:","Please enter code from email and new password for you account":"Please enter code from email and new password for you account","Please enter you email address and password for login on site":"Please enter you email address and password for login on site","Please enter you email address used on registration":"Please enter you email address used on registration","Position":"Position","Post <strong>%s</strong> created!":"Post <strong>%s</strong> created!","Post <strong>%s</strong> deleted!":"Post <strong>%s</strong> deleted!","Post <strong>%s</strong> updated!":"Post <strong>%s</strong> updated!","Posts":"Posts","Posts description":"Notes and small posts","Profile":"Profile","Profile of user":"Profile of user","Profile updated!":"Profile updated!","Project <strong>%s</strong> created!":"Project <strong>%s</strong> created!","Project <strong>%s</strong> deleted!":"Project <strong>%s</strong> deleted!","Project <strong>%s</strong> updated!":"Project <strong>%s</strong> updated!","Projects":"Projects","Projects description":"List their own small and large projects","Properties":"Properties","Properties description":"Properties used in the construction of the withdrawal site and","Property <strong>%s</strong> created!":"Property <strong>%s</strong> created!","Property <strong>%s</strong> deleted!":"Property <strong>%s</strong> deleted!","Property <strong>%s</strong> updated!":"Property <strong>%s</strong> updated!","Public link <strong>%s</strong> created!":"Public link <strong>%s</strong> created!","Public link <strong>%s</strong> deleted!":"Public link <strong>%s</strong> deleted!","Public link <strong>%s</strong> updated!":"Public link <strong>%s</strong> updated!","Public links":"Public links","Public links description":"Contact links to other resources","Recovery access":"Recovery access","Recovery access to site":"Recovery access to site","Redirect uris":"Redirect uris","Registration form":"Registration form","Registration on site":"Registration on site","Reset password":"Reset password","Reset password for account":"Reset password for account","RU":"RU","Save":"Save","Search":"Search","Search result for text \"%s\"":"Search result for text \"%s\"","search text":"search text","Select":"Select","Select file":"Select file","Send message":"Send message","Sent link to reset password":"Sent link to reset password","Show all":"Show all","Src":"Src","Tag <strong>%s</strong> created!":"Tag <strong>%s</strong> created!","Tag <strong>%s</strong> deleted!":"Tag <strong>%s</strong> deleted!","Tag <strong>%s</strong> updated!":"Tag <strong>%s</strong> updated!","Tag: %s":"Tag: %s","Tags":"Tags","Tags description":"List of tags used on the site","Text":"Text","Title":"Title","Type":"Type","Url":"Url","User <strong>%s</strong> created!":"User <strong>%s</strong> created!","User <strong>%s</strong> deleted!":"User <strong>%s</strong> deleted!","User <strong>%s</strong> updated!":"User <strong>%s</strong> updated!","User not activated!":"User not activated!","User not founded!":"User not founded!","User with email <strong>%s</strong> is exists!":"User with email <strong>%s</strong> is exists!","User with email <strong>%s</strong> not found!":"User with email <strong>%s</strong> not found!","Username":"Username","Users":"Users","Users description":"Site users","Value":"Value","View":"View","Wrong password!":"Wrong password!","Yes":"Yes","You authorizing!":"You authorizing!","You name":"You name","You not activated!":"You not activated!"});
 /* jshint +W100 */
 }]);
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('ru', {"Account created!":"Вы зарегистрированы!","Account deleted!":"Учетная запись успешно удалена!","Actions":"Команды","Add file":"Добавить файл","Add image":"Добавить изображение","Add new application":"Добавить новое приложение","Add new file":"Добавить новый файл","Add new html cache":"Добавить новый кэш файл","Add new meta tag":"Добавить новый мета тэг","Add new properties":"Добавить новое свойство","Add new public link":"Добавить новую публичную ссылку","Add new tag":"Добавить новый тэг","add tag":"добавьте тэги","Additionally":"Дополнительно","All posts":"Все заметки","All projects":"Все проекты","allowed URIs list, space separated":"список разрешенных uri-адресов, указанные через запятую","Application <strong>%s</strong> created!":"Приложение <strong>%s</strong> успешно создано!","Application <strong>%s</strong> deleted!":"Приложение <strong>%s</strong> успешно удалено!","Application <strong>%s</strong> updated!":"Приложение <strong>%s</strong> успешно изменено!","Applications":"Приложения","Applications of user":"Приложения пользователя","Attributes":"Атрибуты","Authorization on site":"Авторизация на сайте","Bye-Bye!":"До свидания!","Cache <strong>%s</strong> created!":"Кэш файл <strong>%s</strong> успешно создан!","Cache <strong>%s</strong> deleted!":"Кэш файл <strong>%s</strong> успешно удален!","Cache <strong>%s</strong> updated!":"Кэш файл <strong>%s</strong> успешно изменен!","Cancel":"Отмена","Change password":"Изменить пароль","Check email <strong>%s</strong> for code to reset password":"Проверьте электронную почту <strong>%s</strong> на наличие кода для сброса пароля","Client ID":"Client ID","Client secret":"Client secret","Code:":"Код:","Comment":"Комментарий","Confirm":"Подтверждение","Contact us":"Контакты","Contact us description":"Форма для обратной связи, а также контактные данный для связи","Content":"Содержимое","Create":"Создать","Create from sitemap.xml":"Создать из карты сайта","Create post":"Создать заметку","Create project":"Создать проект","Delete":"Удалить","Delete account":"Удалить учетную запись","Delete checked":"Удалить отмеченые","Delete image":"Удалить","Delete post":"Удалить заметку","Delete project":"Удалить проект","Description":"Описание","Detail...":"Подробнее...","Do you really want to delete account?":"Вы действительно хотите удалить вашу учетную запись?","Do you really want to delete application <strong>%s</strong>?":"Вы действительно хотите удалить приложение <strong>%s</strong>?","Do you really want to delete checked html caches?":"Вы действительно хотите удалить отмеченые кэш файлы?","Do you really want to delete file <strong>%s</strong>?":"Вы действительно хотите удалить файл <strong>%s</strong>?","Do you really want to delete html cache <strong>%s</strong>?":"Вы действительно хотите удалить кэш файл <strong>%s</strong>?","Do you really want to delete meta tag <strong>%s</strong>?":"Вы действительно хотите удалить мета тэг <strong>%s</strong>?","Do you really want to delete post <strong>%s</strong>?":"Вы действительно хотите удалить заметку <strong>%s</strong>?","Do you really want to delete project <strong>%s</strong>?":"Вы действительно хотите удалить проект <strong>%s</strong>?","Do you really want to delete property <strong>%s</strong>?":"Вы действительно хотите удалить свойство <strong>%s</strong>?","Do you really want to delete public link <strong>%s</strong>?":"Вы действительно хотите удалить публичную ссылку <strong>%s</strong>?","Do you really want to delete tag <strong>%s</strong>?":"Вы действительно хотите удалить тэг <strong>%s</strong>?","Do you really want to delete user <strong>%s</strong>?":"Вы действительно хотите удалить пользователя <strong>%s</strong>?","Do you really want to leave?":"Вы действительно хотите выйти из сервиса?","Edit":"Редактировать","Edit application":"редактировать приложение","Edit file properties":"Редактировать свойства файла","Edit html cache":"Редактировать кэш файл","Edit meta tag":"Редактировать мета тэг","Edit post":"Редактировать заметку","Edit project":"Редактировать проект","Edit properties":"Редактировать свойство","Edit public link":"Редактировать публичную ссылку","Email":"Email","Email is empty!":"Не указан адрес электронной почты!","Email is incorrect!":"Не корректный адрес электронной почты!","Email:":"Email:","Empty":"Пусто","EN":"EN","enter code from email":"введите код полученный по почте","enter new password":"введите новый пароль","enter you email":"введите вашу почу","enter you password":"введите ваше пароль","Error":"Ошибка","File":"Файл","File <strong>%s</strong> created!":"Файл <strong>%s</strong> успешно загружен!","File <strong>%s</strong> deleted!":"Файл <strong>%s</strong> успешно удален!","File <strong>%s</strong> updated!":"Параметры файла <strong>%s</strong> успешно изменены!","Filling from sitemap.xml...":"Наполнение из карты сайта...","First name":"Имя","Html":"Html","Html cache":"Кэш файлы","Html cache description":"Закэшированые файлы для отдачи поисковым и другим ботам","Icon":"Иконка","ID":"Ид.","if empty, the password will not be changed":"если оставить поле пустым, то пароль не будет изменен","In contact":"В контактах","In footer":"В подвале","In header":"В шапке","Info":"Информация","Last name":"Фамилия","Loading...":"Загрузка...","Login":"Войти","Login on site":"Вход","Logout":"Выход","Logout from site":"Выход с сайта","Manager":"Управление","Manager description":"Панель управления сайтом","Markdown":"Markdown","Message":"Сообщение","Message from contact form":"Сообщение с контактной формы","Message not sent, try later!":"Не удалось отправить сообщение, попробуйте попозже...","Message sent successfully!":"Сообщение успешно отправлено! ","Meta tag <strong>%s</strong> created!":"Мета тэг <strong>%s</strong> успешно создано!","Meta tag <strong>%s</strong> deleted!":"Мета тэг <strong>%s</strong> успешно удалено!","Meta tag <strong>%s</strong> updated!":"Мета тэг <strong>%s</strong> успешно изменено!","Meta tags":"Мета тэги","Meta tags description":"Общие для всех страниц мета тэги которые будут выведены в header страницы","Name":"Название","New password:":"Новый пароль:","No":"Нет","No results found...":"Ничего не найдено...","Not access!":"Нет доступа!","Not founded!":"Не найдено!","Other":"Еще","Password":"Пароль","Password is empty!":"Не указан пароль!","Password:":"Пароль:","Please enter code from email and new password for you account":"Пожалуйста введите код высланный вам на почту и укажите новый пароль","Please enter you email address and password for login on site":"Пожалуйста введите адрес ваш электронной почты и пароль для входа на сайт","Please enter you email address used on registration":"Укажите ваш адрес электронной почты","Position":"Позиция","Post <strong>%s</strong> created!":"Заметка <strong>%s</strong> успешно создана!","Post <strong>%s</strong> deleted!":"Заметка <strong>%s</strong> успешно удалена!","Post <strong>%s</strong> updated!":"Заметка <strong>%s</strong> успешно изменена!","Posts":"Заметки","Posts description":"Заметки и небольшие посты","Profile":"Профиль","Profile of user":"Профиль пользователя","Profile updated!":"Профиль изменен!","Project <strong>%s</strong> created!":"Проект <strong>%s</strong> успешно создан!","Project <strong>%s</strong> deleted!":"Проект <strong>%s</strong> успешно удален!","Project <strong>%s</strong> updated!":"Проект <strong>%s</strong> успешно изменен!","Projects":"Проекты","Projects description":"Список собственных небольших и больших проектов","Properties":"Свойства","Properties description":"Свойства используемые при построении и выводе сайта","Property <strong>%s</strong> created!":"Свойство <strong>%s</strong> успешно создано!","Property <strong>%s</strong> deleted!":"Свойство <strong>%s</strong> успешно удалено!","Property <strong>%s</strong> updated!":"Свойство <strong>%s</strong> успешно изменено!","Public link <strong>%s</strong> created!":"Публичная ссылка <strong>%s</strong> успешно создано!","Public link <strong>%s</strong> deleted!":"Публичная ссылка <strong>%s</strong> успешно удалено!","Public link <strong>%s</strong> updated!":"Публичная ссылка <strong>%s</strong> успешно изменено!","Public links":"Публичные ссылки","Public links description":"Контактные ссылки на другие ресурсы","Recovery access":"Восстановить доступ","Recovery access to site":"Восстановление доступа к сайту","Redirect uris":"Redirect uris","Registration form":"Регистрация","Registration on site":"Регистрация на сайте","Reset password":"Сброс пароля","Reset password for account":"Сброс пароля для учетной записи","RU":"RU","Save":"Сохранить","Search":"Поиск","Search result for text \"%s\"":"Результат поиска \"%s\"","search text":"текст для поиска","Select":"Выбрать","Select file":"Выбрать файл","Send message":"Отправить сообщение","Sent link to reset password":"Отправить ссылку для сброса пароля","Show all":"Показать все","Src":"Источник","Tag <strong>%s</strong> created!":"Тэг <strong>%s</strong> успешно создан!","Tag <strong>%s</strong> deleted!":"Тэг <strong>%s</strong> успешно удален!","Tag <strong>%s</strong> updated!":"Тэг <strong>%s</strong> успешно изменено!","Tag: %s":"Тэги: %s","Tags":"Тэги","Tags description":"Список тэгов используемых на сайте","Text":"Текст","Title":"Заголовок","Type":"Тип","Url":"Url","User <strong>%s</strong> created!":"Пользователь <strong>%s</strong> успешно создан!","User <strong>%s</strong> deleted!":"Пользователь <strong>%s</strong> успешно удален!","User <strong>%s</strong> updated!":"Пользователь <strong>%s</strong> успешно изменен!","User not activated!":"Пользователь не активирован!","User not founded!":"Пользователь не найден!","User with email <strong>%s</strong> is exists!":"Пользователь с почтой <strong>%s</strong> уже зарегистрирован!","User with email <strong>%s</strong> not found!":"Пользователь с почтой <strong>%s</strong> не найден!","Username":"Имя пользователя","Users":"Пользователи","Users description":"Пользователи сайта","Value":"Значение","View":"Смотреть","Wrong password!":"Неверный пароль!","Yes":"Да","You authorizing!":"Вы авторизованы!","You name":"Ваше имя","You not activated!":"Вы не активировали учетную запись!"});
+    gettextCatalog.setStrings('ru', {"Account created!":"Вы зарегистрированы!","Account deleted!":"Учетная запись успешно удалена!","Actions":"Команды","Add file":"Добавить файл","Add image":"Добавить изображение","Add new application":"Добавить новое приложение","Add new file":"Добавить новый файл","Add new html cache":"Добавить новый кэш файл","Add new meta tag":"Добавить новый мета тэг","Add new properties":"Добавить новое свойство","Add new public link":"Добавить новую публичную ссылку","Add new tag":"Добавить новый тэг","add tag":"добавьте тэги","Additionally":"Дополнительно","All posts":"Все заметки","All projects":"Все проекты","allowed URIs list, space separated":"список разрешенных uri-адресов, указанные через запятую","Application <strong>%s</strong> created!":"Приложение <strong>%s</strong> успешно создано!","Application <strong>%s</strong> deleted!":"Приложение <strong>%s</strong> успешно удалено!","Application <strong>%s</strong> updated!":"Приложение <strong>%s</strong> успешно изменено!","Applications":"Приложения","Applications of user":"Приложения пользователя","Apply":"Применить","Apply...":"Применяется...","Attributes":"Атрибуты","Authorization on site":"Авторизация на сайте","Bye-Bye!":"До свидания!","Cache <strong>%s</strong> created!":"Кэш файл <strong>%s</strong> успешно создан!","Cache <strong>%s</strong> deleted!":"Кэш файл <strong>%s</strong> успешно удален!","Cache <strong>%s</strong> updated!":"Кэш файл <strong>%s</strong> успешно изменен!","Cancel":"Отмена","Change password":"Изменить пароль","Check email <strong>%s</strong> for code to reset password":"Проверьте электронную почту <strong>%s</strong> на наличие кода для сброса пароля","Client ID":"Client ID","Client secret":"Client secret","Code:":"Код:","Comment":"Комментарий","Confirm":"Подтверждение","Contact us":"Контакты","Contact us description":"Форма для обратной связи, а также контактные данный для связи","Content":"Содержимое","Create":"Создать","Create from sitemap.xml":"Создать из карты сайта","Create post":"Создать заметку","Create project":"Создать проект","Delete":"Удалить","Delete account":"Удалить учетную запись","Delete checked":"Удалить отмеченые","Delete image":"Удалить","Delete post":"Удалить заметку","Delete project":"Удалить проект","Description":"Описание","Detail...":"Подробнее...","Do you really want to delete account?":"Вы действительно хотите удалить вашу учетную запись?","Do you really want to delete application <strong>%s</strong>?":"Вы действительно хотите удалить приложение <strong>%s</strong>?","Do you really want to delete checked html caches?":"Вы действительно хотите удалить отмеченые кэш файлы?","Do you really want to delete file <strong>%s</strong>?":"Вы действительно хотите удалить файл <strong>%s</strong>?","Do you really want to delete html cache <strong>%s</strong>?":"Вы действительно хотите удалить кэш файл <strong>%s</strong>?","Do you really want to delete meta tag <strong>%s</strong>?":"Вы действительно хотите удалить мета тэг <strong>%s</strong>?","Do you really want to delete post <strong>%s</strong>?":"Вы действительно хотите удалить заметку <strong>%s</strong>?","Do you really want to delete project <strong>%s</strong>?":"Вы действительно хотите удалить проект <strong>%s</strong>?","Do you really want to delete property <strong>%s</strong>?":"Вы действительно хотите удалить свойство <strong>%s</strong>?","Do you really want to delete public link <strong>%s</strong>?":"Вы действительно хотите удалить публичную ссылку <strong>%s</strong>?","Do you really want to delete tag <strong>%s</strong>?":"Вы действительно хотите удалить тэг <strong>%s</strong>?","Do you really want to delete user <strong>%s</strong>?":"Вы действительно хотите удалить пользователя <strong>%s</strong>?","Do you really want to leave?":"Вы действительно хотите выйти из сервиса?","Edit":"Редактировать","Edit application":"редактировать приложение","Edit file properties":"Редактировать свойства файла","Edit html cache":"Редактировать кэш файл","Edit meta tag":"Редактировать мета тэг","Edit post":"Редактировать заметку","Edit project":"Редактировать проект","Edit properties":"Редактировать свойство","Edit public link":"Редактировать публичную ссылку","Email":"Email","Email is empty!":"Не указан адрес электронной почты!","Email is incorrect!":"Не корректный адрес электронной почты!","Email:":"Email:","Empty":"Пусто","EN":"EN","enter code from email":"введите код полученный по почте","enter new password":"введите новый пароль","enter you email":"введите вашу почу","enter you password":"введите ваше пароль","Error":"Ошибка","File":"Файл","File <strong>%s</strong> created!":"Файл <strong>%s</strong> успешно загружен!","File <strong>%s</strong> deleted!":"Файл <strong>%s</strong> успешно удален!","File <strong>%s</strong> updated!":"Параметры файла <strong>%s</strong> успешно изменены!","Filling from sitemap.xml...":"Наполнение из карты сайта...","First name":"Имя","Html":"Html","Html cache":"Кэш файлы","Html cache description":"Закэшированые файлы для отдачи поисковым и другим ботам","Icon":"Иконка","ID":"Ид.","if empty, the password will not be changed":"если оставить поле пустым, то пароль не будет изменен","In contact":"В контактах","In footer":"В подвале","In header":"В шапке","Info":"Информация","Last name":"Фамилия","Loading...":"Загрузка...","Login":"Войти","Login on site":"Вход","Logout":"Выход","Logout from site":"Выход с сайта","Manager":"Управление","Manager description":"Панель управления сайтом","Markdown":"Markdown","Message":"Сообщение","Message from contact form":"Сообщение с контактной формы","Message not sent, try later!":"Не удалось отправить сообщение, попробуйте попозже...","Message sent successfully!":"Сообщение успешно отправлено! ","Meta tag <strong>%s</strong> created!":"Мета тэг <strong>%s</strong> успешно создано!","Meta tag <strong>%s</strong> deleted!":"Мета тэг <strong>%s</strong> успешно удалено!","Meta tag <strong>%s</strong> updated!":"Мета тэг <strong>%s</strong> успешно изменено!","Meta tags":"Мета тэги","Meta tags description":"Общие для всех страниц мета тэги которые будут выведены в header страницы","Name":"Название","New password:":"Новый пароль:","No":"Нет","No results found...":"Ничего не найдено...","Not access!":"Нет доступа!","Not founded!":"Не найдено!","Other":"Еще","Password":"Пароль","Password is empty!":"Не указан пароль!","Password:":"Пароль:","Please enter code from email and new password for you account":"Пожалуйста введите код высланный вам на почту и укажите новый пароль","Please enter you email address and password for login on site":"Пожалуйста введите адрес ваш электронной почты и пароль для входа на сайт","Please enter you email address used on registration":"Укажите ваш адрес электронной почты","Position":"Позиция","Post <strong>%s</strong> created!":"Заметка <strong>%s</strong> успешно создана!","Post <strong>%s</strong> deleted!":"Заметка <strong>%s</strong> успешно удалена!","Post <strong>%s</strong> updated!":"Заметка <strong>%s</strong> успешно изменена!","Posts":"Заметки","Posts description":"Заметки и небольшие посты","Profile":"Профиль","Profile of user":"Профиль пользователя","Profile updated!":"Профиль изменен!","Project <strong>%s</strong> created!":"Проект <strong>%s</strong> успешно создан!","Project <strong>%s</strong> deleted!":"Проект <strong>%s</strong> успешно удален!","Project <strong>%s</strong> updated!":"Проект <strong>%s</strong> успешно изменен!","Projects":"Проекты","Projects description":"Список собственных небольших и больших проектов","Properties":"Свойства","Properties description":"Свойства используемые при построении и выводе сайта","Property <strong>%s</strong> created!":"Свойство <strong>%s</strong> успешно создано!","Property <strong>%s</strong> deleted!":"Свойство <strong>%s</strong> успешно удалено!","Property <strong>%s</strong> updated!":"Свойство <strong>%s</strong> успешно изменено!","Public link <strong>%s</strong> created!":"Публичная ссылка <strong>%s</strong> успешно создано!","Public link <strong>%s</strong> deleted!":"Публичная ссылка <strong>%s</strong> успешно удалено!","Public link <strong>%s</strong> updated!":"Публичная ссылка <strong>%s</strong> успешно изменено!","Public links":"Публичные ссылки","Public links description":"Контактные ссылки на другие ресурсы","Recovery access":"Восстановить доступ","Recovery access to site":"Восстановление доступа к сайту","Redirect uris":"Redirect uris","Registration form":"Регистрация","Registration on site":"Регистрация на сайте","Reset password":"Сброс пароля","Reset password for account":"Сброс пароля для учетной записи","RU":"RU","Save":"Сохранить","Search":"Поиск","Search result for text \"%s\"":"Результат поиска \"%s\"","search text":"текст для поиска","Select":"Выбрать","Select file":"Выбрать файл","Send message":"Отправить сообщение","Sent link to reset password":"Отправить ссылку для сброса пароля","Show all":"Показать все","Src":"Источник","Tag <strong>%s</strong> created!":"Тэг <strong>%s</strong> успешно создан!","Tag <strong>%s</strong> deleted!":"Тэг <strong>%s</strong> успешно удален!","Tag <strong>%s</strong> updated!":"Тэг <strong>%s</strong> успешно изменено!","Tag: %s":"Тэги: %s","Tags":"Тэги","Tags description":"Список тэгов используемых на сайте","Text":"Текст","Title":"Заголовок","Type":"Тип","Url":"Url","User <strong>%s</strong> created!":"Пользователь <strong>%s</strong> успешно создан!","User <strong>%s</strong> deleted!":"Пользователь <strong>%s</strong> успешно удален!","User <strong>%s</strong> updated!":"Пользователь <strong>%s</strong> успешно изменен!","User not activated!":"Пользователь не активирован!","User not founded!":"Пользователь не найден!","User with email <strong>%s</strong> is exists!":"Пользователь с почтой <strong>%s</strong> уже зарегистрирован!","User with email <strong>%s</strong> not found!":"Пользователь с почтой <strong>%s</strong> не найден!","Username":"Имя пользователя","Users":"Пользователи","Users description":"Пользователи сайта","Value":"Значение","View":"Смотреть","Wrong password!":"Неверный пароль!","Yes":"Да","You authorizing!":"Вы авторизованы!","You name":"Ваше имя","You not activated!":"Вы не активировали учетную запись!"});
 /* jshint +W100 */
 }]);
