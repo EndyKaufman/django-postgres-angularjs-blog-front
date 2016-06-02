@@ -674,9 +674,9 @@ angular.module("app").run(['$templateCache', function(a) { a.put('views/project/
     '            type="button" id="doDeleteChecked" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" ng-if="HtmlCacheSvc.checkeds.length>0">\n' +
     '        <i class="fa fa-trash"></i> <translate>Delete checked</translate>\n' +
     '    </button>\n' +
-    '    <button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary btn-xs"\n' +
-    '            type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >\n' +
-    '        <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>\n' +
+    '    <button ng-click="HtmlCacheSvc.doScanSitemap()" class="btn btn-cta-secondary btn-xs"\n' +
+    '            type="button" id="html_cacheScanSitemap" ng-disabled="ScanSitemapSvc.disabled" >\n' +
+    '        <i class="fa fa-globe"></i> <span ng-bind="ScanSitemapSvc.title"></span>\n' +
     '    </button>\n' +
     '</div>');
 	a.put('views/manager/html_cache/inputs.html', '<div class="form-group">\n' +

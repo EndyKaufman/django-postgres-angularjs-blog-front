@@ -4,8 +4,8 @@
             type="button" id="doDeleteChecked" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" ng-if="HtmlCacheSvc.checkeds.length>0">
         <i class="fa fa-trash"></i> <translate>Delete checked</translate>
     </button>
-    <button ng-click="HtmlCacheSvc.scanSitemap.do()" class="btn btn-cta-secondary btn-xs"
-            type="button" id="html_cacheScanSitemap" ng-disabled="HtmlCacheSvc.scanSitemap.disabled" >
-        <i class="fa fa-globe"></i> <span ng-bind="HtmlCacheSvc.scanSitemap.title"></span>
+    <button ng-click="HtmlCacheSvc.doScanSitemap()" class="btn btn-cta-secondary btn-xs"
+            type="button" id="html_cacheScanSitemap" ng-disabled="ScanSitemapSvc.disabled" >
+        <i class="fa fa-globe"></i> <span ng-bind="ScanSitemapSvc.title"></span>
     </button>
 </div>
